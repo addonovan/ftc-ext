@@ -6,7 +6,7 @@ package com.addonovan.ftcext.annotation
  * @author addonovan
  * @since 6/12/16
  */
-@Target( AnnotationTarget.ANNOTATION_CLASS )
+@Target( AnnotationTarget.CLASS )
 @Retention( AnnotationRetention.RUNTIME )
 @MustBeDocumented
 annotation class UsesKotlin;
