@@ -11,5 +11,5 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-.idea/workspace.xml # this changes every time different files are opened, let's not do that
-.swp # if I decide to edit anything in vim, let's not record the backup buffers...
+.idea/workspace.xml
+.swp
