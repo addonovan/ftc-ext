@@ -9,7 +9,7 @@ import java.util.*
  * @author addonovan
  * @since 6/12/16
  */
-class FieldFinder( val `class`: Class< * >, val reference: Any? = null )
+class FieldFinder( private val `class`: Class< * >, private val reference: Any? = null )
 {
 
     //
@@ -47,7 +47,12 @@ class FieldFinder( val `class`: Class< * >, val reference: Any? = null )
     /**
      * @return The fields that have complied with all of the filters.
      */
-    fun get() = Collections.unmodifiableList( fields );
+    fun get(): ArrayList< Field >
+    {
+        val copy = ArrayList< Field >();
+        copy.addAll( fields );
+        return copy;
+    }
 
     //
     // Filters
