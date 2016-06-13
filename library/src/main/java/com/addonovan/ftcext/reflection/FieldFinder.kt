@@ -9,12 +9,17 @@ import java.util.*
  * @author addonovan
  * @since 6/12/16
  */
-class FieldFinder( private val `class`: Class< * >, private val reference: Any? = null )
+class FieldFinder private constructor()
 {
 
     //
     // Constructors
     //
+
+    constructor( clazz: Class< * > ) : this()
+    {
+        fields.addAll( clazz.fields );
+    }
 
     /**
      * Secondary constructor for construct a FieldFinder from an object reference.
@@ -22,7 +27,7 @@ class FieldFinder( private val `class`: Class< * >, private val reference: Any? 
      * @param[reference]
      *          The object reference.
      */
-    constructor( reference: Any ) : this( reference.javaClass, reference );
+    constructor( reference: Any ) : this( reference.javaClass );
 
     //
     // Vals
@@ -30,15 +35,6 @@ class FieldFinder( private val `class`: Class< * >, private val reference: Any? 
 
     /** The fields that haven't been filtered out. */
     private val fields: ArrayList< Field > = ArrayList();
-
-    //
-    // Cosntructor
-    //
-
-    init
-    {
-        fields.addAll( `class`.fields ); // add all of the fields from the class to it
-    }
 
     //
     // Getter
@@ -51,6 +47,16 @@ class FieldFinder( private val `class`: Class< * >, private val reference: Any? 
     {
         val copy = ArrayList< Field >();
         copy.addAll( fields );
+        return copy;
+    }
+
+    /**
+     * @return A duplicate of this FieldFinder, where further filtering won't change anything.
+     */
+    fun duplicate(): FieldFinder
+    {
+        val copy = FieldFinder(); // call the empty private constructor that only we can
+        copy.fields.addAll( fields );
         return copy;
     }
 
