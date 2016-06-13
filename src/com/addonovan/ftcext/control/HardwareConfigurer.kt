@@ -60,7 +60,24 @@ class HardwareConfigurer( val opMode: OpMode, private val isKotlin: Boolean )
         }
         else
         {
+            
+        }
+    }
 
+    /**
+     * @return The value of the @Hardware's name property, or, if it's blank, the name of the field.
+     */
+    private fun getName( field: Field ): String
+    {
+        val annotation = field.getAnnotation( Hardware::class.java );
+
+        if ( annotation.name.isNullOrBlank() )
+        {
+            return field.name;
+        }
+        else
+        {
+            return annotation.name;
         }
     }
 
