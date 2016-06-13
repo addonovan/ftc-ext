@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Analytics-release-">
+    <CLASSES>
+      <root url="jar:///shared/dev/ftc-ext/library/build/intermediates/exploded-aar/Analytics-release/jars/classes.jar!/" />
+      <root url="file:///shared/dev/ftc-ext/library/build/intermediates/exploded-aar/Analytics-release/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

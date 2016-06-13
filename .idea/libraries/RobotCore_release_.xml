@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="RobotCore-release-">
+    <CLASSES>
+      <root url="jar:///shared/dev/ftc-ext/library/build/intermediates/exploded-aar/RobotCore-release/jars/classes.jar!/" />
+      <root url="file:///shared/dev/ftc-ext/library/build/intermediates/exploded-aar/RobotCore-release/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
