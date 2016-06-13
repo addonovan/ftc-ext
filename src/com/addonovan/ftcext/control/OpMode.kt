@@ -24,6 +24,8 @@ abstract class OpMode : com.qualcomm.robotcore.eventloop.opmode.OpMode()
      */
     final override fun init()
     {
+        HardwareConfigurer( this, isKotlin( javaClass ) ).configure(); // configure the hardwares in this object
+
         initRobot(); // perform regular initialization
     }
 
@@ -48,12 +50,4 @@ abstract class OpMode : com.qualcomm.robotcore.eventloop.opmode.OpMode()
  *          The class to test for the `@UsesKotlin` control.
  * @return If `class` has the `@UsesKotlin` control on it.
  */
-private fun isKotlin( `class`: Class< out OpMode > ): Boolean
-{
-    for ( annotation in `class`.annotations )
-    {
-        if ( annotation is UsesKotlin ) return true;
-    }
-
-    return false;
-}
+private fun isKotlin( `class`: Class< out OpMode > ) = `class`.isAnnotationPresent( UsesKotlin::class.java )
