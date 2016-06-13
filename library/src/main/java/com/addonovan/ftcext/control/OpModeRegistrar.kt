@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
  * * be "Stop Robot"
  * * contain an equals sign
  *
- * @author austin
+ * @author addonovan
  * @since 6/12/16
  */
 class OpModeRegistrar() : OpModeRegister

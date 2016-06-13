@@ -9,7 +9,7 @@ import java.lang.reflect.Field
  * A small tool for extracting the information out of
  * Reflections objects that have annotations on them.
  *
- * @author austin
+ * @author addonovan
  * @since 6/12/16
  */
 
