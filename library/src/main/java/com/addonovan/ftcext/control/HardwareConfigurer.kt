@@ -1,11 +1,11 @@
 package com.addonovan.ftcext.control
 
+import com.addonovan.ftcext.*
 import com.addonovan.ftcext.annotation.Hardware
 import com.addonovan.ftcext.reflection.FieldFinder
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.*
-import kotlin.reflect.KProperty
 
 /**
  * Configures the Hardware devices in the OpMode class.
@@ -29,6 +29,8 @@ class HardwareConfigurer( val opMode: OpMode, private val isKotlin: Boolean )
 
     init
     {
+        i( "" );
+
         if ( isKotlin )
         {
             throw UnsupportedOperationException( "Kotlin properties are not yet able to be set by the HardwareConfigurer" );
