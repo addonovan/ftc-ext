@@ -48,9 +48,10 @@ class HardwareConfigurer( val opMode: OpMode, private val isKotlin: Boolean )
             fieldFinder = FieldFinder( opMode ).with( Hardware::class.java )
                                     .`is`( Modifier.STATIC )
                                     .isNot( Modifier.FINAL, Modifier.ABSTRACT, lenient = false );
+
+            i( "Found ${fieldFinder.get().size} hardware fields" );
         }
 
-        // hardware maps are found the same way
         hardwareMaps = FieldFinder( opMode.hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
     }
 
@@ -88,7 +89,12 @@ class HardwareConfigurer( val opMode: OpMode, private val isKotlin: Boolean )
                 // with all of our fields of this type, set the value of the field
                 // to what this map says the value for the name of the field is
                 fields.forEach { field ->
-                    field.set( opMode, map[ getName( field ) ] );
+                    val name = getName( field );
+                    val value = map[ name ];
+
+                    v( "Setting field for $name to $value" );
+
+                    field.set( opMode, value );
                 };
             }
         }

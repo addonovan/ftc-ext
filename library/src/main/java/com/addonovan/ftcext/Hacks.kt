@@ -1,5 +1,6 @@
 package com.addonovan.ftcext
 
+import android.content.Context
 import android.util.Log
 import java.lang.reflect.ParameterizedType
 
@@ -38,3 +39,11 @@ import java.lang.reflect.ParameterizedType
  * @return The type parameter of the object.
  */
 fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ 0 ].javaClass;
+
+/**
+ * The current application context.
+ */
+val Context by lazy()
+{
+    Class.forName( "android.app.ActivityThread" ).getMethod( "currentApplication" ).invoke( null ) as Context;
+}
