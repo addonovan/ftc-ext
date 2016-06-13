@@ -1,9 +1,7 @@
 package com.addonovan.ftcext.reflection
 
 import com.addonovan.ftcext.annotation.Hardware
-import org.jetbrains.annotations.NotNull
 import org.junit.Test
-import java.lang.String.format
 
 import org.junit.Assert.*
 import java.lang.reflect.Modifier
