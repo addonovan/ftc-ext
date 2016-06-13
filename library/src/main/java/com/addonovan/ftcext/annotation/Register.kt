@@ -7,7 +7,7 @@ package com.addonovan.ftcext.annotation
  * @author addonovan
  * @since 6/12/16
  */
-@Target( AnnotationTarget.PROPERTY, AnnotationTarget.FIELD )
+@Target( AnnotationTarget.CLASS )
 @Retention( AnnotationRetention.RUNTIME )
 @MustBeDocumented
 annotation class Register( val name: String )
