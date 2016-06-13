@@ -1,6 +1,6 @@
 package com.addonovan.ftcext.reflection
 
-import com.addonovan.ftcext.Context
+import com.addonovan.ftcext.*
 import dalvik.system.DexFile
 import java.lang.reflect.Modifier
 import java.util.*
@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Utility to find certain classes with certain attributes.
  *
- * @author austin
+ * @author addonovan
  * @since 6/12/16
  */
 class ClassFinder()
@@ -22,7 +22,7 @@ class ClassFinder()
     private val classes: LinkedHashSet< Class< * > > = linkedSetOf();
 
     //
-    // Cosntructors
+    // Constructors
     //
 
     init
@@ -88,30 +88,54 @@ class ClassFinder()
 
 }
 
+/** A list of packages that are blacklisted to save time when loading the baseClasses */
 private val blackList: LinkedHashSet< String > =
-        linkedSetOf( "com.google", "com.addonovan.ftcext", "com.qualcomm", "com.java" /* also covers javax */ );
+        linkedSetOf( "com.google", "com.android", "dalvik", "android", // android packages
+                     "java", "kotlin",                                 // language packages
+                     "com.qualcomm", "com.ftdi" );                     // FTC packages
 
 /**
  * The base classes that every ClassFinder is based off of
  */
 private val baseClasses: LinkedList< Class< * > > by lazy()
 {
-    val result = LinkedList< Class< * > >();
-    val classNames = LinkedList< String >( Collections.list( DexFile( Context.packageCodePath ).entries() ) );
+    // if we're not debugging, blacklist the classpath for this library
+    if ( !Debugging )
+    {
+        blackList += "com.addonovan";
+    }
 
+    // all the classes that fit our criteria
+    val result = LinkedList< Class< * > >();
+
+    // all the classes in this dex file
+    val classNames =
+            if ( Debugging ) DebugClasses
+            else             Collections.list( DexFile( Context.packageCodePath ).entries() );
+
+    // the class loader to use
+    val classLoader =
+            if ( Debugging ) DebugClassLoader;
+            else             Context.classLoader;
+
+
+    // modifiers that we won't allow
     val prohibitedModifiers = Modifier.ABSTRACT or Modifier.INTERFACE;
 
     // find the classes that are okay
     for ( name in classNames )
     {
-        if ( isBlacklisted( name ) ) continue;
+        if ( isBlacklisted( name ) ) continue; // skip classes that are in blacklisted packages
 
         try
         {
-            val c = Class.forName( name, false, Context.classLoader );
+            val c = Class.forName( name, false, classLoader );
 
-            if ( c.modifiers and Modifier.PUBLIC == 0 ) continue; // not public
-            if ( c.modifiers and prohibitedModifiers != 0 ) continue; // breaks at least one of the prohibited modifiers
+            if ( c.modifiers and Modifier.PUBLIC == 0         // not public
+              || c.modifiers and prohibitedModifiers != 0 )   // has a prohibited modifier
+            {
+                continue;
+            }
 
             result.add( c );
         }
