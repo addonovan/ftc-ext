@@ -1,6 +1,7 @@
 package com.addonovan.ftcext
 
 import android.util.Log
+import java.lang.reflect.ParameterizedType
 
 /**
  * Hacks. You probably don't want to look at this file.
@@ -29,3 +30,11 @@ import android.util.Log
 @Suppress( "unused" ) fun Any.w( data: String ) = Log.w( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.e( data: String ) = Log.e( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
+
+
+/**
+ * @param[thing]
+ *          The generic object to get the type parameter from.
+ * @return The type parameter of the object.
+ */
+fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ 0 ].javaClass;
