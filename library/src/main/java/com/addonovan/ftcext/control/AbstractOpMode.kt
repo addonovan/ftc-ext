@@ -31,7 +31,7 @@ abstract class AbstractOpMode()
     /** Telemetry for sending back current states and what not. */
     val telemetry: Telemetry = Hardware.telemetry;
 
-    /** The hardware map (please don't use this unless getDevice< Type > won't work :(*/
+    /** The hardware map (please don't use this unless getDevice< Type > won't work) */
     val hardwareMap: HardwareMap = Hardware.hardwareMap;
 
     //
@@ -51,6 +51,15 @@ abstract class AbstractOpMode()
     {
         FieldFinder( hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
     }
+
+    /**
+     * The map of cached device mappings. Awful name for it, I know.
+     * The key is the class in the generics of the value, i.e.
+     * ```
+     * deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >
+     * ```
+     */
+    private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
 
     /**
      * Finds the device with the given name in the correct device mapping based off of
@@ -101,6 +110,13 @@ abstract class AbstractOpMode()
     @Suppress( "unchecked_cast" ) // the cast is checked via reflections
     private fun < T > getDeviceMapping( type: Class< * > ): HardwareMap.DeviceMapping< T >
     {
+        // if we've already found the device mapping before, just look it up
+        if ( deviceMappingMap[ type ] != null )
+        {
+            return deviceMappingMap[ type ] as HardwareMap.DeviceMapping< T >; // this should be ensured by how the data is entered into the map
+        }
+
+        // search for the correct hardware map manually
         for ( field in hardwareMaps )
         {
             val deviceMapping = field.get( hardwareMap ) as HardwareMap.DeviceMapping< * >; // find the specific map for this OpMode
@@ -117,7 +133,9 @@ abstract class AbstractOpMode()
             // if the type of the map is the same one as the one we're given
             if ( getGenericType( map.values ).isAssignableFrom( type ) )
             {
-                return deviceMapping as HardwareMap.DeviceMapping< T >;
+                val value = deviceMapping as HardwareMap.DeviceMapping< T >;
+                deviceMappingMap[ type ] = value; // cache it in the map so we don't have to do this loop again
+                return value;
             }
         }
 
