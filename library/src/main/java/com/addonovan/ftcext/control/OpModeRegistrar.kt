@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
  *
  * Valid names for OpModes must:
  * * not consist entirely of whitespace
- * * be "Stop Robot"
+ * * not be "Stop Robot"
  * * contain an equals sign
  *
  * @author addonovan
