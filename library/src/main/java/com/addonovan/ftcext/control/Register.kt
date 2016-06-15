@@ -1,4 +1,4 @@
-package com.addonovan.ftcext.annotation
+package com.addonovan.ftcext.control
 
 /**
  * An annotation used to register an OpMode to be discovered

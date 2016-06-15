@@ -1,7 +1,7 @@
 package com.addonovan.ftcext.reflection
 
-import com.addonovan.ftcext.annotation.Register
-import com.addonovan.ftcext.control.OpMode
+import com.addonovan.ftcext.control.AbstractOpMode
+import com.addonovan.ftcext.control.Register
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +35,7 @@ class ClassFinderTest
     fun testInheritsFrom()
     {
         assertEquals( 4, finder().inheritsFrom( Any::class.java ).count() );
-        assertEquals( 2, finder().inheritsFrom( OpMode::class.java ).count() );
+        assertEquals( 2, finder().inheritsFrom( AbstractOpMode::class.java ).count() );
     }
 
     //

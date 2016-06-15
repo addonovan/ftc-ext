@@ -1,7 +1,6 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.annotation.Register
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
@@ -12,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
  * with the OpModeManager so that they may be selected.
  *
  * In order to be a valid OpMode, the class must:
- * * inherit from [OpMode] in some way
+ * * inherit from [AbstractOpMode] in some way
  * * be instantiable (i.e. not abstract)
  * * have the @[Register] annotation with a valid name
  *
@@ -27,15 +26,18 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
 class OpModeRegistrar() : OpModeRegister
 {
 
+    @Suppress( "unchecked_cast" ) // the cast is check via reflections
     override fun register( manager: OpModeManager )
     {
-        d( "Discovering OpModes" );
+        i( "Discovering OpModes" );
 
-        // opmodes must be
+        // OpModes must be
         // instantiable
         // subclasses of ftcext's OpMode
         // and have the @Register annotation
-        val opModeClasses = ClassFinder().inheritsFrom( OpMode::class.java ).with( Register::class.java ).get();
+        val opModeClasses = ClassFinder().inheritsFrom( AbstractOpMode::class.java ).with( Register::class.java ).get();
+
+        i( "Discovered ${opModeClasses.size} correctly formed OpMode classes!" );
 
         for ( opMode in opModeClasses )
         {
@@ -48,8 +50,24 @@ class OpModeRegistrar() : OpModeRegister
                 continue; // skip this one
             }
 
-            manager.register( name, opMode );
-            i( "Registered OpMode class ${opMode.simpleName} as $name" );
+            // if it's a regular OpMode
+            if ( OpMode::class.java.isAssignableFrom( opMode ) )
+            {
+                manager.register( name, OpModeWrapper( opMode as Class< out OpMode > ) );
+                i( "Registered OpMode class ${opMode.simpleName} as $name" );
+            }
+            // if it's a LinearOpMode
+            else if ( LinearOpMode::class.java.isAssignableFrom( opMode ) )
+            {
+                manager.register( name, LinearOpModeWrapper( opMode as Class< out LinearOpMode > ) );
+                i( "Registered LinearOpMode class ${opMode.simpleName} as $name" );
+            }
+            // an unknown subclass of AbstractOpMode
+            else
+            {
+                e( "Tried to register an unknown type of OpMode (class: ${opMode.name}) as $name" );
+                e( "OpModes must inherit from either com.addonovan.ftcext.control.OpMode or com.addonovan.ftcext.control.LinearOpMode!" );
+            }
         }
     }
 
