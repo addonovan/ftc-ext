@@ -23,7 +23,7 @@ import java.util.*
 // the sweet sound of suppressed warnings
 // I sure do love my suppression!
 
-// All logcat commands are just functions, withou the Log. why? because
+// All logcat commands are just functions, without the Log. why? because
 @Suppress( "unused" ) fun v( tag: String, data: String ) = Log.v( tag, data );
 @Suppress( "unused" ) fun d( tag: String, data: String ) = Log.d( tag, data );
 @Suppress( "unused" ) fun i( tag: String, data: String ) = Log.i( tag, data );
