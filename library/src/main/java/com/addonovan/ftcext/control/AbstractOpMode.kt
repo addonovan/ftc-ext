@@ -111,7 +111,7 @@ abstract class AbstractOpMode()
     private fun < T > getDeviceMapping( type: Class< * > ): HardwareMap.DeviceMapping< T >
     {
         // if we've already found the device mapping before, just look it up
-        if ( deviceMappingMap[ type ] != null )
+        if ( deviceMappingMap.containsKey( type ) )
         {
             return deviceMappingMap[ type ] as HardwareMap.DeviceMapping< T >; // this should be ensured by how the data is entered into the map
         }
