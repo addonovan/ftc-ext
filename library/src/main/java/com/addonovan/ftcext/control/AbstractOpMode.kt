@@ -55,13 +55,17 @@ abstract class AbstractOpMode()
     /**
      * Finds the device with the given name in the correct device mapping based off of
      * the type parameters. For example:
+     *
      * ```java
      * private final DcMotor left_motor = getDevice< DcMotor >( "left_motor" );
      * ```
+     *
      * instead of
+     *
      * ```java
      * private final DcMotor left_motor = getHardwareMap().dcMotor.get( "left_motor" );
      * ```
+     *
      * On top of being (ever-so-slightly) shorter, this replaces multiple different
      * method and field calls (i.e. [hardwareMap.dcMotor], [hardwareMap.irSeekerSensor], etc),
      * and ensures that the device will never be `null`, because this method will error
