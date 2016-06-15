@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ftc-ext.iml" filepath="$PROJECT_DIR$/ftc-ext.iml" />
+      <module fileurl="file:///shared/dev/ftc-ext/ftc-ext.iml" filepath="/shared/dev/ftc-ext/ftc-ext.iml" />
+      <module fileurl="file:///shared/dev/ftc-ext/library/library.iml" filepath="/shared/dev/ftc-ext/library/library.iml" />
     </modules>
   </component>
 </project>
