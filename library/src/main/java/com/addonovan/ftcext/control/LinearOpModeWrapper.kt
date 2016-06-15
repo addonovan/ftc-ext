@@ -1,5 +1,6 @@
 package com.addonovan.ftcext.control
 
+import com.addonovan.ftcext.*
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -15,6 +16,8 @@ class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : Lin
 
     override fun runOpMode()
     {
+        Hardware = HardwareBundle( gamepad1, gamepad2, telemetry, hardwareMap );
+
         if ( instance == null )
         {
             instance = opMode.newInstance();
