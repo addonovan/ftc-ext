@@ -94,12 +94,21 @@ abstract class AbstractOpMode()
     {
         for ( field in hardwareMaps )
         {
-            val map = field.get( hardwareMap ) as HardwareMap.DeviceMapping< * >; // find the specific map for this OpMode
+            val deviceMapping = field.get( hardwareMap ) as HardwareMap.DeviceMapping< * >; // find the specific map for this OpMode
+
+            // if you didn't want to see hacks, you shouldn't've come here :/
+
+            // find the data-backing hashmap's field
+            val mapField = deviceMapping.javaClass.getDeclaredField( "a" );
+            mapField.isAccessible = true; // force it to be accessible
+
+            // get the value of the field
+            val map = mapField.get( deviceMapping ) as HashMap< String, * >;
 
             // if the type of the map is the same one as the one we're given
-            if ( getGenericType( map ).isAssignableFrom( type ) )
+            if ( getGenericType( map.values ).isAssignableFrom( type ) )
             {
-                return map as HardwareMap.DeviceMapping< T >;
+                return deviceMapping as HardwareMap.DeviceMapping< T >;
             }
         }
 
