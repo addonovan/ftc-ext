@@ -6,6 +6,9 @@ import java.util.*
 /**
  * Class used for finding specific fields in a class.
  *
+ * @see ClassFinder
+ * @see Field
+ *
  * @author addonovan
  * @since 6/12/16
  */

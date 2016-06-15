@@ -40,6 +40,10 @@ import java.util.*
 @Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
 
 /**
+ * Returns the class of the first generic type parameter.
+ * For example, if passed an `ArrayList< String >`, this
+ * will return [String.class] (Java) or [String.class.javaClass] (Kotlin).
+ *
  * @param[thing]
  *          The generic object to get the type parameter from.
  * @return The type parameter of the object.
@@ -48,6 +52,8 @@ fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as Parame
 
 /**
  * The current application context.
+ * This is the equivalent of the [HardwareMap.Context]; however, this
+ * is intended to be used in places where there is no Hardware map available.
  */
 val Context by lazy()
 {
@@ -59,14 +65,23 @@ val Context by lazy()
 //
 
 /**
- * A bundle of hardware information.
+ * A bundle of hardware information for an OpMode.
+ * This contains the two gamepads, the telemetry object, and the hardware map for
+ * the OpMode to use.
  */
 data class HardwareBundle( val gamepad1: Gamepad, val gamepad2: Gamepad, val telemetry: Telemetry, val hardwareMap: HardwareMap );
 
 /** The backing nullable field for [Hardware] */
 private var _hardware: HardwareBundle? = null;
 
-/** A bundle of hardware information. */
+/**
+ * A bundle of hardware information.
+ * This is ensured to be non-null, because if the backing field
+ * is null, a [NullPointerException] will be thrown.
+ *
+ * @throws NullPointerException
+ *          If the backing field hasn't been set yet.
+ */
 var Hardware: HardwareBundle
     get()
     {

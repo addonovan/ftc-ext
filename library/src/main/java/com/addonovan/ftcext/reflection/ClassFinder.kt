@@ -8,6 +8,9 @@ import java.util.*
 /**
  * Utility to find certain classes with certain attributes.
  *
+ * @see FieldFinder
+ * @see Class
+ *
  * @author addonovan
  * @since 6/12/16
  */
@@ -140,6 +143,11 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
     result;
 }
 
+/**
+ * @param[name]
+ *          The full name of the class (package included).
+ * @return If the class name is in a blacklisted package.
+ */
 private fun isBlacklisted( name: String ): Boolean
 {
     for ( blacklisted in blackList )

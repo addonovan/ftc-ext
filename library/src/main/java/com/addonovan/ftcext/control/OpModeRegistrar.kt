@@ -20,12 +20,27 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
  * * not be "Stop Robot"
  * * contain an equals sign
  *
+ * @see OpModeWrapper
+ * @see LinearOpModeWrapper
+ *
  * @author addonovan
  * @since 6/12/16
  */
 class OpModeRegistrar() : OpModeRegister
 {
 
+    /**
+     * Searches for all instantiable classes which inherit from [AbstractOpMode]
+     * and have the [Register] annotation and will then verify the name of the
+     * prospective OpMode and then create the correct OpModeWrapper for the
+     * class and register it with Qualcomm's [OpModeManager].
+     *
+     * @see AbstractOpMode
+     * @see OpMode
+     * @see LinearOpMode
+     * @see OpModeWrapper
+     * @see LinearOpModeWrapper
+     */
     @Suppress( "unchecked_cast" ) // the cast is check via reflections
     override fun register( manager: OpModeManager )
     {

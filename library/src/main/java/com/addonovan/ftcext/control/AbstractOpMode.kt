@@ -9,8 +9,12 @@ import java.util.*
 
 /**
  * The OpMode class built upon Qualcomm's. This class provides more utility
- * than the standard class does, and _must_ be used in order to be able
+ * than the standard class does, and *must* be used in order to be able
  * to access the other functionality of this library.
+ *
+ * @see OpMode
+ * @see LinearOpMode
+ * @see Register
  *
  * @author addonovan
  * @since 6/12/16
@@ -23,23 +27,43 @@ abstract class AbstractOpMode()
     //
 
     /** The first controller. */
-    val gamepad1: Gamepad = Hardware.gamepad1;
+    val gamepad1: Gamepad
+            get() = Hardware.gamepad1;
 
     /** The second controller. */
-    val gamepad2: Gamepad = Hardware.gamepad2;
+    val gamepad2: Gamepad
+            get() = Hardware.gamepad2;
 
     /** Telemetry for sending back current states and what not. */
-    val telemetry: Telemetry = Hardware.telemetry;
+    val telemetry: Telemetry
+            get() = Hardware.telemetry;
 
-    /** The hardware map (please don't use this unless getDevice< Type > won't work) */
-    val hardwareMap: HardwareMap = Hardware.hardwareMap;
+    /** Direct access to the hardware map. Directly referencing this is discouraged. */
+    val hardwareMap: HardwareMap
+            get() = Hardware.hardwareMap;
 
     //
     // Things from Original OpMode
     //
 
+    /**
+     * Initialize the robot. This occurs directly after the OpMode
+     * is selected.
+     */
     abstract fun init();
+
+    /**
+     * Called the moment that the start button is pressed on the
+     * Driver Station remote. This is the first code that is executed
+     * when an OpMode is running.
+     */
     open fun start() {};
+
+    /**
+     * Called the moment that the stop button is pressed (or the
+     * timer runs our) on the Driver Station remote. This is the
+     * last code that is executed when an OpMode is running.
+     */
     open fun stop() {};
 
     //
@@ -55,9 +79,7 @@ abstract class AbstractOpMode()
     /**
      * The map of cached device mappings. Awful name for it, I know.
      * The key is the class in the generics of the value, i.e.
-     * ```
-     * deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >
-     * ```
+     * `deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >`
      */
     private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
 
@@ -84,7 +106,7 @@ abstract class AbstractOpMode()
      * @throws NullPointerException
      *          If no hardware device with the given name could be found.
      * @throws IllegalArgumentException
-     *          If the generic type wasn't a support type in the hardware map.
+     *          If the generic type wasn't a supported type in the hardware map.
      */
     final fun < T > getDevice( name: String ): T
     {
@@ -102,6 +124,9 @@ abstract class AbstractOpMode()
      * @param[type]
      *          The class type (in reality, it's the class of `T`, but that's not checked).
      * @return The correct [DeviceMapping] for type `T`.
+     *
+     * @throws IllegalArgumentException
+     *          If the generic type wasn't a supported type in the hardware map.
      */
     @Suppress( "unchecked_cast" ) // the cast is checked via reflections
     private fun < T > getDeviceMapping( type: Class< * > ): HardwareMap.DeviceMapping< T >

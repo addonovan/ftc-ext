@@ -4,8 +4,11 @@ import com.addonovan.ftcext.*
 
 /**
  * A wrapper for the OpMode class. This acts as the standard
- * OpMode for Qualcomm's retarded systems, and allows this
+ * OpMode for Qualcomm's poorly written systems, and allows this
  * library's better approach to take over fully.
+ *
+ * @see OpMode
+ * @see LinearOpModeWrapper
  *
  * @author addonovan
  * @since 6/14/16
@@ -13,8 +16,13 @@ import com.addonovan.ftcext.*
 class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.robotcore.eventloop.opmode.OpMode()
 {
 
+    /** The actual OpMode that needs to be run. */
     private var instance: OpMode? = null;
 
+    /**
+     * Creates the [HardwareBundle] for the OpMode, then creates
+     * the OpMode and runs it's [OpMode.init].
+     */
     override fun init()
     {
         // create the hardware bundle for the OpMode to use

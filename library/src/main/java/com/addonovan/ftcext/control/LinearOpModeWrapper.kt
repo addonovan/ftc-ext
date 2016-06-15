@@ -5,6 +5,9 @@ import com.addonovan.ftcext.*
 /**
  * A wrapper for a LinearOpMode.
  *
+ * @see OpModeWrapper
+ * @see LinearOpMode
+ *
  * @author addonovan
  * @since 6/15/16
  */

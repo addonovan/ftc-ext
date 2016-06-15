@@ -1,6 +1,5 @@
 package com.addonovan.ftcext
 
-import com.addonovan.ftcext.control.AbstractOpMode
 import com.addonovan.ftcext.control.Register
 
 /**
@@ -11,5 +10,12 @@ import com.addonovan.ftcext.control.Register
  * @since 6/12/16
  */
 
+/**
+ * @param[clazz]
+ *          The class with a [Register] annotation.
+ * @return The value of the [Register.name].
+ *
+ * @throws NullPointerException
+ *          If the class didn't have a Register annotation.
+ */
 fun getRegisterName( clazz: Class< * > ) = clazz.getAnnotation( Register::class.java ).name;
-fun getRegisterName( opMode: AbstractOpMode) = getRegisterName( opMode.javaClass );
