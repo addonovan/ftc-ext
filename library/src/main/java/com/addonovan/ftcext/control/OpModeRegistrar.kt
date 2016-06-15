@@ -56,7 +56,18 @@ class OpModeRegistrar() : OpModeRegister
                 manager.register( name, OpModeWrapper( opMode as Class< out OpMode > ) );
                 i( "Registered OpMode class ${opMode.simpleName} as $name" );
             }
-            // TODO: implement a LinearOpMode
+            // if it's a LinearOpMode
+            else if ( LinearOpMode::class.java.isAssignableFrom( opMode ) )
+            {
+                manager.register( name, LinearOpModeWrapper( opMode as Class< out LinearOpMode > ) );
+                i( "Registered LinearOpMode class ${opMode.simpleName} as $name" );
+            }
+            // an unknown subclass of AbstractOpMode
+            else
+            {
+                e( "Tried to register an unknown type of OpMode (class: ${opMode.name}) as $name" );
+                e( "OpModes must inherit from either com.addonovan.ftcext.control.OpMode or com.addonovan.ftcext.control.LinearOpMode!" );
+            }
         }
     }
 

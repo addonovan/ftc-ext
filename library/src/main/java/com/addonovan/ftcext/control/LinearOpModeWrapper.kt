@@ -1,7 +1,6 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
  * A wrapper for a LinearOpMode.
@@ -9,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * @author addonovan
  * @since 6/15/16
  */
-class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : LinearOpMode()
+class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com.qualcomm.robotcore.eventloop.opmode.LinearOpMode()
 {
 
     private var instance: LinearOpMode? = null;
