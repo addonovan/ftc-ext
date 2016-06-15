@@ -75,6 +75,11 @@ abstract class AbstractOpMode()
      * @param[name]
      *          The name of the hardware device.
      * @return The device with the given name and the specified type (via type parameters).
+     *
+     * @throws NullPointerException
+     *          If no hardware device with the given name could be found.
+     * @throws IllegalArgumentException
+     *          If the generic type wasn't a support type in the hardware map.
      */
     final fun < T > getDevice( name: String ): T
     {
