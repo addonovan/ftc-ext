@@ -1,9 +1,7 @@
 package com.addonovan.ftcext
 
-import com.addonovan.ftcext.annotation.Hardware
-import com.addonovan.ftcext.annotation.Register
 import com.addonovan.ftcext.control.OpMode
-import java.lang.reflect.Field
+import com.addonovan.ftcext.control.Register
 
 /**
  * A small tool for extracting the information out of
@@ -12,8 +10,6 @@ import java.lang.reflect.Field
  * @author addonovan
  * @since 6/12/16
  */
-
-fun getHardwareName( field: Field ) = field.getAnnotation( Hardware::class.java ).name;
 
 fun getRegisterName( clazz: Class< * > ) = clazz.getAnnotation( Register::class.java ).name;
 fun getRegisterName( opMode: OpMode ) = getRegisterName( opMode.javaClass );

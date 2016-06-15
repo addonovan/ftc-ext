@@ -1,7 +1,6 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.annotation.UsesKotlin
 import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.HardwareMap
 import java.util.*
@@ -26,9 +25,9 @@ abstract class OpMode : com.qualcomm.robotcore.eventloop.opmode.OpMode()
      * We need this in our abstract class to get basic things done that will
      * make the subclass(es) easier to use.
      */
+    // I'll keep this in for a while longer, but I'm not sure if it will be needed anymore
     final override fun init()
     {
-        HardwareConfigurer( this, isKotlin( javaClass ) ).configure(); // configure the hardwares in this object
         initRobot(); // perform regular initialization
     }
 
@@ -112,12 +111,3 @@ abstract class OpMode : com.qualcomm.robotcore.eventloop.opmode.OpMode()
     abstract override fun loop(); // just here so it's easier to tell what the subclass needs to override
 
 }
-
-/**
- * Determines if the given class uses Kotlin or not.
- *
- * @param[class]
- *          The class to test for the `@UsesKotlin` control.
- * @return If `class` has the `@UsesKotlin` control on it.
- */
-private fun isKotlin( `class`: Class< out OpMode > ) = `class`.isAnnotationPresent( UsesKotlin::class.java )

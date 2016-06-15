@@ -1,7 +1,7 @@
 package com.addonovan.ftcext.reflection
 
-import com.addonovan.ftcext.annotation.Register
 import com.addonovan.ftcext.control.OpMode
+import com.addonovan.ftcext.control.Register
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
