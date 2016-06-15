@@ -61,7 +61,10 @@ class ClassFinder()
             val c = iter.next();
 
             // if it doesn't have the annotation, remove it
-            if ( !c.isAnnotationPresent( annotation ) ) iter.remove();
+            if ( !c.isAnnotationPresent( annotation ) )
+            {
+                iter.remove();
+            }
         }
 
         return this;
@@ -80,7 +83,10 @@ class ClassFinder()
             val c = iter.next();
 
             // if it isn't a subclass, remove it
-            if ( !clazz.isAssignableFrom( c ) ) iter.remove();
+            if ( !clazz.isAssignableFrom( c ) )
+            {
+                iter.remove();
+            }
         }
 
         return this;
@@ -99,25 +105,11 @@ private val blackList: LinkedHashSet< String > =
  */
 private val baseClasses: LinkedList< Class< * > > by lazy()
 {
-    // if we're not debugging, blacklist the classpath for this library
-    if ( !Debugging )
-    {
-        blackList += "com.addonovan";
-    }
-
     // all the classes that fit our criteria
     val result = LinkedList< Class< * > >();
 
     // all the classes in this dex file
-    val classNames =
-            if ( Debugging ) DebugClasses
-            else             Collections.list( DexFile( Context.packageCodePath ).entries() );
-
-    // the class loader to use
-    val classLoader =
-            if ( Debugging ) DebugClassLoader;
-            else             Context.classLoader;
-
+    val classNames = Collections.list( DexFile( Context.packageCodePath ).entries() );
 
     // modifiers that we won't allow
     val prohibitedModifiers = Modifier.ABSTRACT or Modifier.INTERFACE;
@@ -129,7 +121,7 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
 
         try
         {
-            val c = Class.forName( name, false, classLoader );
+            val c = Class.forName( name, false, Context.classLoader );
 
             if ( c.modifiers and Modifier.PUBLIC == 0         // not public
               || c.modifiers and prohibitedModifiers != 0 )   // has a prohibited modifier

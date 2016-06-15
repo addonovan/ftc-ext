@@ -2,6 +2,9 @@ package com.addonovan.ftcext
 
 import android.content.Context
 import android.util.Log
+import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.robocol.Telemetry
 import java.io.File
 import java.lang.reflect.ParameterizedType
 import java.net.URL
@@ -20,13 +23,13 @@ import java.util.*
 // the sweet sound of suppressed warnings
 // I sure do love my suppression!
 
-// All Logcat commands are now just methods of every object!
-@Suppress( "unused" ) fun Any.v( tag: String, data: String ) = Log.v( tag, data );
-@Suppress( "unused" ) fun Any.d( tag: String, data: String ) = Log.d( tag, data );
-@Suppress( "unused" ) fun Any.i( tag: String, data: String ) = Log.i( tag, data );
-@Suppress( "unused" ) fun Any.w( tag: String, data: String ) = Log.w( tag, data );
-@Suppress( "unused" ) fun Any.e( tag: String, data: String ) = Log.e( tag, data );
-@Suppress( "unused" ) fun Any.wtf( tag: String, data: String ) = Log.wtf( tag, data );
+// All logcat commands are just functions, withou the Log. why? because
+@Suppress( "unused" ) fun v( tag: String, data: String ) = Log.v( tag, data );
+@Suppress( "unused" ) fun d( tag: String, data: String ) = Log.d( tag, data );
+@Suppress( "unused" ) fun i( tag: String, data: String ) = Log.i( tag, data );
+@Suppress( "unused" ) fun w( tag: String, data: String ) = Log.w( tag, data );
+@Suppress( "unused" ) fun e( tag: String, data: String ) = Log.e( tag, data );
+@Suppress( "unused" ) fun wtf( tag: String, data: String ) = Log.wtf( tag, data );
 
 // assumes it's an ftcext item and just grabs the class name and makes that the tag
 @Suppress( "unused" ) fun Any.v( data: String ) = Log.v( "ftcext.${javaClass.simpleName}", data );
@@ -35,7 +38,6 @@ import java.util.*
 @Suppress( "unused" ) fun Any.w( data: String ) = Log.w( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.e( data: String ) = Log.e( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
-
 
 /**
  * @param[thing]
@@ -53,45 +55,25 @@ val Context by lazy()
 }
 
 //
-// Debugging ClassFinder Hacks
+// OpMode Hacks
 //
 
-/** The directory to read class files from when debugging ClassFinder */
-private val DebuggingDir = File( System.getProperty( "user.dir" ) );
+/**
+ * A bundle of hardware information.
+ */
+data class HardwareBundle( val gamepad1: Gamepad, val gamepad2: Gamepad, val telemetry: Telemetry, val hardwareMap: HardwareMap );
 
-/** If the ftcext.debugging flag is set to true. */
-val Debugging = System.getProperty( "ftcext.debugging", "false" ).toBoolean();
+/** The backing nullable field for [Hardware] */
+private var _hardware: HardwareBundle? = null;
 
-/** A list of class file names for the ClassFinder when debugging. */
-val DebugClasses by lazy()
-{
-    val list = ArrayList< String >();
-    val `package` = System.getProperty( "ftext.debugging.cppackage" );
-
-    for ( file in DebuggingDir.listFiles() )
+/** A bundle of hardware information. */
+var Hardware: HardwareBundle
+    get()
     {
-        if ( file.name.endsWith( ".class" ) )
-        {
-            val name = file.name.replace( ".class$".toRegex(), "" );
-            list.add( "$`package`.$name" );
-        }
+        if ( _hardware == null ) throw NullPointerException( "HardwareBundle is being accessed before it's been set!" );
+        return _hardware as HardwareBundle; // this will probably never throw an exception, hopefully
     }
-
-    list;
-}
-
-/** The URLClassLoader used by ClassFinder when debugging. */
-val DebugClassLoader by lazy()
-{
-    val urls = ArrayList<URL>();
-
-    for ( file in DebuggingDir.listFiles() )
+    set( value )
     {
-        if ( file.name.endsWith( ".class" ) )
-        {
-            urls += file.toURL();
-        }
+        _hardware = value;
     }
-
-    URLClassLoader( urls.toArray( arrayOf< URL > () ) );
-}

@@ -3,6 +3,8 @@ package com.addonovan.ftcext.reflection;
 import com.addonovan.ftcext.control.OpMode;
 import com.addonovan.ftcext.control.Register;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 /**
@@ -37,14 +39,14 @@ public class ReflectionsTestClass extends OpMode
 
     private transient final boolean flag = false;
 
-    @Override public void initRobot() {}
-    @Override public void loop(){}
+    @Override public void init() {}
+    @Override public void loop() {}
 
     @Register( name = "Test#2" )
     public class TestClass2 extends OpMode
     {
-        @Override public void initRobot() {}
-        @Override public void loop(){}
+        @Override public void init() {}
+        @Override public void loop() {}
     }
 
 }

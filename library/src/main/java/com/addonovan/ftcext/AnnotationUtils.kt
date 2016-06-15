@@ -1,6 +1,6 @@
 package com.addonovan.ftcext
 
-import com.addonovan.ftcext.control.OpMode
+import com.addonovan.ftcext.control.AbstractOpMode
 import com.addonovan.ftcext.control.Register
 
 /**
@@ -12,4 +12,4 @@ import com.addonovan.ftcext.control.Register
  */
 
 fun getRegisterName( clazz: Class< * > ) = clazz.getAnnotation( Register::class.java ).name;
-fun getRegisterName( opMode: OpMode ) = getRegisterName( opMode.javaClass );
+fun getRegisterName( opMode: AbstractOpMode) = getRegisterName( opMode.javaClass );
