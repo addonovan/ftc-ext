@@ -45,8 +45,8 @@ class HardwareConfigurer( val opMode: OpMode, private val isKotlin: Boolean )
             // must have @Hardware
             // must be public AND static
             // must be neither final NOR abstract
-            fieldFinder = FieldFinder( opMode ).with( Hardware::class.java )
-                                    .`is`( Modifier.STATIC )
+            fieldFinder = FieldFinder( opMode )
+                                    .with( Hardware::class.java )
                                     .isNot( Modifier.FINAL, Modifier.ABSTRACT, lenient = false );
 
             i( "Found ${fieldFinder.get().size} hardware fields" );
