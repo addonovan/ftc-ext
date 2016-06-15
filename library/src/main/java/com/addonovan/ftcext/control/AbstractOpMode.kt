@@ -60,7 +60,7 @@ abstract class AbstractOpMode()
      * ```
      * instead of
      * ```java
-     * private final DcMotor left_motor = hardwareMap.dcMotor.get( "left_motor" );
+     * private final DcMotor left_motor = getHardwareMap().dcMotor.get( "left_motor" );
      * ```
      * On top of being (ever-so-slightly) shorter, this replaces multiple different
      * method and field calls (i.e. [hardwareMap.dcMotor], [hardwareMap.irSeekerSensor], etc),
