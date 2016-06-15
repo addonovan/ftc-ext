@@ -28,13 +28,15 @@ class OpModeRegistrar() : OpModeRegister
 
     override fun register( manager: OpModeManager )
     {
-        d( "Discovering OpModes" );
+        i( "Discovering OpModes" );
 
-        // opmodes must be
+        // OpModes must be
         // instantiable
         // subclasses of ftcext's OpMode
         // and have the @Register annotation
         val opModeClasses = ClassFinder().inheritsFrom( OpMode::class.java ).with( Register::class.java ).get();
+
+        i( "Discovered ${opModeClasses.size} correctly formed OpMode classes!" );
 
         for ( opMode in opModeClasses )
         {
