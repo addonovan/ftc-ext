@@ -43,6 +43,7 @@ allprojects {
 }
 
 dependencies {
+    compile project(path: ':library')
     compile 'com.android.support:support-v4:23.4.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -52,5 +53,4 @@ dependencies {
     compile(name: 'ModernRobotics-release', ext: 'aar')
     compile(name: 'Analytics-release', ext: 'aar')
     compile(name: 'WirelessP2p-release', ext: 'aar')
-    compile project(path: ':library')
 }
