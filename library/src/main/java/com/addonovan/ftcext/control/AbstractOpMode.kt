@@ -118,11 +118,11 @@ abstract class AbstractOpMode()
     }
 
     /**
-     * Gets the correct [DeviceMapping] for the given type.
+     * Gets the correct [HardwareMap.DeviceMapping] for the given type.
      *
      * @param[type]
      *          The class type (in reality, it's the class of `T`, but that's not checked).
-     * @return The correct [DeviceMapping] for type `T`.
+     * @return The correct [HardwareMap.DeviceMapping] for type `T`.
      *
      * @throws IllegalArgumentException
      *          If the generic type wasn't a supported type in the hardware map.
