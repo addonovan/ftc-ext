@@ -4,9 +4,19 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar # what the hell, github. Really? ignore the fucking dependencies? smh
 *.war
 *.ear
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*.iml
+.gradle/
+local.properties
+.idea/libraries
+.idea/workspace.xml
+.DS_Store
+build/
+captures/
+.swp
