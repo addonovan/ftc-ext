@@ -2,8 +2,7 @@ package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.reflection.FieldFinder
-import com.qualcomm.robotcore.hardware.Gamepad
-import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
 import java.util.*
 
@@ -108,7 +107,7 @@ abstract class AbstractOpMode()
      * @throws IllegalArgumentException
      *          If the generic type wasn't a supported type in the hardware map.
      */
-    final fun < T > getDevice( name: String ): T
+    final fun < T : HardwareDevice > getDevice( name: String ): T
     {
         val type = getGenericType( ArrayList< T >() ); // oh god, this is such a hack
         val map = getDeviceMapping< T >( type ); // the corresponding map for this type
