@@ -210,17 +210,30 @@ fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeCo
  * was no active variant, then default is used.
  *
  * @param[opModeName]
- *          The name of the opmodeto fetch the config for.
+ *          The name of the opmode to fetch the config for.
  * @return The active variant of the given opmode.
  */
 fun getActiveConfig( opModeName: String ): OpModeConfig
+{
+    return getOpModeConfig( opModeName, getActiveVariant( opModeName ) );
+}
+
+/**
+ * Finds the active variant name. If there was none, then `default`
+ * is created and added.
+ *
+ * @param[opModeName]
+ *          The name of the opmode to fetch the config for.
+ * @return The active variant name of the given opmode.
+ */
+fun getActiveVariant( opModeName: String ): String
 {
     if ( !activeVariants.containsKey( opModeName ) )
     {
         activeVariants[ opModeName ] = "default";
     }
 
-    return getOpModeConfig( opModeName, activeVariants[ opModeName ] as String );
+    return activeVariants[ opModeName ] as String;
 }
 
 /**

@@ -50,6 +50,17 @@ abstract class AbstractOpMode()
             get() = Hardware.hardwareMap;
 
     //
+    // Constructors
+    //
+
+    init
+    {
+        // when this is created, update the opmode label to also show
+        // the active variant
+        OpModeLabel.text = OpModeLabel.text.toString() + " [${getActiveVariant( getRegisterName( javaClass ) )}]";
+    }
+
+    //
     // Things from Original OpMode
     //
 
