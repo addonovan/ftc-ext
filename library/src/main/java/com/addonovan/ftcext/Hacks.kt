@@ -1,15 +1,13 @@
 package com.addonovan.ftcext
 
+import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.util.Log
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.robocol.Telemetry
-import java.io.File
 import java.lang.reflect.ParameterizedType
-import java.net.URL
-import java.net.URLClassLoader
-import java.util.*
 
 /**
  * Hacks. You probably don't want to look at this file.
@@ -52,12 +50,52 @@ fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as Parame
 
 /**
  * The current application context.
- * This is the equivalent of the [HardwareMap.Context]; however, this
+ * This is the equivalent of the [HardwareMap.appContext]; however, this
  * is intended to be used in places where there is no Hardware map available.
  */
 val Context by lazy()
 {
     Class.forName( "android.app.ActivityThread" ).getMethod( "currentApplication" ).invoke( null ) as Context;
+}
+
+/**
+ * The current activity. Please don't look at the source for this.
+ * Please please please please please.
+ */
+val Activity: Activity by lazy()
+{
+    // just ignore this please
+    val activityThreadClass = Class.forName( "android.app.ActivityThread" );
+    val activityThread = activityThreadClass.getMethod( "currentActivityThread" ).invoke( null );
+    val activitiesField = activityThreadClass.getDeclaredField( "mActivities" );
+    activitiesField.isAccessible = true;
+
+    // seriously, stop reading
+    var activity: Activity? = null;
+
+    val activities = activitiesField.get( activityThread ) as Map< *, * >;
+    for ( activityRecord in activities.values )
+    {
+        if ( activityRecord == null ) continue;
+
+        // it's only going to get worse
+        val activityRecordClass = activityRecord.javaClass;
+        val pausedField = activityRecordClass.getDeclaredField( "paused" );
+        pausedField.isAccessible = true;
+
+        if ( !pausedField.getBoolean( activityRecord ) )
+        {
+            val activityField = activityRecordClass.getDeclaredField( "activity" );
+            activityField.isAccessible = true;
+
+            activity = activityField.get( activityRecord ) as Activity;
+        }
+    }
+
+    // activity is really hard to spell
+    if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
+
+    activity as Activity; // "not needed" my ass, it errors unless this is here
 }
 
 //

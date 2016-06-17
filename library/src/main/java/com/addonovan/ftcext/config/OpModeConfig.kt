@@ -2,8 +2,10 @@ package com.addonovan.ftcext.config
 
 import android.os.Environment
 import android.util.JsonWriter
+import android.util.Log
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.AbstractOpMode
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
 import java.util.*
@@ -258,17 +260,24 @@ fun loadConfigs( f: File )
         return;
     }
 
-    val json = JSONObject( f.readText() ); // create the main JSON object
-    val array = json.getJSONArray( "configs" ); // the main array of all objects
-
-    for ( i in 0..array.length() )
+    try
     {
-        // load the OpModeConfig at this index
-        val config = OpModeConfig();
-        config.fromJson( array.getJSONObject( i ) );
-        configMap[ Pair( config.OpModeName, config.Variant ) ] = config; // add it to the map
+        val json = JSONObject( f.readText() ); // create the main JSON object
+        val array = json.getJSONArray( "configs" ); // the main array of all objects
 
-        config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+        for ( i in 0..array.length() )
+        {
+            // load the OpModeConfig at this index
+            val config = OpModeConfig();
+            config.fromJson( array.getJSONObject( i ) );
+            configMap[ Pair( config.OpModeName, config.Variant ) ] = config; // add it to the map
+
+            config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+        }
+    }
+    catch ( e: JSONException )
+    {
+        Log.e( "ftcext.OpModeConfig", "JSONException while loading configs!", e );
     }
 }
 

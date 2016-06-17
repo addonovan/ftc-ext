@@ -49,22 +49,35 @@ fun alert( title: String, message: String,
            positive: String = "Yes", neutral: String? = null, negative: String = "No",
            onClick: ( String ) -> Unit )
 {
-    // the basics of the window
-    val builder = AlertDialog.Builder( Context );
-    builder.setTitle( title );
-    builder.setMessage( message );
+    Activity.runOnUiThread {
+        // the basics of the window
+        val builder = AlertDialog.Builder( Context );
+        builder.setTitle( title );
+        builder.setMessage( message );
 
-    // set up the buttons
-    builder.setNegativeButton( negative, { dialog, which -> onClick( negative ) } );
-    builder.setPositiveButton( positive, { dialog, which -> onClick( positive ) } );
-    if ( neutral != null )
-    {
-        builder.setNeutralButton( neutral, { dialog, which -> onClick( neutral ) } );
+        // set up the buttons
+        builder.setNegativeButton( negative, { dialog, which ->
+            onClick( negative );
+            dialog.dismiss();
+        } );
+
+        builder.setPositiveButton( positive, { dialog, which ->
+            onClick( positive );
+            dialog.dismiss();
+        } );
+
+        if ( neutral != null )
+        {
+            builder.setNeutralButton( neutral, { dialog, which ->
+                onClick( neutral );
+                dialog.dismiss();
+            } );
+        }
+
+        // don't let the user cancel it, they have to choose a button
+        builder.setCancelable( false );
+        builder.show();
     }
-
-    // don't let the user cancel it, they have to choose a button
-    builder.setCancelable( false );
-    builder.show();
 }
 
 /**
@@ -84,31 +97,54 @@ fun spinnerDialog( title: String, message: String,
                    items: Array< String >,
                    onClick: ( String ) -> Unit )
 {
-    // the basics of the window
-    val builder = AlertDialog.Builder( Context );
-    builder.setTitle( title );
-    builder.setMessage( message );
+    Activity.runOnUiThread {
+        // the basics of the window
+        val builder = AlertDialog.Builder( Activity );
+        builder.setTitle( title );
+        builder.setMessage( message );
 
-    builder.setItems( items, { dialog, which -> onClick( items[ which ] ) } );
+        builder.setItems( items, { dialog, which ->
+            onClick( items[ which ] );
+            dialog.dismiss();
+        } );
 
-    builder.setCancelable( false );
-    builder.show();
+        builder.setCancelable( false );
+        builder.show();
+    }
 }
 
+/**
+ * Creates a dialog that prompts the user for textual input.
+ *
+ * param[title]
+ *          The title of the dialog.
+ * @param[message]
+ *          The message of the dialog.
+ * @param[positive]
+ *          The text for the positive button.
+ * @param[onClick]
+ *          The function to invoke when an option is chosen, the parameter is the
+ *          text of the chosen button.
+ */
 fun prompt( title: String, message: String, positive: String, onClick: ( String ) -> Unit )
 {
-    // the basics of the window
-    val builder = AlertDialog.Builder( Context );
-    builder.setTitle( title );
-    builder.setMessage( message );
+    Activity.runOnUiThread {
+        // the basics of the window
+        val builder = AlertDialog.Builder( Activity );
+        builder.setTitle( title );
+        builder.setMessage( message );
 
-    // create the input field
-    val input = EditText( Context );
-    input.inputType = InputType.TYPE_CLASS_TEXT;
-    builder.setView( input );
+        // create the input field
+        val input = EditText( Context );
+        input.inputType = InputType.TYPE_CLASS_TEXT;
+        builder.setView( input );
 
-    // set up the positive button
-    builder.setPositiveButton( positive, { dialog, which -> onClick.invoke( input.text.toString() ) } );
+        // set up the positive button
+        builder.setPositiveButton( positive, { dialog, which ->
+            onClick.invoke( input.text.toString() )
+            dialog.dismiss();
+        } );
 
-    builder.show();
+        builder.show();
+    }
 }
