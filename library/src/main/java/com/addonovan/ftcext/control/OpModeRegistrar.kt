@@ -39,7 +39,7 @@ class OpModeRegistrar() : OpModeRegister
     {
 
         i( "Attaching long-press listener to robot icon" );
-        
+
         // now there is absolutely no visible trace of this program in case it
         // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
         // actually a team member anymore)

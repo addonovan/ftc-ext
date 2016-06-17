@@ -1,11 +1,9 @@
 package com.addonovan.ftcext
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.util.Log
 import android.widget.*
-import com.addonovan.ftcext.control.iconId
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.robocol.Telemetry
