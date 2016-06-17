@@ -100,33 +100,28 @@ val Activity: Activity by lazy()
 
 val RobotIcon by lazy()
 {
-    if ( Activity.javaClass.simpleName != "FtcRobotControllerActivity" )
-    {
-        wtf( "ftcext.ConfigSetup", "Current Activity isn't FtcRobotControllerActivity! Can't attach configuration listeners!" );
-        throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
-    }
-
     v( "ftcext.ConfigSetup", "Retrieving the robot icon's resource id" );
     // In order to get to the robot icon on the robot controller activity:
 
-    // the device name is a field in the FtcRobotControllerActivity, so get to that
-    val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
-    deviceNameField.isAccessible = true; // remove the private thing
-    val deviceName = deviceNameField.get( Activity ) as TextView;
+    val rClass = Class.forName( "com.qualcomm.ftcrobotcontroller.R" ) ?: throw NullPointerException();
+    val classes = rClass.declaredClasses;
 
-    // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
-    val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
+    var idClass: Class< * >? = null; // find the idClass from the declared classes
 
-    // access the rules for the layout parameters
-    val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
-    layoutRulesField.isAccessible = true; // remove the private thing again
-    val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
+    // search for the "id" class
+    for ( clazz in classes )
+    {
+        if ( clazz.simpleName == "id" )
+        {
+            idClass = clazz;
+            break;
+        }
+    }
 
-    // pull the id for the robot icon out of the rules
-    val iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
+    if ( idClass == null ) throw NullPointerException( "Failed to find com.qualcomm.ftcrobotcontroll.R.id" );
 
-    // the next if statement will take care of the actual registration
-    i( "ftcext.ConfigSetup", "Found the robot icon's resource id" );
+    val iconIdField = idClass?.getDeclaredField( "robotIcon" );
+    val iconId = iconIdField?.get( null ) as Int; // static, so no instance is needed
 
     Activity.findViewById( iconId ) as ImageView;
 }
