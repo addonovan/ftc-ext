@@ -11,31 +11,25 @@ import java.util.*
  * @author addonovan
  * @since 6/16/16
  */
-class OpModeConfig( opModeName: String, variant: String )
+class OpModeConfig internal constructor() : Jsonable
 {
-
-    //
-    // Constructors
-    //
-
-    /**
-     * Internal constructor used for creating an OpModeconfig
-     *
-     */
-    internal constructor() : this( "Unknown", "[default]" );
 
     //
     // Values
     //
 
-    private var _opModeName: String = opModeName;
+    /** The backing field for [OpModeName], this can be updated, but only inside the class. */
+    private var _opModeName: String = "Uh-Oh!";
 
+    /** The name of the OpMode for which this is a configuration. */
     val OpModeName: String
         get() = _opModeName;
 
 
-    private var _variant: String = variant;
+    /** The backing field for [Variant], this can be updated, but only inside the class. */
+    private var _variant: String = "[default]";
 
+    /** The variant of configuration for the OpMode. */
     val Variant: String
         get() = _variant;
 
@@ -50,6 +44,40 @@ class OpModeConfig( opModeName: String, variant: String )
      * Clears the configuration so that old values are ignored.
      */
     fun clear() = dataMap.clear();
+
+    //
+    // Json Serialization
+    //
+
+    // Write to the json file
+    // the JSONObject for an OpModeConfig will look like this:
+    // "$opModeName": {
+    //      "variant": "$variant",
+    //      "dataMap": {
+    //          "$key" = "$value"
+    //      }
+    // },
+    override fun toJson( writer: JsonWriter )
+    {
+        writer.name( OpModeName ).beginObject(); // start OpModeConfig
+
+        writer.name( "variant" ).value( Variant );
+
+        // write the data map
+        writer.name( "dataMap" ).beginObject();
+        for ( ( key, value ) in dataMap )
+        {
+            writer.name( key ).value( value ); // log the key value pair
+        }
+
+        writer.endObject(); // end dataMap
+        writer.endObject(); // end OpModeConfig
+    }
+
+    override fun fromJson( json: JSONObject )
+    {
+
+    }
 
     //
     // Operator Overloads
