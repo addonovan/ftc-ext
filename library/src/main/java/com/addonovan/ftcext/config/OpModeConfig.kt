@@ -51,7 +51,8 @@ class OpModeConfig internal constructor() : Jsonable
 
     // Write to the json file
     // the JSONObject for an OpModeConfig will look like this:
-    // "$opModeName": {
+    // {
+    //      "opMode": "$OpModeName",
     //      "variant": "$variant",
     //      "dataMap": {
     //          "$key" = "$value"
@@ -59,8 +60,9 @@ class OpModeConfig internal constructor() : Jsonable
     // },
     override fun toJson( writer: JsonWriter )
     {
-        writer.name( OpModeName ).beginObject(); // start OpModeConfig
+        writer.beginObject(); // start OpModeConfig
 
+        writer.name( "opMode" ).value( OpModeName );
         writer.name( "variant" ).value( Variant );
 
         // write the data map
@@ -76,7 +78,7 @@ class OpModeConfig internal constructor() : Jsonable
 
     override fun fromJson( json: JSONObject )
     {
-
+        
     }
 
     //
