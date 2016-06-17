@@ -1,8 +1,8 @@
 package com.addonovan.ftcext.control
 
+import android.widget.Spinner
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.config.CONFIG_FILE
-import com.addonovan.ftcext.config.loadConfigs
+import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -27,6 +27,12 @@ abstract class AbstractOpMode()
     // Values
     //
 
+    /** The name that this OpMode is registered as in the Registrar. */
+    val RegisteredName by lazy()
+    {
+        getRegisterName( javaClass );
+    }
+
     /** The first controller. */
     val gamepad1: Gamepad
             get() = Hardware.gamepad1;
@@ -50,6 +56,24 @@ abstract class AbstractOpMode()
     init
     {
         loadConfigs( CONFIG_FILE ); // load the config whenever the OpMode is about to execute
+
+        val configs = getOpModeConfigs( RegisteredName );
+
+        // prompt the user which variant to use if there's more than one
+        if ( configs.size > 1 )
+        {
+            val variantList = ArrayList< String >();
+            configs.forEach { config -> variantList += config.Variant };
+
+            spinnerDialog(
+                    "Choose a variant",
+                    "Choose a configuration variant to use",
+                    variantList.toArray( arrayOf< String >() ),
+                    { string ->
+                        config = getOpModeConfig( RegisteredName, string ) // sets the config to the correct variant
+                    }
+            );
+        }
     }
 
     //
@@ -79,6 +103,9 @@ abstract class AbstractOpMode()
     //
     // Config Fetching
     //
+
+    /** The selected configuration variant (defaults to &#91;default&$93;) */
+    private var config = getOpModeConfig( getRegisterName( javaClass ), "[default]" );
 
     //
     // Device Fetching

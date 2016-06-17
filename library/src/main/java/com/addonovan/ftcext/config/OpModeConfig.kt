@@ -218,15 +218,19 @@ fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpMode
  */
 fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
 {
-    // make sure there's at least the [default] variant
-    getOpModeConfig( opModeName );
-
     val list = ArrayList< OpModeConfig >();
+
+    // make sure there's at least the [default] variant
+    // also makes sure that [default] is the first choice
+    list += getOpModeConfig( opModeName );
 
     // find all the OpModeConfigs for this OpMode
     for ( ( key, config ) in configMap )
     {
-        if ( key.first == opModeName ) list += config;
+        if ( key.first == opModeName && key.second != "[default]" )
+        {
+            list += config;
+        }
     }
 
     return list;
