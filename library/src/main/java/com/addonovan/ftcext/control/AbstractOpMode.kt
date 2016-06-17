@@ -50,6 +50,34 @@ abstract class AbstractOpMode()
             get() = Hardware.hardwareMap;
 
     //
+    // Configuration
+    //
+
+    /** `true` iff the `config` hasn't been updated yet. */
+    @Volatile
+    private var updatingConfig = true;
+
+    /** The selected configuration variant (defaults to &#91;default&$93;) */
+    private var config = getOpModeConfig( getRegisterName( javaClass ), "[default]" );
+
+    //
+    // Hardware
+    //
+
+    /** All the different types of DeviceMappings in the hardware map */
+    private val hardwareMaps by lazy()
+    {
+        FieldFinder( hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
+    }
+
+    /**
+     * The map of cached device mappings. Awful name for it, I know.
+     * The key is the class in the generics of the value, i.e.
+     * `deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >`
+     */
+    private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
+
+    //
     // Constructors
     //
 
@@ -59,41 +87,55 @@ abstract class AbstractOpMode()
 
         val configs = getOpModeConfigs( RegisteredName );
 
-        // prompt the user which variant to use if there's more than one
-        if ( configs.size > 1 )
-        {
-            val variantList = ArrayList< String >();
-            configs.forEach { config -> variantList += config.Variant };
-            val newVariant = "Create a new variant";
+        // prompt the user what configuration variant they'd like to use
+        val variantList = ArrayList< String >();
+        configs.forEach { config -> variantList += config.Variant };
+        val newVariant = "Create a new variant";
 
-            variantList += newVariant;
+        variantList += newVariant;
 
-            spinnerDialog(
-                    "Choose a variant",
-                    "Choose a configuration variant to use",
-                    variantList.toArray( arrayOf< String >() ),
-                    { string ->
+        spinnerDialog(
+                "Choose a variant",
+                "Choose a configuration variant to use",
+                variantList.toArray( arrayOf< String >() ),
+                { string ->
 
-                        // create a new, blank OpMode configuration
-                        if ( string == newVariant )
-                        {
-                            prompt(
-                                    "New variant",
-                                    "Choose a name for the new variant",
-                                    "Create Variant",
-                                    { string ->
-                                        config = getOpModeConfig( RegisteredName, string ); // create the new variant
-                                    }
-                            );
-                        }
-                        // `string` is the name of the variant
-                        else
-                        {
-                            config = getOpModeConfig( RegisteredName, string ) // sets the config to the correct variant
-                        }
+                    // create a new, blank OpMode configuration
+                    if ( string == newVariant )
+                    {
+                        prompt(
+                                "New variant",
+                                "Choose a name for the new variant",
+                                "Create Variant",
+                                { string ->
+                                    config = getOpModeConfig( RegisteredName, string ); // create the new variant
+                                    updatingConfig = false;
+                                }
+                        );
                     }
-            );
+                    // `string` is the name of the variant
+                    else
+                    {
+                        config = getOpModeConfig( RegisteredName, string ) // sets the config to the correct variant
+                        updatingConfig = false;
+                    }
+                }
+        );
+
+        // until we're finished updating the configuration, we'll just wait :/
+        while ( updatingConfig )
+        {
+            try
+            {
+                Thread.sleep( 500 );
+            }
+            catch ( e: InterruptedException ){} // stupid error, just ignore
         }
+    }
+
+    internal fun end()
+    {
+        writeConfigs( CONFIG_FILE );
     }
 
     //
@@ -123,9 +165,6 @@ abstract class AbstractOpMode()
     //
     // Config Fetching
     //
-
-    /** The selected configuration variant (defaults to &#91;default&$93;) */
-    private var config = getOpModeConfig( getRegisterName( javaClass ), "[default]" );
 
     /**
      * Gets a `String` value from the configuration. Returns the default
@@ -222,19 +261,6 @@ abstract class AbstractOpMode()
     //
     // Device Fetching
     //
-
-    /** All the different types of DeviceMappings in the hardware map */
-    private val hardwareMaps by lazy()
-    {
-        FieldFinder( hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
-    }
-
-    /**
-     * The map of cached device mappings. Awful name for it, I know.
-     * The key is the class in the generics of the value, i.e.
-     * `deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >`
-     */
-    private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
 
     /**
      * Finds the device with the given name in the correct device mapping based off of

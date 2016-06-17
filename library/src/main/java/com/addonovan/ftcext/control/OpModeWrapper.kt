@@ -41,7 +41,11 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
 
     override fun loop() = instance?.loop() ?: throw NullPointerException();
 
-    override fun stop() = instance?.stop() ?: throw NullPointerException();
+    override fun stop()
+    {
+        instance?.end(); // let the AbstractOpMode do it's thing first
+        instance?.stop() ?: throw NullPointerException();
+    }
 
 
 }

@@ -251,6 +251,13 @@ fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
  */
 fun loadConfigs( f: File )
 {
+    // just create the file if it doesn't exist
+    if ( !f.exists() )
+    {
+        f.createNewFile();
+        return;
+    }
+
     val json = JSONObject( f.readText() ); // create the main JSON object
     val array = json.getJSONArray( "configs" ); // the main array of all objects
 
