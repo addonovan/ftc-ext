@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.util.Log
+import android.widget.*
+import com.addonovan.ftcext.control.iconId
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -96,6 +98,39 @@ val Activity: Activity by lazy()
     if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
 
     activity as Activity; // "not needed" my ass, it errors unless this is here
+}
+
+val RobotIcon by lazy()
+{
+    if ( Activity.javaClass.simpleName != "FtcRobotControllerActivity" )
+    {
+        wtf( "ftcext.ConfigSetup", "Current Activity isn't FtcRobotControllerActivity! Can't attach configuration listeners!" );
+        throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
+    }
+
+    v( "ftcext.ConfigSetup", "Retrieving the robot icon's resource id" );
+    // In order to get to the robot icon on the robot controller activity:
+
+    // the device name is a field in the FtcRobotControllerActivity, so get to that
+    val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
+    deviceNameField.isAccessible = true; // remove the private thing
+    val deviceName = deviceNameField.get( Activity ) as TextView;
+
+    // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
+    val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
+
+    // access the rules for the layout parameters
+    val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
+    layoutRulesField.isAccessible = true; // remove the private thing again
+    val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
+
+    // pull the id for the robot icon out of the rules
+    val iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
+
+    // the next if statement will take care of the actual registration
+    i( "ftcext.ConfigSetup", "Found the robot icon's resource id" );
+
+    Activity.findViewById( iconId ) as ImageView;
 }
 
 //

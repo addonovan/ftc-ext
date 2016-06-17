@@ -37,42 +37,13 @@ class OpModeRegistrar() : OpModeRegister
     // activity and the library
     init
     {
-        if ( Activity.javaClass.simpleName != "FtcRobotControllerActivity" )
-        {
-            wtf( "Current Activity isn't FtcRobotControllerActivity! Can't attach configuration listeners!" );
-            throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
-        }
-
-        v( "Retrieving the robot icon's resource id" );
-        // In order to get to the robot icon on the robot controller activity:
-
-        // the device name is a field in the FtcRobotControllerActivity, so get to that
-        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
-        deviceNameField.isAccessible = true; // remove the private thing
-        val deviceName = deviceNameField.get( Activity ) as TextView;
-
-        // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
-        val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
-
-        // access the rules for the layout parameters
-        val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
-        layoutRulesField.isAccessible = true; // remove the private thing again
-        val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
-
-        // pull the id for the robot icon out of the rules
-        iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
-
-        // the next if statement will take care of the actual registration
-        i( "Found the robot icon's resource id" );
-
-        val robotIcon = Activity.findViewById( iconId ) as ImageView;
 
         i( "Attaching long-press listener to robot icon" );
-        // when it's long pressed, the activity is switched to the config activity
+        
         // now there is absolutely no visible trace of this program in case it
         // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
         // actually a team member anymore)
-        robotIcon.setOnLongClickListener { view ->
+        RobotIcon.setOnLongClickListener { view ->
 
             val intent = Intent( Activity, ConfigActivity::class.java );
             Activity.startActivity( intent );
