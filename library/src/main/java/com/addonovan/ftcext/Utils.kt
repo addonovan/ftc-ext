@@ -2,8 +2,8 @@ package com.addonovan.ftcext
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.text.InputType
+import android.widget.*
 import com.addonovan.ftcext.control.Register
 
 /**
@@ -92,5 +92,23 @@ fun spinnerDialog( title: String, message: String,
     builder.setItems( items, { dialog, which -> onClick( items[ which ] ) } );
 
     builder.setCancelable( false );
+    builder.show();
+}
+
+fun prompt( title: String, message: String, positive: String, onClick: ( String ) -> Unit )
+{
+    // the basics of the window
+    val builder = AlertDialog.Builder( Context );
+    builder.setTitle( title );
+    builder.setMessage( message );
+
+    // create the input field
+    val input = EditText( Context );
+    input.inputType = InputType.TYPE_CLASS_TEXT;
+    builder.setView( input );
+
+    // set up the positive button
+    builder.setPositiveButton( positive, { dialog, which -> onClick.invoke( input.text.toString() ) } );
+
     builder.show();
 }
