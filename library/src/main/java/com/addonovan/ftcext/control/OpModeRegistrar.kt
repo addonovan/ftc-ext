@@ -43,47 +43,42 @@ class OpModeRegistrar() : OpModeRegister
             throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
         }
 
-        // this is only true if we've already gone through
-        if ( Activity.findViewById( iconId ) !is ImageView )
-        {
-            // In order to get to the robot icon on the robot controller activity:
+        v( "Retrieving the robot icon's resource id" );
+        // In order to get to the robot icon on the robot controller activity:
 
-            // the device name is a field in the FtcRobotControllerActivity, so get to that
-            val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
-            deviceNameField.isAccessible = true; // remove the private thing
-            val deviceName = deviceNameField.get( Activity ) as TextView;
+        // the device name is a field in the FtcRobotControllerActivity, so get to that
+        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
+        deviceNameField.isAccessible = true; // remove the private thing
+        val deviceName = deviceNameField.get( Activity ) as TextView;
 
-            // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
-            val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
+        // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
+        val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
 
-            // access the rules for the layout parameters
-            val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
-            layoutRulesField.isAccessible = true; // remove the private thing again
-            val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
+        // access the rules for the layout parameters
+        val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
+        layoutRulesField.isAccessible = true; // remove the private thing again
+        val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
 
-            // pull the id for the robot icon out of the rules
-            iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
+        // pull the id for the robot icon out of the rules
+        iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
 
-            // the next if statement will take care of the actual registration
-        }
+        // the next if statement will take care of the actual registration
+        i( "Found the robot icon's resource id" );
 
-        // if the robot icon is indeed an ImageView and it's not long clickable,
-        // then that means we need to set up the long click action
-        val robotIcon = Activity.findViewById( iconId );
-        if ( robotIcon is ImageView && !robotIcon.isLongClickable )
-        {
-            // when it's long pressed, the activity is switched to the config activity
-            // now there is absolutely no visible trace of this program in case it
-            // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
-            // actually a team member anymore)
-            robotIcon.setOnLongClickListener { view ->
+        val robotIcon = Activity.findViewById( iconId ) as ImageView;
 
-                val intent = Intent( Activity, ConfigActivity::class.java );
-                Activity.startActivity( intent );
+        i( "Attaching long-press listener to robot icon" );
+        // when it's long pressed, the activity is switched to the config activity
+        // now there is absolutely no visible trace of this program in case it
+        // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
+        // actually a team member anymore)
+        robotIcon.setOnLongClickListener { view ->
 
-                true; // long press handled? I guess, idk what this is used for
-            };
-        }
+            val intent = Intent( Activity, ConfigActivity::class.java );
+            Activity.startActivity( intent );
+
+            true; // long press handled? I guess, idk what this is used for
+        };
     }
 
     /**
