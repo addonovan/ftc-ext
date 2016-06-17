@@ -216,7 +216,7 @@ fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpMode
  *
  * @return A list of all variants of OpModeConfigs for the given OpMode.
  */
-fun OpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
+fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
 {
     // make sure there's at least the [default] variant
     getOpModeConfig( opModeName );
