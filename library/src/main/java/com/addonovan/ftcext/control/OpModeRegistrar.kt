@@ -58,7 +58,7 @@ class OpModeRegistrar() : OpModeRegister
         {
             val name = getRegisterName( opMode );
 
-            if ( name == null || name.isBlank() || name == "Stop Robot" || name.contains( "=" ) )
+            if ( name.isBlank() || name == "Stop Robot" || name.contains( "=" ) )
             {
                 e( "$name is NOT a valid OpMode name! Change it to something that is!" );
                 e( "OpMode names cannot be blank, null, \"Stop Robot\", or contain a '='" );
