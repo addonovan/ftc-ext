@@ -1,6 +1,10 @@
 package com.addonovan.ftcext.control
 
+import android.content.Intent
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.ConfigActivity
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
@@ -28,6 +32,37 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
  */
 class OpModeRegistrar() : OpModeRegister
 {
+
+    init
+    {
+        if ( Activity.javaClass.simpleName != "FtcRobotControllerActivity" )
+        {
+            wtf( "Current Activity isn't FtcRobotControllerActivity! Can't attach configuration listeners!" );
+            throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
+        }
+
+        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
+        deviceNameField.isAccessible = true;
+
+        val deviceName = deviceNameField.get( Activity ) as TextView;
+        val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
+
+        val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
+        layoutRulesField.isAccessible = true;
+
+        val layoutRules = layoutRulesField.get( layoutParams ) as IntArray;
+        val iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
+
+        // finally have what we want
+        val robotIcon = Activity.findViewById( iconId );
+        robotIcon.setOnLongClickListener { view ->
+
+            val intent = Intent( Activity, ConfigActivity::class.java );
+            Activity.startActivity( intent );
+
+            true; // long press handled, I guess, idk what this is used for
+        };
+    }
 
     /**
      * Searches for all instantiable classes which inherit from [AbstractOpMode]
