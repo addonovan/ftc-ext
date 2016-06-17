@@ -78,7 +78,7 @@ abstract class AbstractOpMode()
     //
 
     /** The selected configuration variant (defaults to &#91;default&$93;) */
-    private var config = getOpModeConfig( getRegisterName( javaClass ), "[default]" );
+    private var config = getActiveConfig( getRegisterName( javaClass ) );
 
     /**
      * Gets a `String` value from the configuration. Returns the default

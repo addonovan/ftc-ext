@@ -3,6 +3,7 @@ package com.addonovan.ftcext.control
 import android.content.Intent
 import android.widget.*
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.R;
 import com.addonovan.ftcext.config.ConfigActivity
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager

@@ -98,37 +98,6 @@ val Activity: Activity by lazy()
     activity as Activity; // "not needed" my ass, it errors unless this is here
 }
 
-/**
- * The ImageView for the robot icon in the FtcRobotController class
- */
-val RobotIcon by lazy()
-{
-    v( "ftcext.ConfigSetup", "Retrieving the robot icon's resource id" );
-    // In order to get to the robot icon on the robot controller activity:
-
-    val rClass = Class.forName( "com.qualcomm.ftcrobotcontroller.R" ) ?: throw NullPointerException();
-    val classes = rClass.declaredClasses;
-
-    var idClass: Class< * >? = null; // find the idClass from the declared classes
-
-    // search for the "id" class
-    for ( clazz in classes )
-    {
-        if ( clazz.simpleName == "id" )
-        {
-            idClass = clazz;
-            break;
-        }
-    }
-
-    if ( idClass == null ) throw NullPointerException( "Failed to find com.qualcomm.ftcrobotcontroll.R.id" );
-
-    val iconIdField = idClass?.getDeclaredField( "robotIcon" );
-    val iconId = iconIdField?.get( null ) as Int; // static, so no instance is needed
-
-    Activity.findViewById( iconId ) as ImageView;
-}
-
 //
 // OpMode Hacks
 //

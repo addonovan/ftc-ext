@@ -193,7 +193,7 @@ private val activeVariants = HashMap< String, String >();
  *          If, for some reason, there was no entry for the given [opModeName] and [variant]
  *          in the backing map, even after one was created and added.
  */
-fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpModeConfig
+fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeConfig
 {
     val key = Pair( opModeName, variant ); // the opModeName and variant pair
 
@@ -203,6 +203,24 @@ fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpMode
     }
 
     return configMap[ key ] ?: throw IllegalArgumentException( "configMap has no entry for the given opModeName and variant!" );
+}
+
+/**
+ * Finds the active variant for the given opmode name. If there
+ * was no active variant, then default is used.
+ *
+ * @param[opModeName]
+ *          The name of the opmodeto fetch the config for.
+ * @return The active variant of the given opmode.
+ */
+fun getActiveConfig( opModeName: String ): OpModeConfig
+{
+    if ( !activeVariants.containsKey( opModeName ) )
+    {
+        activeVariants[ opModeName ] = "default";
+    }
+
+    return getOpModeConfig( opModeName, activeVariants[ opModeName ] as String );
 }
 
 /**
@@ -224,7 +242,7 @@ fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
     // find all the OpModeConfigs for this OpMode
     for ( ( key, config ) in configMap )
     {
-        if ( key.first == opModeName && key.second != "[default]" )
+        if ( key.first == opModeName && key.second != "default" )
         {
             list += config;
         }
