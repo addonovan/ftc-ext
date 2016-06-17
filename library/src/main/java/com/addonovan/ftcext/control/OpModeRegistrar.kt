@@ -110,5 +110,3 @@ class OpModeRegistrar() : OpModeRegister
     }
 
 }
-
-private var iconId = -1;
