@@ -208,6 +208,30 @@ fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpMode
     return configMap[ key ] ?: throw IllegalArgumentException( "configMap has no entry for the given opModeName and variant!" );
 }
 
+/**
+ * Finds all the variants of OpModeConfigs for the given OpMode.
+ *
+ * @param[opModeName]
+ *          The name of the OpMode
+ *
+ * @return A list of all variants of OpModeConfigs for the given OpMode.
+ */
+fun OpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
+{
+    // make sure there's at least the [default] variant
+    getOpModeConfig( opModeName );
+
+    val list = ArrayList< OpModeConfig >();
+
+    // find all the OpModeConfigs for this OpMode
+    for ( ( key, config ) in configMap )
+    {
+        if ( key.first == opModeName ) list += config;
+    }
+
+    return list;
+}
+
 // configs.json:
 //
 // "configs": [

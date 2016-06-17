@@ -80,8 +80,6 @@ abstract class AbstractOpMode()
     // Config Fetching
     //
 
-
-
     //
     // Device Fetching
     //
