@@ -64,13 +64,33 @@ abstract class AbstractOpMode()
         {
             val variantList = ArrayList< String >();
             configs.forEach { config -> variantList += config.Variant };
+            val newVariant = "Create a new variant";
+
+            variantList += newVariant;
 
             spinnerDialog(
                     "Choose a variant",
                     "Choose a configuration variant to use",
                     variantList.toArray( arrayOf< String >() ),
                     { string ->
-                        config = getOpModeConfig( RegisteredName, string ) // sets the config to the correct variant
+
+                        // create a new, blank OpMode configuration
+                        if ( string == newVariant )
+                        {
+                            prompt(
+                                    "New variant",
+                                    "Choose a name for the new variant",
+                                    "Create Variant",
+                                    { string ->
+                                        config = getOpModeConfig( RegisteredName, string ); // create the new variant
+                                    }
+                            );
+                        }
+                        // `string` is the name of the variant
+                        else
+                        {
+                            config = getOpModeConfig( RegisteredName, string ) // sets the config to the correct variant
+                        }
                     }
             );
         }
