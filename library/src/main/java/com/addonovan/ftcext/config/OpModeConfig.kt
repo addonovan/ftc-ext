@@ -55,10 +55,11 @@ class OpModeConfig internal constructor() : Jsonable
     //      "opMode": "$OpModeName",
     //      "variant": "$variant",
     //      "dataMap": [
-    //          { "key": "$key", "value": "$value" },
+    //          [ "$key", "$value" ],
     //          ...
     //      ]
-    // },
+    // }
+
     override fun toJson( writer: JsonWriter )
     {
         writer.beginObject(); // start OpModeConfig
@@ -81,6 +82,13 @@ class OpModeConfig internal constructor() : Jsonable
     {
         _opModeName = json.getString( "opMode" );
         _variant = json.getString( "variant" );
+
+        val map = json.getJSONArray( "dataMap" );
+        for ( i in 0..map.length() )
+        {
+            val mapEntry = map.getJSONArray( i );
+            dataMap.put( mapEntry.getString( 0 ), mapEntry.getString( 1 ) );
+        }
     }
 
     //
