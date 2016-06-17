@@ -1,8 +1,7 @@
 package com.addonovan.ftcext.control
 
 import android.content.Intent
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.ConfigActivity
 import com.addonovan.ftcext.reflection.ClassFinder
@@ -33,6 +32,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
 class OpModeRegistrar() : OpModeRegister
 {
 
+    // None of this stuff really belongs here, it's just that this is
+    // the entry point and only bridge between the Robot Controller
+    // activity and the library
     init
     {
         if ( Activity.javaClass.simpleName != "FtcRobotControllerActivity" )
@@ -41,38 +43,47 @@ class OpModeRegistrar() : OpModeRegister
             throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
         }
 
-        // In order to get to the robot icon on the robot controller activity:
+        // this is only true if we've already gone through
+        if ( Activity.findViewById( iconId ) !is ImageView )
+        {
+            // In order to get to the robot icon on the robot controller activity:
 
-        // the device name is a field in the FtcRobotControllerActivity, so get to that
-        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
-        deviceNameField.isAccessible = true; // remove the private thing
-        val deviceName = deviceNameField.get( Activity ) as TextView;
+            // the device name is a field in the FtcRobotControllerActivity, so get to that
+            val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
+            deviceNameField.isAccessible = true; // remove the private thing
+            val deviceName = deviceNameField.get( Activity ) as TextView;
 
-        // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
-        val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
+            // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
+            val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
 
-        // access the rules for the layout parameters
-        val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
-        layoutRulesField.isAccessible = true; // remove the private thing again
-        val layoutRules = layoutRulesField.get( layoutParams ) as IntArray;
+            // access the rules for the layout parameters
+            val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
+            layoutRulesField.isAccessible = true; // remove the private thing again
+            val layoutRules = layoutRulesField.get( layoutParams ) as IntArray; // IntArray == int[]
 
-        // pull the id for the robot icon out of the rules
-        val iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
+            // pull the id for the robot icon out of the rules
+            iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
 
-        // finally have what we want
+            // the next if statement will take care of the actual registration
+        }
+
+        // if the robot icon is indeed an ImageView and it's not long clickable,
+        // then that means we need to set up the long click action
         val robotIcon = Activity.findViewById( iconId );
+        if ( robotIcon is ImageView && !robotIcon.isLongClickable )
+        {
+            // when it's long pressed, the activity is switched to the config activity
+            // now there is absolutely no visible trace of this program in case it
+            // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
+            // actually a team member anymore)
+            robotIcon.setOnLongClickListener { view ->
 
-        // when it's long pressed, the activity is switched to the config activity
-        // now there is absolutely no visible trace of this program in case it
-        // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
-        // actually a team member anymore)
-        robotIcon.setOnLongClickListener { view ->
+                val intent = Intent( Activity, ConfigActivity::class.java );
+                Activity.startActivity( intent );
 
-            val intent = Intent( Activity, ConfigActivity::class.java );
-            Activity.startActivity( intent );
-
-            true; // long press handled, I guess, idk what this is used for
-        };
+                true; // long press handled? I guess, idk what this is used for
+            };
+        }
     }
 
     /**
@@ -133,3 +144,5 @@ class OpModeRegistrar() : OpModeRegister
     }
 
 }
+
+private var iconId = -1;
