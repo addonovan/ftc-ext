@@ -1,5 +1,7 @@
 package com.addonovan.ftcext.control
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Spinner
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
@@ -55,9 +57,41 @@ abstract class AbstractOpMode()
 
     init
     {
-        // when this is created, update the opmode label to also show
-        // the active variant
-        OpModeLabel.text = OpModeLabel.text.toString() + " [${getActiveVariant( getRegisterName( javaClass ) )}]";
+        // add a text change listener so that whenever
+        // Qualcomm tries to change it
+        OpModeLabel.addTextChangedListener( object : TextWatcher
+        {
+            override fun afterTextChanged( s: Editable? ){}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
+
+            override fun onTextChanged( s: CharSequence, start: Int, before: Int, count: Int )
+            {
+                val string = s.toString();
+
+                val name = getRegisterName( this@AbstractOpMode.javaClass );
+
+                // remove our listener whenever the OpMode is over
+                if ( !string.contains( name ) )
+                {
+                    OpModeLabel.removeTextChangedListener( this );
+                }
+
+                // if it doesn't have the configuration details, add them
+                if ( !string.contains( "[" ) )
+                {
+                    // run on the ui thread so we don't get yelled at
+                    Activity.runOnUiThread {
+                        // when this is created, update the opmode label to also show
+                        // the active variant
+
+                        val text = "Op Mode: $name [${getActiveVariant( name )}]";
+                        this@AbstractOpMode.v( "Updating OpMode label to read: \"$text\"" );
+
+                        OpModeLabel.text = text;
+                    }
+                }
+            }
+        } );
     }
 
     //
