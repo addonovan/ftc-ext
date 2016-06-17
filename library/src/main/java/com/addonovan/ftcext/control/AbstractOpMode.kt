@@ -127,6 +127,98 @@ abstract class AbstractOpMode()
     /** The selected configuration variant (defaults to &#91;default&$93;) */
     private var config = getOpModeConfig( getRegisterName( javaClass ), "[default]" );
 
+    /**
+     * Gets a `String` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: String )  = config[ name, default ];
+
+    /**
+     * Gets a `int` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Int )     = config[ name, default ];
+
+    /**
+     * Gets a `long` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Long )    = config[ name, default ];
+
+    /**
+     * Gets a `double` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Double )  = config[ name, default ];
+
+    /**
+     * Gets a `boolean` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Boolean ) = config[ name, default ];
+
+    /**
+     * Gets a value from the configuration. Returns `null` if the
+     * value wasn't in the configuration. The generic type can only
+     * be `String`, `int`, `long`, `double`, or `boolean`, anything
+     * else will cause an [IllegalArgumentException].
+     *
+     * @param[name]
+     *          The name of the property.
+     *
+     * @return The value of the property in the configuration, or the `null` if
+     *         there was none.
+     *
+     * @throws IllegalArgumentException
+     *          If an unsupported type was passed via the generics.
+     */
+    final fun < T > get( name: String ) = config.get< T >( name );
+
     //
     // Device Fetching
     //
