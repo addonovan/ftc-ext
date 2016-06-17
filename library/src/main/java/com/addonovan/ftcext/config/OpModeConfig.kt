@@ -54,9 +54,10 @@ class OpModeConfig internal constructor() : Jsonable
     // {
     //      "opMode": "$OpModeName",
     //      "variant": "$variant",
-    //      "dataMap": {
-    //          "$key" = "$value"
-    //      }
+    //      "dataMap": [
+    //          { "key": "$key", "value": "$value" },
+    //          ...
+    //      ]
     // },
     override fun toJson( writer: JsonWriter )
     {
@@ -78,7 +79,8 @@ class OpModeConfig internal constructor() : Jsonable
 
     override fun fromJson( json: JSONObject )
     {
-        
+        _opModeName = json.getString( "opMode" );
+        _variant = json.getString( "variant" );
     }
 
     //
