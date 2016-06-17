@@ -41,20 +41,31 @@ class OpModeRegistrar() : OpModeRegister
             throw IllegalStateException( "Current activity isn't FtcRobotControllerActivity" );
         }
 
-        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
-        deviceNameField.isAccessible = true;
+        // In order to get to the robot icon on the robot controller activity:
 
+        // the device name is a field in the FtcRobotControllerActivity, so get to that
+        val deviceNameField = Activity.javaClass.getDeclaredField( "textDeviceName" );
+        deviceNameField.isAccessible = true; // remove the private thing
         val deviceName = deviceNameField.get( Activity ) as TextView;
+
+        // access the device name label's layout parameters (one of them is RIGHT_OF robot icon)
         val layoutParams = deviceName.layoutParams as RelativeLayout.LayoutParams;
 
+        // access the rules for the layout parameters
         val layoutRulesField = layoutParams.javaClass.getDeclaredField( "mRules" );
-        layoutRulesField.isAccessible = true;
-
+        layoutRulesField.isAccessible = true; // remove the private thing again
         val layoutRules = layoutRulesField.get( layoutParams ) as IntArray;
+
+        // pull the id for the robot icon out of the rules
         val iconId = layoutRules[ RelativeLayout.RIGHT_OF ];
 
         // finally have what we want
         val robotIcon = Activity.findViewById( iconId );
+
+        // when it's long pressed, the activity is switched to the config activity
+        // now there is absolutely no visible trace of this program in case it
+        // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
+        // actually a team member anymore)
         robotIcon.setOnLongClickListener { view ->
 
             val intent = Intent( Activity, ConfigActivity::class.java );
