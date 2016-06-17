@@ -77,6 +77,12 @@ abstract class AbstractOpMode()
     open fun stop() {};
 
     //
+    // Config Fetching
+    //
+
+
+
+    //
     // Device Fetching
     //
 
