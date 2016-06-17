@@ -98,6 +98,9 @@ val Activity: Activity by lazy()
     activity as Activity; // "not needed" my ass, it errors unless this is here
 }
 
+/**
+ * The ImageView for the robot icon in the FtcRobotController class
+ */
 val RobotIcon by lazy()
 {
     v( "ftcext.ConfigSetup", "Retrieving the robot icon's resource id" );

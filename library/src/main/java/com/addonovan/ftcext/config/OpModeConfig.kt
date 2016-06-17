@@ -16,19 +16,15 @@ import java.util.*
  * @author addonovan
  * @since 6/16/16
  */
-class OpModeConfig internal constructor() : Jsonable
+class OpModeConfig internal constructor( name: String ) : Jsonable
 {
 
     //
     // Values
     //
 
-    /** The backing field for [OpModeName], this can be updated, but only inside the class. */
-    private var _opModeName: String = "Uh-Oh!";
-
     /** The name of the OpMode for which this is a configuration. */
-    val OpModeName: String
-        get() = _opModeName;
+    val OpModeName: String = name;
 
 
     /** The backing field for [Variant], this can be updated, but only inside the class. */
@@ -53,9 +49,8 @@ class OpModeConfig internal constructor() : Jsonable
      * @param[variant]
      *          The name of this configuration variant.
      */
-    internal constructor( opModeName: String, variant: String ) : this()
+    internal constructor( opModeName: String, variant: String ) : this( opModeName )
     {
-        _opModeName = opModeName;
         _variant = variant;
     }
 
@@ -75,7 +70,6 @@ class OpModeConfig internal constructor() : Jsonable
     // Write to the json file
     // the JSONObject for an OpModeConfig will look like this:
     // {
-    //      "opMode": "$OpModeName",
     //      "variant": "$variant",
     //      "dataMap": [
     //          [ "$key", "$value" ],
@@ -87,7 +81,6 @@ class OpModeConfig internal constructor() : Jsonable
     {
         writer.beginObject(); // start OpModeConfig
 
-        writer.name( "opMode" ).value( OpModeName );
         writer.name( "variant" ).value( Variant );
 
         // write the data map
@@ -103,7 +96,6 @@ class OpModeConfig internal constructor() : Jsonable
 
     override fun fromJson( json: JSONObject )
     {
-        _opModeName = json.getString( "opMode" );
         _variant = json.getString( "variant" );
 
         val map = json.getJSONArray( "dataMap" );
@@ -183,6 +175,9 @@ val CONFIG_FILE = File( Context.filesDir, "OpModeConfigs.json" );
 /** The map of all OpModeConfigs */
 private val configMap = HashMap< Pair< String, String >, OpModeConfig >();
 
+/** The map of the opmode names vs. their active variants. */
+private val activeVariants = HashMap< String, String >();
+
 /**
  * Gets the configuration for the given opmode name and variant. If one is
  * not present, a new one is created.
@@ -240,10 +235,15 @@ fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
 
 // configs.json:
 //
-// "configs": [
-//     ${OpModeConfig.toJson()},
-//     ...
-// ]
+//  "configs": [
+//      [
+//          $OpModeName,
+//          $ActiveVariant,
+//          ${OpModeConfig.toJson()},
+//          ...
+//      ],
+//      ...
+//  ]
 
 /**
  * Loads all the OpModeConfigs from the given file.
@@ -263,16 +263,27 @@ fun loadConfigs( f: File )
     try
     {
         val json = JSONObject( f.readText() ); // create the main JSON object
-        val array = json.getJSONArray( "configs" ); // the main array of all objects
+        val configArray = json.getJSONArray( "configs" ); // the main array of all objects
 
-        for ( i in 0..array.length() )
+        for ( i in 0..configArray.length() )
         {
-            // load the OpModeConfig at this index
-            val config = OpModeConfig();
-            config.fromJson( array.getJSONObject( i ) );
-            configMap[ Pair( config.OpModeName, config.Variant ) ] = config; // add it to the map
+            val opModeArray = configArray.getJSONArray( i );
 
-            config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+            // the first two elements are metadata, not configs
+            val opModeName = opModeArray.getString( 0 );
+            val activeVariant = opModeArray.getString( 1 );
+
+            activeVariants[ opModeName ] = activeVariant; // set the active variant for this opmode
+
+            // add all the variants to the map
+            for ( j in 2..opModeArray.length() )
+            {
+                val config = OpModeConfig( opModeName );
+                config.fromJson( opModeArray.getJSONObject( i ) );
+                configMap[ Pair( opModeName, config.Variant ) ] = config; // add it to the map
+
+                config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+            }
         }
     }
     catch ( e: JSONException )
@@ -294,11 +305,20 @@ fun writeConfigs( f: File )
 
     writer.name( "configs" ).beginArray(); // create our array of configs
 
-    for ( ( key, config ) in configMap )
+    for ( ( opMode, variant ) in activeVariants )
     {
-        val ( name, variant ) = key;
-        config.e( "Writing OPModeConfig for $name ($variant variant)" ); // log what we're doing
-        config.toJson( writer );
+        writer.beginArray(); // begin the array of variants for our opmode
+
+        writer.value( opMode ); // [ 0 ] = opMode name
+        writer.value( variant ); // [ 1 ] = active variant
+
+        // [ 2 ]..[ n ] = variants
+        for ( config in getOpModeConfigs( opMode ) )
+        {
+            config.toJson( writer );
+        }
+
+        writer.endArray(); // end the variant array
     }
 
     writer.endArray(); // end our array
