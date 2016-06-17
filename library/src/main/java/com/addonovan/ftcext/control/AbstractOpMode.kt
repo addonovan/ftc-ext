@@ -1,6 +1,8 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.CONFIG_FILE
+import com.addonovan.ftcext.config.loadConfigs
 import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -40,6 +42,15 @@ abstract class AbstractOpMode()
     /** Direct access to the hardware map. Directly referencing this is discouraged. */
     val hardwareMap: HardwareMap
             get() = Hardware.hardwareMap;
+
+    //
+    // Constructors
+    //
+
+    init
+    {
+        loadConfigs( CONFIG_FILE ); // load the config whenever the OpMode is about to execute
+    }
 
     //
     // Things from Original OpMode

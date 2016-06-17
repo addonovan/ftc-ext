@@ -1,5 +1,6 @@
 package com.addonovan.ftcext.config
 
+import android.os.Environment
 import android.util.JsonWriter
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.AbstractOpMode
@@ -173,6 +174,9 @@ class OpModeConfig internal constructor() : Jsonable
 //
 // Package Functions
 //
+
+/** The standard config file. */
+val CONFIG_FILE = File( Context.filesDir, "OpModeConfigs.json" );
 
 /** The map of all OpModeConfigs */
 private val configMap = HashMap< Pair< String, String >, OpModeConfig >();
