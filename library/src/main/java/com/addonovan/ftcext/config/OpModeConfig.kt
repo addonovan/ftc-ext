@@ -2,7 +2,9 @@ package com.addonovan.ftcext.config
 
 import android.util.JsonWriter
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.control.AbstractOpMode
 import org.json.JSONObject
+import java.io.*
 import java.util.*
 
 /**
@@ -35,6 +37,24 @@ class OpModeConfig internal constructor() : Jsonable
 
     /** The configuration map. Everything is a string and must be converted when read. */
     private val dataMap = HashMap< String, String >();
+
+    //
+    // Constructors
+    //
+
+    /**
+     * Constructs an OpModeconfig with the given name and variant.
+     *
+     * @param[opModeName]
+     *          The name of the OpMode this is a configuration for.
+     * @param[variant]
+     *          The name of this configuration variant.
+     */
+    internal constructor( opModeName: String, variant: String ) : this()
+    {
+        _opModeName = opModeName;
+        _variant = variant;
+    }
 
     //
     // Actions
@@ -87,7 +107,7 @@ class OpModeConfig internal constructor() : Jsonable
         for ( i in 0..map.length() )
         {
             val mapEntry = map.getJSONArray( i );
-            dataMap.put( mapEntry.getString( 0 ), mapEntry.getString( 1 ) );
+            dataMap[ mapEntry.getString( 0 ) ] = mapEntry.getString( 1 );
         }
     }
 
@@ -148,4 +168,90 @@ class OpModeConfig internal constructor() : Jsonable
     operator fun set( key: String, value: Double )  { dataMap[ key ] = value.toString(); }
     operator fun set( key: String, value: Boolean ) { dataMap[ key ] = value.toString(); }
 
+}
+
+//
+// Package Functions
+//
+
+/** The map of all OpModeConfigs */
+private val configMap = HashMap< Pair< String, String >, OpModeConfig >();
+
+/**
+ * Gets the configuration for the given opmode name and variant. If one is
+ * not present, a new one is created.
+ *
+ * @param[opModeName]
+ *          The name of the OpMode to get the OpModeConfig for.
+ * @param[variant]
+ *          The variant of configurations for the OpMode.
+ *
+ * @return The OpModeConfig for the given [opModeName] and [variant].
+ *
+ * @throws IllegalArgumentException
+ *          If, for some reason, there was no entry for the given [opModeName] and [variant]
+ *          in the backing map, even after one was created and added.
+ */
+fun getOpModeConfig( opModeName: String, variant: String = "[default]" ): OpModeConfig
+{
+    val key = Pair( opModeName, variant ); // the opModeName and variant pair
+
+    if ( !configMap.containsKey( key ) )
+    {
+        configMap[ key ] = OpModeConfig( opModeName, variant );
+    }
+
+    return configMap[ key ] ?: throw IllegalArgumentException( "configMap has no entry for the given opModeName and variant!" );
+}
+
+// configs.json:
+//
+// "configs": [
+//     ${OpModeConfig.toJson()},
+//     ...
+// ]
+
+/**
+ * Loads all the OpModeConfigs from the given file.
+ *
+ * @param[f]
+ *          The json file to load.
+ */
+fun loadConfigs( f: File )
+{
+    val json = JSONObject( f.readText() ); // create the main JSON object
+    val array = json.getJSONArray( "configs" ); // the main array of all objects
+
+    for ( i in 0..array.length() )
+    {
+        // load the OpModeConfig at this index
+        val config = OpModeConfig();
+        config.fromJson( array.getJSONObject( i ) );
+        configMap[ Pair( config.OpModeName, config.Variant ) ] = config; // add it to the map
+
+        config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+    }
+}
+
+/**
+ * Writes all the OpModeConfigs to the given file.
+ *
+ * @param[f]
+ *          The json file to write to.
+ */
+fun writeConfigs( f: File )
+{
+    val writer = JsonWriter( OutputStreamWriter( FileOutputStream( f ) ) ); // write for creating the json files
+    writer.setIndent( "   " ); // 3 spaces, because we're satan
+
+    writer.name( "configs" ).beginArray(); // create our array of configs
+
+    for ( ( key, config ) in configMap )
+    {
+        val ( name, variant ) = key;
+        config.e( "Writing OPModeConfig for $name ($variant variant)" ); // log what we're doing
+        config.toJson( writer );
+    }
+
+    writer.endArray(); // end our array
 }
