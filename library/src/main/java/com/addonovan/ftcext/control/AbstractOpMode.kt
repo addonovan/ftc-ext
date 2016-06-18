@@ -2,7 +2,6 @@ package com.addonovan.ftcext.control
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Spinner
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.reflection.FieldFinder

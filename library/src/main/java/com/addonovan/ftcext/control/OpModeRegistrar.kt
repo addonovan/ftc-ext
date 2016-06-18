@@ -46,6 +46,7 @@ class OpModeRegistrar() : OpModeRegister
         // actually a team member anymore)
         RobotIcon.setOnLongClickListener { view ->
 
+            this@OpModeRegistrar.i( "Switching to ConfigActivity" );
             val intent = Intent( Activity, ConfigActivity::class.java );
             Activity.startActivity( intent );
 
