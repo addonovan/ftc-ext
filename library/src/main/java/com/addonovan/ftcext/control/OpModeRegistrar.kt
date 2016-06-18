@@ -1,9 +1,7 @@
 package com.addonovan.ftcext.control
 
 import android.content.Intent
-import android.widget.*
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.R;
 import com.addonovan.ftcext.config.ConfigActivity
 import com.addonovan.ftcext.config.getOpModeConfig
 import com.addonovan.ftcext.reflection.ClassFinder

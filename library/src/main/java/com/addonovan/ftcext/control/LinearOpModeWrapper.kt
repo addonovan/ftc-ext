@@ -1,7 +1,6 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.config.*
 
 /**
  * A wrapper for a LinearOpMode.

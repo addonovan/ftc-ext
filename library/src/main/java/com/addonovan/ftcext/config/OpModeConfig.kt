@@ -1,10 +1,8 @@
 package com.addonovan.ftcext.config
 
-import android.os.Environment
 import android.util.JsonWriter
 import android.util.Log
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.control.AbstractOpMode
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
