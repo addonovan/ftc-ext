@@ -5,6 +5,7 @@ import android.widget.*
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.R;
 import com.addonovan.ftcext.config.ConfigActivity
+import com.addonovan.ftcext.config.getOpModeConfig
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
@@ -93,12 +94,16 @@ class OpModeRegistrar() : OpModeRegister
             // if it's a regular OpMode
             if ( OpMode::class.java.isAssignableFrom( opMode ) )
             {
+                getOpModeConfig( name ); // create a configuration for it
+
                 manager.register( name, OpModeWrapper( opMode as Class< out OpMode > ) );
                 i( "Registered OpMode class ${opMode.simpleName} as $name" );
             }
             // if it's a LinearOpMode
             else if ( LinearOpMode::class.java.isAssignableFrom( opMode ) )
             {
+                getOpModeConfig( name ); // create a configuration for it
+
                 manager.register( name, LinearOpModeWrapper( opMode as Class< out LinearOpMode > ) );
                 i( "Registered LinearOpMode class ${opMode.simpleName} as $name" );
             }

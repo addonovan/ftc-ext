@@ -95,7 +95,7 @@ val Activity: Activity by lazy()
     // activity is really hard to spell
     if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
 
-    activity as Activity; // "not needed" my ass, it errors unless this is here
+    activity!!; // "not needed" my ass, it errors unless this is here
 }
 
 //

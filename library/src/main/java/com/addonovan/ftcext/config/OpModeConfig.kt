@@ -132,10 +132,10 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
         when ( tClass )
         {
             // supported data types
-            String::class.java -> return string as T;
-            Int::class.java -> return string.toInt() as T;
-            Long::class.java -> return string.toLong() as T;
-            Double::class.java -> return string.toDouble() as T;
+            String::class.java  -> return string             as T;
+            Int::class.java     -> return string.toInt()     as T;
+            Long::class.java    -> return string.toLong()    as T;
+            Double::class.java  -> return string.toDouble()  as T;
             Boolean::class.java -> return string.toBoolean() as T;
 
             else ->
@@ -179,6 +179,11 @@ private val configMap = HashMap< Pair< String, String >, OpModeConfig >();
 private val activeVariants = HashMap< String, String >();
 
 /**
+ * @return The names of all the OpModes with configurations.
+ */
+fun getOpModeNames() = activeVariants.keys;
+
+/**
  * Gets the configuration for the given opmode name and variant. If one is
  * not present, a new one is created.
  *
@@ -188,10 +193,6 @@ private val activeVariants = HashMap< String, String >();
  *          The variant of configurations for the OpMode.
  *
  * @return The OpModeConfig for the given [opModeName] and [variant].
- *
- * @throws IllegalArgumentException
- *          If, for some reason, there was no entry for the given [opModeName] and [variant]
- *          in the backing map, even after one was created and added.
  */
 fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeConfig
 {
@@ -202,7 +203,7 @@ fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeCo
         configMap[ key ] = OpModeConfig( opModeName, variant );
     }
 
-    return configMap[ key ] ?: throw IllegalArgumentException( "configMap has no entry for the given opModeName and variant!" );
+    return configMap[ key ]!!;
 }
 
 /**
@@ -233,7 +234,7 @@ fun getActiveVariant( opModeName: String ): String
         activeVariants[ opModeName ] = "default";
     }
 
-    return activeVariants[ opModeName ] as String;
+    return activeVariants[ opModeName ]!!;
 }
 
 /**
