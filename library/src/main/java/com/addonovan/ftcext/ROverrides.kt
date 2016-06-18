@@ -17,7 +17,7 @@ private val rIdClass by lazy()
 {
     v( "ftcext.R", "Locating com.qualcomm.ftcrobotcontroller.R.id" );
 
-    val rClass = Class.forName( "com.qualcomm.ftcrobotcontroller.R" ) ?: throw NullPointerException();
+    val rClass = Class.forName( "com.qualcomm.ftcrobotcontroller.R" )!!;
     val classes = rClass.declaredClasses;
 
     var idClass: Class< * >? = null; // find the idClass from the declared classes
@@ -32,9 +32,7 @@ private val rIdClass by lazy()
         }
     }
 
-    if ( idClass == null ) throw NullPointerException( "Failed to find com.qualcomm.ftcrobotcontroll.R.id" );
-
-    idClass as Class< * >;
+    idClass!!;
 }
 
 private fun getView( name: String ): View
