@@ -10,4 +10,11 @@ package com.addonovan.ftcext.control
 @Target( AnnotationTarget.CLASS )
 @Retention( AnnotationRetention.RUNTIME )
 @MustBeDocumented
-annotation class Register( val name: String )
+annotation class Register( val name: String );
+
+/**
+ * @param[clazz]
+ *          The class with a [Register] annotation.
+ * @return The value of the [Register.name].
+ */
+fun getRegisterName( clazz: Class< * > ) = clazz.getAnnotation( Register::class.java ).name;
