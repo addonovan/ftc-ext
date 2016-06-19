@@ -35,6 +35,14 @@ private val rIdClass by lazy()
     idClass!!;
 }
 
+/**
+ * Gets the view from the Qualcomm `R.id` class that has the
+ * given name.
+ *
+ * @param[name]
+ *          The name of the field to grab.
+ * @return The View with the given name.
+ */
 private fun getView( name: String ): View
 {
     val field = rIdClass.getDeclaredField( name );

@@ -1,6 +1,5 @@
 <resources>
 
-    <string name="opmode_name_f">%s</string>
-    <string name="active_variant_f">Active Variant: %s</string>
+    <string name="pref_opmodes">pref_opmodes</string>
 
 </resources>

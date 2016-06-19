@@ -33,7 +33,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
         get() = _variant;
 
     /** The configuration map. Everything is a string and must be converted when read. */
-    private val dataMap = HashMap< String, String >();
+    internal val dataMap = HashMap< String, String >();
 
     //
     // Constructors
@@ -196,9 +196,18 @@ fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeCo
 {
     val key = Pair( opModeName, variant ); // the opModeName and variant pair
 
-    if ( !configMap.containsKey( key ) )
+    if ( configMap[ key ] == null )
     {
-        configMap[ key ] = OpModeConfig( opModeName, variant );
+        val config = OpModeConfig( opModeName, variant );
+        config.i( "Created config for $opModeName, (variant: $variant)" );
+        configMap[ key ] = config;
+
+        // set this to the active variant if there is none
+        if ( activeVariants[ opModeName ] == null )
+        {
+            config.i( "Setting active variant for $opModeName to $variant" );
+            activeVariants[ opModeName ] = variant;
+        }
     }
 
     return configMap[ key ]!!;
@@ -215,6 +224,12 @@ fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeCo
 fun getActiveConfig( opModeName: String ): OpModeConfig
 {
     return getOpModeConfig( opModeName, getActiveVariant( opModeName ) );
+}
+
+fun setActiveConfig( opModeName: String, variant: String )
+{
+    getOpModeConfig( opModeName, variant ); // ensure it exists
+    activeVariants[ opModeName ] = variant; // mark the active variant
 }
 
 /**

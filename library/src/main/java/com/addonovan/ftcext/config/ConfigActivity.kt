@@ -1,53 +1,121 @@
 package com.addonovan.ftcext.config
 
-import android.app.Activity
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.preference.*
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.control.OpModes
+import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.robocol.Telemetry
 
 /**
  * The activity used to edit and create new OpMode configurations.
  */
-class ConfigActivity : AppCompatActivity()
+class ConfigActivity : PreferenceActivity()
 {
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_config );
+        addPreferencesFromResource( R.xml.opmode_preferences );
 
-        val adapter = ListItemAdapter( this );
-        adapter.addAll( getOpModeNames() ); // add all of the opmodes to the custom adapter
-        ( findViewById( R.id.config_opmode_list ) as ListView ).adapter = adapter;
+        System.setProperty( "ftcext.inconfig", "true" ); // disable the flag
+        val opModeList = findPreference( getString( R.string.pref_opmodes ) ) as PreferenceCategory;
+        addOpModes( opModeList );
+        System.setProperty( "ftcext.inconfig", "false" ); // disable the flag
     }
 
-}
-
-internal class ListItemAdapter( context: Context ) : ArrayAdapter< String >( context, 0 )
-{
-
-    private val inflater by lazy()
+    private fun addOpModes( list: PreferenceCategory )
     {
-        ( context as Activity ).layoutInflater;
+        for ( opMode in getOpModeNames() )
+        {
+            val subScreen = preferenceManager.createPreferenceScreen( this );
+            subScreen.title = opMode;
+
+            val variantList = PreferenceCategory( this );
+            variantList.title = "$opMode Configuration Variants";
+            subScreen.addPreference( variantList );
+
+            addVariants( variantList, opMode );
+
+            list.addPreference( subScreen );
+        }
     }
 
-    override fun getView( position: Int, convertView: View?, parent: ViewGroup? ): View
+    private fun addVariants( list: PreferenceCategory, opMode: String )
     {
-        val opMode = getItem( position );
-        val activeVariant = getActiveVariant( opMode );
+        for ( variant in getOpModeConfigs( opMode ) )
+        {
+            val subScreen = preferenceManager.createPreferenceScreen( this );
+            subScreen.title = variant.Variant;
 
-        // only create a new view if necessary
-        val view = convertView ?: inflater.inflate( R.layout.opmode_list_item, parent, false );
+            // TODO add opmode configurables
+            val configurableList = PreferenceCategory( this );
+            configurableList.title = "$opMode (${variant.Variant} variant) Settings";
+            subScreen.addPreference( configurableList );
 
-        // add the view information
-        ( view.findViewById( R.id.opmode_name ) as TextView ).text = opMode;
-        ( view.findViewById( R.id.active_variant ) as TextView ).text = activeVariant;
+            val activeVariant = getActiveVariant( opMode );
+            addConfigurables( configurableList, variant );
+            setActiveConfig( opMode, activeVariant ); // reset the active variant to the real one
 
-        return view;
+            list.addPreference( subScreen );
+        }
+    }
+
+    private fun addConfigurables( list: PreferenceCategory, config: OpModeConfig )
+    {
+        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), HardwareMap( this ) );
+
+        setActiveConfig( config.OpModeName, config.Variant ); // set this to be the active config so it gets used
+
+        // instantiate the opmode so that the config has all of the values
+        try
+        {
+            OpModes[ config.OpModeName ]!!.newInstance();
+        }
+        catch ( e: Exception ) {}
+
+        for ( ( key, value ) in config.dataMap )
+        {
+            val inType = guessType( value );
+
+            var preference: Preference;
+
+            // create the specific type of preference based on what was returned by guessType()
+            if ( inType is String )
+            {
+                preference = CheckBoxPreference( this );
+                preference.isEnabled = inType.toBoolean();
+            }
+            else if ( inType is Long || inType is Double )
+            {
+                preference = EditTextPreference( this );
+                // TODO force only some characters to be allowed
+                preference.text = inType.toString();
+            }
+            else
+            {
+                preference = EditTextPreference( this );
+                preference.text = inType.toString();
+            }
+
+            preference.title = key;
+
+            list.addPreference( preference ); // add the preference
+        }
+    }
+
+    private fun guessType( value: String ): Any
+    {
+        // try to cast it numerically, in order from least to most restrictive
+        try { return value.toDouble(); } catch ( e: Exception ) {}
+        try { return value.toLong(); } catch ( e: Exception ) {}
+
+        // if it's true or false, it's a boolean
+        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
+
+        // it's a string
+        return value;
     }
 
 }

@@ -56,41 +56,45 @@ abstract class AbstractOpMode()
 
     init
     {
-        // add a text change listener so that whenever
-        // Qualcomm tries to change it
-        OpModeLabel.addTextChangedListener( object : TextWatcher
+        // only do this if we aren't being created for configuration purposes
+        if ( !System.getProperty( "ftcext.inconfig", "false" ).toBoolean() )
         {
-            override fun afterTextChanged( s: Editable? ){}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
-
-            override fun onTextChanged( s: CharSequence, start: Int, before: Int, count: Int )
+            // add a text change listener so that whenever
+            // Qualcomm tries to change it
+            OpModeLabel.addTextChangedListener( object : TextWatcher
             {
-                val string = s.toString();
+                override fun afterTextChanged( s: Editable? ){}
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
 
-                val name = getRegisterName( this@AbstractOpMode.javaClass );
-
-                // remove our listener whenever the OpMode is over
-                if ( !string.contains( name ) )
+                override fun onTextChanged( s: CharSequence, start: Int, before: Int, count: Int )
                 {
-                    OpModeLabel.removeTextChangedListener( this );
-                }
+                    val string = s.toString();
 
-                // if it doesn't have the configuration details, add them
-                if ( !string.contains( "[" ) )
-                {
-                    // run on the ui thread so we don't get yelled at
-                    Activity.runOnUiThread {
-                        // when this is created, update the opmode label to also show
-                        // the active variant
+                    val name = getRegisterName( this@AbstractOpMode.javaClass );
 
-                        val text = "Op Mode: $name [${getActiveVariant( name )}]";
-                        this@AbstractOpMode.v( "Updating OpMode label to read: \"$text\"" );
+                    // remove our listener whenever the OpMode is over
+                    if ( !string.contains( name ) )
+                    {
+                        OpModeLabel.removeTextChangedListener( this );
+                    }
 
-                        OpModeLabel.text = text;
+                    // if it doesn't have the configuration details, add them
+                    if ( !string.contains( "[" ) )
+                    {
+                        // run on the ui thread so we don't get yelled at
+                        Activity.runOnUiThread {
+                            // when this is created, update the opmode label to also show
+                            // the active variant
+
+                            val text = "Op Mode: $name [${getActiveVariant( name )}]";
+                            this@AbstractOpMode.v( "Updating OpMode label to read: \"$text\"" );
+
+                            OpModeLabel.text = text;
+                        }
                     }
                 }
-            }
-        } );
+            } );
+        }
     }
 
     //
@@ -258,14 +262,14 @@ abstract class AbstractOpMode()
      * @throws IllegalArgumentException
      *          If the generic type wasn't a supported type in the hardware map.
      */
+    @Suppress( "unchecked_cast" ) // checked via reflections
     final fun < T : HardwareDevice > getDevice( name: String ): T
     {
         val type = getGenericType( ArrayList< T >() ); // oh god, this is such a hack
-        val map = getDeviceMapping< T >( type ); // the corresponding map for this type
+        val skip = System.getProperty( "ftcext.inconfig", "false" ).toBoolean();
 
-        val value = map[ name ] ?: throw NullPointerException( "No hardware of type ${type.simpleName} with the name $name" );
-
-        return value;
+        return if ( skip ) type.newInstance() as T; // if we're supposed to skip the hardware, just try to instantiate a blank one
+               else        getDeviceMapping< T >( type )[ name ]!!; // find the correct map, then return the value at "name"
     }
 
     /**
