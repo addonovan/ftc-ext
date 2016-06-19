@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.reflection.ClassFinder
 import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -50,6 +51,9 @@ abstract class AbstractOpMode()
     val hardwareMap: HardwareMap
             get() = Hardware.hardwareMap;
 
+    /** True if we're in `inConfig` mode, where some operations are skipped. */
+    private val inConfig = System.getProperty( "ftcext.inconfig", "false" ).toBoolean();
+
     //
     // Constructors
     //
@@ -57,7 +61,7 @@ abstract class AbstractOpMode()
     init
     {
         // only do this if we aren't being created for configuration purposes
-        if ( !System.getProperty( "ftcext.inconfig", "false" ).toBoolean() )
+        if ( !inConfig )
         {
             // add a text change listener so that whenever
             // Qualcomm tries to change it
@@ -142,21 +146,6 @@ abstract class AbstractOpMode()
      *         there was none.
      */
     final fun get( name: String, default: String )  = config[ name, default ];
-
-    /**
-     * Gets a `int` value from the configuration. Returns the default
-     * value after adding it to the configuration if there was no
-     * value in the map for the key.
-     *
-     * @param[name]
-     *          The name of the property.
-     * @param[default]
-     *          The default value if the property isn't found.
-     *
-     * @return The value of the property in the configuration, or the default if
-     *         there was none.
-     */
-    final fun get( name: String, default: Int )     = config[ name, default ];
 
     /**
      * Gets a `long` value from the configuration. Returns the default
@@ -262,14 +251,13 @@ abstract class AbstractOpMode()
      * @throws IllegalArgumentException
      *          If the generic type wasn't a supported type in the hardware map.
      */
-    @Suppress( "unchecked_cast" ) // checked via reflections
     final fun < T : HardwareDevice > getDevice( name: String ): T
     {
         val type = getGenericType( ArrayList< T >() ); // oh god, this is such a hack
-        val skip = System.getProperty( "ftcext.inconfig", "false" ).toBoolean();
 
-        return if ( skip ) type.newInstance() as T; // if we're supposed to skip the hardware, just try to instantiate a blank one
-               else        getDeviceMapping< T >( type )[ name ]!!; // find the correct map, then return the value at "name"
+        // TODO figure out a way to skip this and return a bullshit value if inConfig
+
+        return getDeviceMapping< T >( type )[ name ]!!; // find the correct map, then return the value at "name"
     }
 
     /**

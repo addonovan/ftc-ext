@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor
 @Register( "OpMode1" )
 class OpMode1() : OpMode()
 {
-    val motor_left = getDevice< DcMotor >( "motor_left" );
-    val motor_right = getDevice< DcMotor >( "motor_right" );
-
     val redTeam = get( "red_team", false );
     val motorSpeed = get( "motor_speed", 1.0 );
     val timeLength = get( "time_length", 1 );
+
+    val motor_left = getDevice< DcMotor >( "motor_left" );
+    val motor_right = getDevice< DcMotor >( "motor_right" );
 
     override fun init(){}
     override fun loop(){}

@@ -101,7 +101,7 @@ class ClassFinder()
 private val blackList: LinkedHashSet< String > =
         linkedSetOf( "com.google", "com.android", "dalvik", "android", // android packages
                      "java", "kotlin",                                 // language packages
-                     "com.qualcomm", "com.ftdi" );                     // FTC packages
+                     "com.ftdi" );                                     // FTC packages
 
 /**
  * The base classes that every ClassFinder is based off of

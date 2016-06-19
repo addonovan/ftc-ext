@@ -71,9 +71,13 @@ class ConfigActivity : PreferenceActivity()
         // instantiate the opmode so that the config has all of the values
         try
         {
+            v( "Instantiating ${config.OpModeName} for configuration" );
             OpModes[ config.OpModeName ]!!.newInstance();
         }
-        catch ( e: Exception ) {}
+        catch ( e: Exception )
+        {
+            v( "Encountered a(n) ${e.javaClass.simpleName} when instantiated ${config.OpModeName}" );
+        }
 
         for ( ( key, value ) in config.dataMap )
         {
@@ -82,10 +86,10 @@ class ConfigActivity : PreferenceActivity()
             var preference: Preference;
 
             // create the specific type of preference based on what was returned by guessType()
-            if ( inType is String )
+            if ( inType is Boolean )
             {
                 preference = CheckBoxPreference( this );
-                preference.isEnabled = inType.toBoolean();
+                preference.isChecked = inType;
             }
             else if ( inType is Long || inType is Double )
             {
@@ -99,7 +103,18 @@ class ConfigActivity : PreferenceActivity()
                 preference.text = inType.toString();
             }
 
-            preference.title = key;
+            preference.title =
+                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
+                    else                      key;
+
+
+            preference.setOnPreferenceChangeListener { preference, value ->
+                config[ key ] = value.toString();
+
+                if ( value !is Boolean ) preference.title = "$key (= $value)";
+
+                true;
+            };
 
             list.addPreference( preference ); // add the preference
         }

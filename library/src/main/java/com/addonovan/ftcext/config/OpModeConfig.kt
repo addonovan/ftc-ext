@@ -146,17 +146,22 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
         }
     }
 
+    /**
+     * Direct access to the backing data map.
+     */
+    internal operator fun get( key: String ) = dataMap[ key ];
+
     // Non-nullable Gets
-    operator fun get( key: String, default: String )  = dataMap[ key ]              ?: default;
-    operator fun get( key: String, default: Long )    = dataMap[ key ]?.toLong()    ?: default;
-    operator fun get( key: String, default: Double )  = dataMap[ key ]?.toDouble()  ?: default;
-    operator fun get( key: String, default: Boolean ) = dataMap[ key ]?.toBoolean() ?: default;
+    operator fun get( key: String, default: String )  = dataMap[ key ]              ?: set( key, default );
+    operator fun get( key: String, default: Long )    = dataMap[ key ]?.toLong()    ?: set( key, default );
+    operator fun get( key: String, default: Double )  = dataMap[ key ]?.toDouble()  ?: set( key, default );
+    operator fun get( key: String, default: Boolean ) = dataMap[ key ]?.toBoolean() ?: set( key, default );
 
     // Sets
-    operator fun set( key: String, value: String )  { dataMap[ key ] = value;            }
-    operator fun set( key: String, value: Long )    { dataMap[ key ] = value.toString(); }
-    operator fun set( key: String, value: Double )  { dataMap[ key ] = value.toString(); }
-    operator fun set( key: String, value: Boolean ) { dataMap[ key ] = value.toString(); }
+    operator fun set( key: String, value: String )  = dataMap.put( key, value );
+    operator fun set( key: String, value: Long )    = dataMap.put( key, value.toString() );
+    operator fun set( key: String, value: Double )  = dataMap.put( key, value.toString() );
+    operator fun set( key: String, value: Boolean ) = dataMap.put( key, value.toString() );
 
 }
 
@@ -225,7 +230,7 @@ fun getActiveConfig( opModeName: String ): OpModeConfig
 
 fun setActiveConfig( opModeName: String, variant: String )
 {
-    getOpModeConfig( opModeName, variant ); // ensure it exists
+    getOpModeConfig( opModeName, variant ).i( "$opModeName active variant is now $variant" ); // ensure it exists
     activeVariants[ opModeName ] = variant; // mark the active variant
 }
 
