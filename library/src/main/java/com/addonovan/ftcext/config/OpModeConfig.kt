@@ -112,7 +112,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
      * The nullable variant of the other [get]s, this accepts no default parameter,
      * and thus must use type generics to determine what type of value to return.
      * Possible types for the generics are the same as they are for the other
-     * get/set methods: [String], [Int], [Long], [Double], [Boolean]. Trying
+     * get/set methods: [String], [Long], [Double], [Boolean]. Trying
      * to use any other types will result in a runtime exception.
      *
      * @return The value of key in the OpModeConfig, or `null` if there is none.
@@ -131,7 +131,6 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
         {
             // supported data types
             String::class.java  -> return string             as T;
-            Int::class.java     -> return string.toInt()     as T;
             Long::class.java    -> return string.toLong()    as T;
             Double::class.java  -> return string.toDouble()  as T;
             Boolean::class.java -> return string.toBoolean() as T;
@@ -140,7 +139,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
             {
                 e( "get< ${tClass.name} >( $key ):" );
                 e( "  Illegal generic type: ${tClass.simpleName} (${tClass.canonicalName})" );
-                e( "  Valid types are String, int, long, double, boolean" );
+                e( "  Valid types are String, long, double, boolean" );
 
                 throw IllegalArgumentException( "Invalid generic type: ${tClass.simpleName}!" );
             }
@@ -149,14 +148,12 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
 
     // Non-nullable Gets
     operator fun get( key: String, default: String )  = dataMap[ key ]              ?: default;
-    operator fun get( key: String, default: Int )     = dataMap[ key ]?.toInt()     ?: default;
     operator fun get( key: String, default: Long )    = dataMap[ key ]?.toLong()    ?: default;
     operator fun get( key: String, default: Double )  = dataMap[ key ]?.toDouble()  ?: default;
     operator fun get( key: String, default: Boolean ) = dataMap[ key ]?.toBoolean() ?: default;
 
     // Sets
     operator fun set( key: String, value: String )  { dataMap[ key ] = value;            }
-    operator fun set( key: String, value: Int )     { dataMap[ key ] = value.toString(); }
     operator fun set( key: String, value: Long )    { dataMap[ key ] = value.toString(); }
     operator fun set( key: String, value: Double )  { dataMap[ key ] = value.toString(); }
     operator fun set( key: String, value: Boolean ) { dataMap[ key ] = value.toString(); }
