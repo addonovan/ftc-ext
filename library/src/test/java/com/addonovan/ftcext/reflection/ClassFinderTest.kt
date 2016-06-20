@@ -16,15 +16,6 @@ import org.junit.Test
 class ClassFinderTest
 {
 
-    @Before
-    fun setup()
-    {
-        // dirty little hacks because there's no context or dexfile when we're testing this
-        System.setProperty( "user.dir", "${System.getProperty( "user.dir" )}/build/intermediates/classes/test/debug/com/addonovan/ftcext/reflection" );
-        System.setProperty( "ftcext.debugging", "true" );
-        System.setProperty( "ftcext.debugging.cppackage", "com.addonovan.ftcext.reflection" );
-    }
-
     @Test
     fun testWith()
     {

@@ -1,5 +1,6 @@
 package com.addonovan.ftcext.config
 
+import android.app.Fragment
 import android.os.Bundle
 import android.preference.*
 import com.addonovan.ftcext.*
@@ -183,14 +184,12 @@ class OpModeListPreference : PreferenceFragment()
             opModeScreen.title = name;
             opModeScreen.setOnPreferenceClickListener {
 
-                val fragment = VariantListPreference();
-                fragment.Name = name;
-                fragment.Class = clazz;
+                currentOpMode = Pair( name, clazz );
 
                 // switch to the new fragment
-                fragmentManager.beginTransaction().replace( android.R.id.content, fragment ).commit();
+                fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
 
-                true;
+                true; // click handeled
             };
 
             opModeList.addPreference( opModeScreen );
@@ -199,45 +198,61 @@ class OpModeListPreference : PreferenceFragment()
 
 }
 
+/** Storage for the VariantListPreference fragment. */
+private var currentOpMode: Pair< String, Class< out AbstractOpMode > >? = null;
+
 class VariantListPreference : PreferenceFragment()
 {
 
-    var Name: String? = null;
-
-    var Class: Class< out AbstractOpMode >? = null;
+    private val opMode by lazy()
+    {
+        currentOpMode!!;
+    }
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
-        addPreferencesFromResource( R.xml.prefs_variant_list);
+        addPreferencesFromResource( R.xml.prefs_variant_list );
 
-        preferenceScreen.title = "$Name Variants";
+        // add action for clicking activate variant
+        val chooseVariant = findPreference( "choose_variant" ) as ListPreference;
+        chooseVariant.setOnPreferenceClickListener { selectActiveVariant(); true; };
 
+        // add action for creating a variant
+        val createVariant = findPreference( "create_variant" ) as EditTextPreference;
+        createVariant.setOnPreferenceChangeListener { preference, value -> addVariant( value as String ); };
+        createVariant.text = ""; // it should always be blank
+
+        // the category for variants
         val variantList = findPreference( "variant_list" ) as PreferenceCategory;
 
-        // add the ConfigurableListPreferences
-        for ( variant in getOpModeConfigs( Name!! ) )
+        for ( config in getOpModeConfigs( opMode.first ) )
         {
             val variantScreen = preferenceManager.createPreferenceScreen( activity );
-            variantScreen.title = variant.Variant;
+            variantScreen.title = config.Variant;
 
-            // TODO add VariantPreferences fragments on press
+            // TODO add variant configuration
 
             variantList.addPreference( variantScreen );
         }
     }
 
-}
-
-class VariantPreferences : PreferenceFragment()
-{
-
-    override fun onCreate( savedInstanceState: Bundle? )
+    private fun selectActiveVariant()
     {
-        super.onCreate( savedInstanceState );
-        addPreferencesFromResource( R.xml.prefs_variant);
 
-        // add the preferences
+    }
+
+    private fun addVariant( name: String ): Boolean
+    {
+        if ( name.isBlank() || name == "default" ) return false; // the name isn't acceptable
+
+        getOpModeConfig( opMode.first, name ); // create the variant entry
+        currentOpMode = opMode; // just to be sure
+
+        // restart the fragment to handle the new variant
+        fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
+
+        return true; // the preference can be updated
     }
 
 }

@@ -4,14 +4,15 @@
     <PreferenceCategory
         android:title="General">
 
-        <PreferenceScreen
-            android:key="activate_variant"
+        <ListPreference
+            android:key="choose_variant"
             android:title="Select Active Variant">
 
-        </PreferenceScreen>
+        </ListPreference>
 
         <EditTextPreference
             android:key="create_variant"
+            android:defaultValue=""
             android:title="Create new variant"/>
 
     </PreferenceCategory>

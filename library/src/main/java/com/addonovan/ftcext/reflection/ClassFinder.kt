@@ -101,7 +101,7 @@ class ClassFinder()
 private val blackList: LinkedHashSet< String > =
         linkedSetOf( "com.google", "com.android", "dalvik", "android", // android packages
                      "java", "kotlin",                                 // language packages
-                     "com.ftdi" );                                     // FTC packages
+                     "com.ftdi" );                                     // some FTC packages
 
 /**
  * The base classes that every ClassFinder is based off of
@@ -134,7 +134,7 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
 
             result.add( c );
         }
-        catch ( e: Throwable ) // now catches everything!
+        catch ( e: Exception )
         {
             // then this class wasn't instantiable, so don't bother doing anything
         }
