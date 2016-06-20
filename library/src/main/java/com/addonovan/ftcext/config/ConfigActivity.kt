@@ -54,17 +54,30 @@ class ConfigActivity : AppCompatActivity()
 
 }
 
+/**
+ * A custom type of preference fragment that holds a little bit of extra data and
+ * supplies a way to change the title in the toolbar and also registers the
+ * fragment as the [ConfigActivity.CurrentFragment] when created.
+ */
 abstract class CustomPreferenceFragment : PreferenceFragment()
 {
 
     /** The fragment for the next level up. */
     abstract val SuperFragment: PreferenceFragment?;
 
+    //
+    // Activity Overrides
+    //
+
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
         ( activity as ConfigActivity ).CurrentFragment = this; // register this with the activity so it can handle back presses
     }
+
+    //
+    // Actions
+    //
 
     /**
      * Sets the title in the toolbar to the given text.
@@ -80,11 +93,23 @@ abstract class CustomPreferenceFragment : PreferenceFragment()
 
 }
 
+//
+// OpMode List
+//
 
+/**
+ * A list of the opmodes. When a user clicks on one, it switches
+ * to the [VariantListPreference] to edit the variants.
+ */
 class OpModeListPreference : CustomPreferenceFragment()
 {
 
+    /** There is no fragment above this. */
     override val SuperFragment = null;
+
+    //
+    // Activity Overrides
+    //
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
@@ -116,20 +141,37 @@ class OpModeListPreference : CustomPreferenceFragment()
 
 }
 
-
+//
+// OpMode Editor
+//
 
 /** Storage for the VariantListPreference fragment. */
 private var currentOpModeName: String? = null;
 
+/**
+ * Lists all the variants of the opmode and allows the user
+ * to edit a variant as well as create new ones and change
+ * the active one.
+ */
 class VariantListPreference : CustomPreferenceFragment()
 {
 
+    //
+    // Vals
+    //
+
+    /** We just go back to the OpMode list. */
     override val SuperFragment = OpModeListPreference();
 
+    /** The name of the opmode we're editing. */
     private val opModeName by lazy()
     {
         currentOpModeName!!;
     }
+
+    //
+    // Activity Overrides
+    //
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
@@ -137,7 +179,6 @@ class VariantListPreference : CustomPreferenceFragment()
         addPreferencesFromResource( R.xml.prefs_variant_list );
 
         setTitle( "$opModeName Variants" );
-
         val configs = getOpModeConfigs( opModeName ); // all the configurations for the opmode
 
         // add action for clicking activate variant
@@ -179,6 +220,10 @@ class VariantListPreference : CustomPreferenceFragment()
         }
     }
 
+    //
+    // Actions
+    //
+
     /**
      * Adds a new variant to the list of configurations.
      *
@@ -213,13 +258,22 @@ class VariantListPreference : CustomPreferenceFragment()
 
 }
 
-
+//
+// Actual Configuration
+//
 
 /** Storage for the VariantConfigPReference fragment. */
 private var currentVariant: OpModeConfig? = null;
 
+/**
+ * Configures a specific variant's variables acoording to their presumed types.
+ */
 class VariantConfigPreference : CustomPreferenceFragment()
 {
+
+    //
+    // Vals
+    //
 
     override val SuperFragment by lazy()
     {
@@ -232,6 +286,10 @@ class VariantConfigPreference : CustomPreferenceFragment()
     {
         currentVariant!!;
     }
+
+    //
+    // Activity overrides
+    //
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
@@ -334,6 +392,10 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
         setActiveConfig( name, realActiveVariant ); // undo our cheat
     }
+
+    //
+    // Actions
+    //
 
     private fun guessType( value: String ): Any
     {
