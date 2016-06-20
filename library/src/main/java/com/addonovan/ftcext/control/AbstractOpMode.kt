@@ -213,65 +213,42 @@ abstract class AbstractOpMode()
     // Device Fetching
     //
 
-    /** All the different types of DeviceMappings in the hardware map */
-    private val hardwareMaps by lazy()
+    private final fun < T > getDevice( name: String, map: HardwareMap.DeviceMapping< T > ): T
     {
-        FieldFinder( hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
-    }
-
-    /**
-     * The map of cached device mappings. Awful name for it, I know.
-     * The key is the class in the generics of the value, i.e.
-     * `deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >`
-     */
-    private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
-
-    /**
-     * Finds the device with the given name in the correct device mapping based off of
-     * the type parameters. For example:
-     *
-     * `private final DcMotor left_motor = getDevice< DcMotor >( "left_motor" );`
-     *
-     * instead of
-     *
-     * `private final DcMotor left_motor = getHardwareMap().dcMotor.get( "left_motor" );`
-     *
-     * On top of being (ever-so-slightly) shorter, this replaces multiple different
-     * method and field calls (i.e. [hardwareMap.dcMotor], [hardwareMap.irSeekerSensor], etc),
-     * and ensures that the device will never be `null`, because this method will error
-     * immediately on class initialization if it is, instead of whenever the first
-     * methods are invoked on it.
-     *
-     * @param[name]
-     *          The name of the hardware device.
-     * @return The device with the given name and the specified type (via type parameters).
-     *
-     * @throws IllegalArgumentException
-     *          If the given name didn't have a connected value or if the device type given
-     *          via type generics was invalid.
-     */
-    @Suppress( "unchecked_cast" )
-    final fun < T : HardwareDevice > getDevice( name: String ): T
-    {
-        // this is the best way I can do it...
-        for ( hardwareMapField in hardwareMaps )
+        if ( inConfig )
         {
-            val hardwareMap = hardwareMapField.get( hardwareMap ) as HardwareMap.DeviceMapping< * >;
-
-            // get the backing HashMap from the hardwareMap, named "a"
-            val backingMapField = hardwareMap.javaClass.getDeclaredField( "a" );
-            backingMapField.isAccessible = true;
-            val backingMap = backingMapField.get( hardwareMap ) as Map< String, * >; // I know this to be true, view the source if you doubt me
-
-            try
-            {
-                return backingMap[ name ] as T; // try to get the device out of the map and cast it
-            }
-            // if that failed, then we're at the wrong map or there was no device by the name
-            catch ( e: Exception ) {};
+            // TODO if in config thing goes here
         }
 
-        throw IllegalArgumentException( "Invalid device name and/or HardwareDevice type!" );
+        return map[ name ];
     }
 
+    final fun getMotorcontroller( name: String ) = getDevice( name, hardwareMap.dcMotorController );
+    final fun getMotor( name: String )           = getDevice( name, hardwareMap.dcMotor );
+
+    final fun getServoController( name: String ) = getDevice( name, hardwareMap.servoController );
+    final fun getServo( name: String )           = getDevice( name, hardwareMap.servo );
+
+    final fun getLegacyModule( name: String )          = getDevice( name, hardwareMap.legacyModule );
+    final fun getDeviceInterfaceModule( name: String ) = getDevice( name, hardwareMap.deviceInterfaceModule );
+
+    final fun getAnalogInput( name: String )    = getDevice( name, hardwareMap.analogInput );
+    final fun getAnalogOutput( name: String )   = getDevice( name, hardwareMap.analogOutput );
+    final fun getDigitalChannel( name: String ) = getDevice( name, hardwareMap.digitalChannel );
+    final fun getPwmOutput( name: String )      = getDevice( name, hardwareMap.pwmOutput );
+    final fun getI2CDevice( name: String )      = getDevice( name, hardwareMap.i2cDevice );
+
+    final fun getOpticalDistanceSensor( name: String ) = getDevice( name, hardwareMap.opticalDistanceSensor );
+    final fun getTouchSensor( name: String )           = getDevice( name, hardwareMap.touchSensor );
+    final fun getColorSensor( name: String )           = getDevice( name, hardwareMap.colorSensor );
+    final fun getAccelerationSensor( name: String )    = getDevice( name, hardwareMap.accelerationSensor );
+    final fun getCompassSensor( name: String )         = getDevice( name, hardwareMap.compassSensor );
+    final fun getGyroSensor( name: String )            = getDevice( name, hardwareMap.gyroSensor );
+    final fun getIrSensor( name: String )              = getDevice( name, hardwareMap.irSeekerSensor );
+    final fun getLightSensor( name: String )           = getDevice( name, hardwareMap.lightSensor );
+    final fun getUltrasonicSensor( name: String )      = getDevice( name, hardwareMap.ultrasonicSensor );
+    final fun getVoltageSensor( name: String )         = getDevice( name, hardwareMap.voltageSensor );
+
+    final fun getTouchSensorMultiplexer( name: String ) = getDevice( name, hardwareMap.touchSensorMultiplexer );
+    final fun getLED( name: String )                    = getDevice( name, hardwareMap.led );
 }
