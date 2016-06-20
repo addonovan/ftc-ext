@@ -246,66 +246,32 @@ abstract class AbstractOpMode()
      *          The name of the hardware device.
      * @return The device with the given name and the specified type (via type parameters).
      *
-     * @throws NullPointerException
-     *          If no hardware device with the given name could be found.
      * @throws IllegalArgumentException
-     *          If the generic type wasn't a supported type in the hardware map.
+     *          If the given name didn't have a connected value or if the device type given
+     *          via type generics was invalid.
      */
+    @Suppress( "unchecked_cast" )
     final fun < T : HardwareDevice > getDevice( name: String ): T
     {
-        val type = getGenericType( ArrayList< T >() ); // oh god, this is such a hack
-
-        // TODO figure out a way to skip this and return a bullshit value if inConfig
-
-        return getDeviceMapping< T >( type )[ name ]!!; // find the correct map, then return the value at "name"
-    }
-
-    /**
-     * Gets the correct [HardwareMap.DeviceMapping] for the given type.
-     *
-     * @param[type]
-     *          The class type (in reality, it's the class of `T`, but that's not checked).
-     * @return The correct [HardwareMap.DeviceMapping] for type `T`.
-     *
-     * @throws IllegalArgumentException
-     *          If the generic type wasn't a supported type in the hardware map.
-     */
-    @Suppress( "unchecked_cast" ) // the cast is checked via reflections
-    private fun < T > getDeviceMapping( type: Class< * > ): HardwareMap.DeviceMapping< T >
-    {
-        // if we've already found the device mapping before, just look it up
-        if ( deviceMappingMap.containsKey( type ) )
+        // this is the best way I can do it...
+        for ( hardwareMapField in hardwareMaps )
         {
-            return deviceMappingMap[ type ] as HardwareMap.DeviceMapping< T >; // this should be ensured by how the data is entered into the map
-        }
+            val hardwareMap = hardwareMapField.get( hardwareMap ) as HardwareMap.DeviceMapping< * >;
 
-        // search for the correct hardware map manually
-        for ( field in hardwareMaps )
-        {
-            val deviceMapping = field.get( hardwareMap ) as HardwareMap.DeviceMapping< * >; // find the specific map for this OpMode
+            // get the backing HashMap from the hardwareMap, named "a"
+            val backingMapField = hardwareMap.javaClass.getDeclaredField( "a" );
+            backingMapField.isAccessible = true;
+            val backingMap = backingMapField.get( hardwareMap ) as Map< String, * >; // I know this to be true, view the source if you doubt me
 
-            // if you didn't want to see hacks, you shouldn't've come here :/
-
-            // find the data-backing hashmap's field
-            val mapField = deviceMapping.javaClass.getDeclaredField( "a" );
-            mapField.isAccessible = true; // force it to be accessible
-
-            // get the value of the field
-            val map = mapField.get( deviceMapping ) as HashMap< String, * >;
-
-            // if the type of the map is the same one as the one we're given
-            if ( getGenericType( map.values ).isAssignableFrom( type ) )
+            try
             {
-                val value = deviceMapping as HardwareMap.DeviceMapping< T >;
-                deviceMappingMap[ type ] = value; // cache it in the map so we don't have to do this loop again
-                return value;
+                return backingMap[ name ] as T; // try to get the device out of the map and cast it
             }
+            // if that failed, then we're at the wrong map or there was no device by the name
+            catch ( e: Exception ) {};
         }
 
-        // doing this ensures that we'll never have to check for null types anywhere!
-        // also, if it somehow gets to this, the user is an idiot anyways, and needs
-        // to immediately see that it fails.
-        throw IllegalArgumentException( "No hardware map available for type ${type.simpleName}" );
+        throw IllegalArgumentException( "Invalid device name and/or HardwareDevice type!" );
     }
 
 }

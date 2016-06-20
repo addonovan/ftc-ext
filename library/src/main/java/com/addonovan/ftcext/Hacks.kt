@@ -43,9 +43,12 @@ import java.util.*
  *
  * @param[thing]
  *          The generic object to get the type parameter from.
+ * @param[argument]
+ *          The generic argument to get, by default it's 0.
+ *
  * @return The type parameter of the object.
  */
-fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ 0 ].javaClass;
+fun getGenericType( thing: Any, argument: Int = 0 ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ argument ].javaClass;
 
 /**
  * The current application context.
