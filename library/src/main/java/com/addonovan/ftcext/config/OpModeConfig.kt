@@ -57,11 +57,6 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     //
 
     /**
-     * Clears the configuration so that old values are ignored.
-     */
-    fun clear() = dataMap.clear();
-
-    /**
      * Activates this configuration.
      */
     fun activate() = setActiveConfig( OpModeName, Variant );
@@ -117,49 +112,6 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     //
     // Operator Overloads
     //
-
-    /**
-     * The nullable variant of the other [get]s, this accepts no default parameter,
-     * and thus must use type generics to determine what type of value to return.
-     * Possible types for the generics are the same as they are for the other
-     * get/set methods: [String], [Long], [Double], [Boolean]. Trying
-     * to use any other types will result in a runtime exception.
-     *
-     * @return The value of key in the OpModeConfig, or `null` if there is none.
-     *
-     * @throws IllegalArgumentException
-     *          If an unsupported type was passed via the generics.
-     */
-    @Suppress( "unchecked_cast" )
-    operator fun < T > get( key: String ): T?
-    {
-        val string = dataMap[ key ] ?: return null;
-        val tClass = getGenericType( ArrayList< T >() ); // this hack again (see: AbstractOpMode.getDevice< T >)
-
-        // unchecked casts in here are checked via reflections
-        when ( tClass )
-        {
-            // supported data types
-            String::class.java  -> return string             as T;
-            Long::class.java    -> return string.toLong()    as T;
-            Double::class.java  -> return string.toDouble()  as T;
-            Boolean::class.java -> return string.toBoolean() as T;
-
-            else ->
-            {
-                e( "get< ${tClass.name} >( $key ):" );
-                e( "  Illegal generic type: ${tClass.simpleName} (${tClass.canonicalName})" );
-                e( "  Valid types are String, long, double, boolean" );
-
-                throw IllegalArgumentException( "Invalid generic type: ${tClass.simpleName}!" );
-            }
-        }
-    }
-
-    /**
-     * Direct access to the backing data map.
-     */
-    internal operator fun get( key: String ) = dataMap[ key ];
 
     // Non-nullable Gets
     operator fun get( key: String, default: String )  = dataMap[ key ]              ?: set( key, default );
