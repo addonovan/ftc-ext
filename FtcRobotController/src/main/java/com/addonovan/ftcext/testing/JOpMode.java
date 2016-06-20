@@ -21,7 +21,7 @@ public class JOpMode extends OpMode
     @Override
     public void loop()
     {
-
+        
     }
 
     @Override
