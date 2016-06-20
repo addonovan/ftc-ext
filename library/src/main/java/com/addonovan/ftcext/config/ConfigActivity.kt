@@ -322,42 +322,46 @@ class VariantConfigPreference : CustomPreferenceFragment()
         setDefaults();
 
         val configList = findPreference( "config_list" ) as PreferenceCategory;
-        val config = variant.dataMap;
+        val config = variant.getData();
 
         // iterate over the values
         for ( ( key, value ) in config )
         {
-            val inType = guessType( value );
-
             var preference: Preference;
 
             // create the specific type of preference based on what was returned by guessType()
-            if ( inType is Boolean )
+            if ( value is Boolean )
             {
                 preference = CheckBoxPreference( activity );
-                preference.isChecked = inType;
+                preference.isChecked = value;
             }
-            else if ( inType is Long || inType is Double )
+            else if ( value is Long || value is Double )
             {
                 preference = EditTextPreference( activity );
                 // TODO force only some characters to be allowed
-                preference.text = inType.toString();
+                preference.text = value.toString();
             }
             else
             {
                 preference = EditTextPreference( activity );
-                preference.text = inType.toString();
+                preference.text = value.toString();
             }
 
             preference.title =
-                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
+                    if ( value !is Boolean ) "$key (= $value)";
                     else                      key;
 
 
-            preference.setOnPreferenceChangeListener { preference, value ->
-                config[ key ] = value.toString();
+            preference.setOnPreferenceChangeListener { preference, newValue ->
 
-                if ( value !is Boolean ) preference.title = "$key (= $value)";
+                // allows the compiler to resolve which overload I'm calling
+                if ( newValue is Long )    variant[ key ] = newValue;
+                if ( newValue is Double )  variant[ key ] = newValue;
+                if ( newValue is Boolean ) variant[ key ] = newValue;
+                if ( newValue is String )  variant[ key ] = newValue;
+
+
+                if ( newValue !is Boolean ) preference.title = "$key (= $newValue)";
 
                 true;
             };
@@ -391,23 +395,6 @@ class VariantConfigPreference : CustomPreferenceFragment()
         }
 
         setActiveConfig( name, realActiveVariant ); // undo our cheat
-    }
-
-    //
-    // Actions
-    //
-
-    private fun guessType( value: String ): Any
-    {
-        // try to cast it numerically, in order from least to most restrictive
-        try { return value.toDouble(); } catch ( e: Exception ) {}
-        try { return value.toLong(); } catch ( e: Exception ) {}
-
-        // if it's true or false, it's a boolean
-        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
-
-        // it's a string
-        return value;
     }
 
 }

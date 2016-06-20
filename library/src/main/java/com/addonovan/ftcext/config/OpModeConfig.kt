@@ -7,6 +7,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
 import java.util.*
+import kotlin.reflect.KClass
 
 /**
  * TODO OpModeConfig documentation
@@ -181,6 +182,32 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     {
         stringMap[ key ] = value;
         return value;
+    }
+
+    //
+    // Get map
+    //
+
+    /**
+     * Gets all the entries in the data maps as an alphabetically ordered
+     * list by key name.
+     *
+     * @return A list of all key-value pairs in this config, sorted alphabetically
+     *         by their key.
+     */
+    internal fun getData(): ArrayList< Pair< String, Any > >
+    {
+        val list = ArrayList< Pair< String, Any > >();
+
+        for ( ( key, value ) in longMap )    list += Pair( key, value );
+        for ( ( key, value ) in doubleMap )  list += Pair( key, value );
+        for ( ( key, value ) in booleanMap ) list += Pair( key, value );
+        for ( ( key, value ) in stringMap )  list += Pair( key, value );
+
+        // sort the list alphabetically by the key in each pair
+        Collections.sort( list, { pair1, pair2 -> pair1.first.compareTo( pair2.first ); } );
+
+        return list;
     }
 
 }
