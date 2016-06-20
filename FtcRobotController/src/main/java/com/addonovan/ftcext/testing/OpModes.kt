@@ -10,8 +10,8 @@ class OpMode1() : OpMode()
     val motorSpeed = get( "motor_speed", 1.0 );
     val timeLength = get( "time_length", 1 );
 
-    val motor_left = getMotor( "motor_left" );
-    val motor_right = getMotor( "motor_right" );
+    val motor_left = motor( "motor_left" );
+    val motor_right = motor( "motor_right" );
 
     override fun init(){}
     override fun loop(){}

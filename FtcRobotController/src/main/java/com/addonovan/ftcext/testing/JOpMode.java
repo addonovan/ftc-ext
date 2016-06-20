@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class JOpMode extends OpMode
 {
 
-    private DcMotor motor_left = getMotor( "motor_left" );
+    private DcMotor motor_left = motor( "motor_left" );
 
     @Override
     public void loop()
