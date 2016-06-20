@@ -158,10 +158,10 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     operator fun get( key: String, default: Boolean ) = dataMap[ key ]?.toBoolean() ?: set( key, default );
 
     // Sets
-    operator fun set( key: String, value: String )  = dataMap.put( key, value );
-    operator fun set( key: String, value: Long )    = dataMap.put( key, value.toString() );
-    operator fun set( key: String, value: Double )  = dataMap.put( key, value.toString() );
-    operator fun set( key: String, value: Boolean ) = dataMap.put( key, value.toString() );
+    operator fun set( key: String, value: String )  = dataMap.put( key, value ) as String;
+    operator fun set( key: String, value: Long )    = set( key, value.toString() ).toLong();
+    operator fun set( key: String, value: Double )  = set( key, value.toString() ).toDouble();
+    operator fun set( key: String, value: Boolean ) = set( key, value.toString() ).toBoolean();
 
 }
 
