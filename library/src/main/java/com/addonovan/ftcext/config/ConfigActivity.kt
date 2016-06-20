@@ -2,8 +2,8 @@ package com.addonovan.ftcext.config
 
 import android.os.Bundle
 import android.preference.*
-import android.util.Log
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.control.AbstractOpMode
 import com.addonovan.ftcext.control.OpModes
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -17,121 +17,227 @@ class ConfigActivity : PreferenceActivity()
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
-        addPreferencesFromResource( R.xml.opmode_preferences );
+        System.setProperty( "ftcext.inconfig", "true" ); // makes sure some errors don't happen
+        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), FalseHardwareMap( this ) ); // spoof hardware info
 
-        System.setProperty( "ftcext.inconfig", "true" ); // disable the flag
-        val opModeList = findPreference( getString( R.string.pref_opmodes ) ) as PreferenceCategory;
-        addOpModes( opModeList );
-        System.setProperty( "ftcext.inconfig", "false" ); // disable the flag
+        // add the main fragment then let it sort it out from here
+        fragmentManager.beginTransaction().replace( android.R.id.content, OpModeListPreference() ).commit();
+
+        System.setProperty( "ftcext.inconfig", "false" ); // unset the flag
     }
 
-    private fun addOpModes( list: PreferenceCategory )
+//    private fun createOpModesScreen()
+//    {
+//        val opModeCategory = findPreference( getString( R.string.pref_opmodes ) ) as PreferenceCategory;
+//
+//        // create teh subsection for the opmode
+//        for ( opMode in getOpModeNames() )
+//        {
+//            val opModePref = preferenceManager.createPreferenceScreen( this );
+//            opModePref.title = opMode;
+//
+//            createVariantsScreen( opModePref, opMode );
+//
+//            opModeCategory.addPreference( opModePref );
+//        }
+//    }
+//
+//    private fun createVariantsScreen( opModePref: PreferenceScreen, opMode: String )
+//    {
+//        val variants = getOpModeConfigs( opMode );
+//
+//        // create the general actions section
+//        val generalCategory = PreferenceCategory( this );
+//        generalCategory.title = "General";
+//
+//        // create the menu to delete a variant
+//        val deleteVariant = ListPreference( this );
+//        deleteVariant.title = "Delete a variant";
+//        deleteVariant.entries = Array( variants.size, { i -> variants[ i ].Variant } );
+//        generalCategory.addPreference( deleteVariant );
+//
+//        // create the action to create a variant
+//        val createVariant = EditTextPreference( this );
+//        createVariant.title = "Create a new variant";
+//        createVariant.setOnPreferenceChangeListener { preference, value ->
+//
+//            getOpModeConfig( opMode, value.toString() );
+//
+//            // reload this screen
+//            opModePref.removeAll();
+//            createVariantsScreen( opModePref, opMode );
+//
+//            true;
+//        };
+//        generalCategory.addPreference( createVariant );
+//
+//        val changeActiveVariant = ListPreference( this );
+//        changeActiveVariant.title = "Change active variant";
+//        changeActiveVariant.entries = Array( variants.size, { i -> variants[ i ].Variant } );
+//        generalCategory.addPreference( changeActiveVariant );
+//
+//        // actual stuff
+//
+//        val variantsCategory = PreferenceCategory( this );
+//        variantsCategory.title = "Variants";
+//
+//        val activeVariant = getActiveVariant( opMode );
+//        for ( variant in variants )
+//        {
+//            val variantPref = preferenceManager.createPreferenceScreen( this );
+//            variantPref.title = variant.Variant;
+//
+//            createConfigurablesScreen( variantPref, variant );
+//
+//            variantsCategory.addPreference( variantPref );
+//        }
+//        setActiveConfig( opMode, activeVariant ); // reset the active variant
+//    }
+//
+//    private fun createConfigurablesScreen( variantPref: PreferenceScreen, config: OpModeConfig )
+//    {
+//        setActiveConfig( config.OpModeName, config.Variant ); // force this to be the active one
+//
+//        // create the op mode to fill in the blanks
+//        try
+//        {
+//            OpModes[ config.OpModeName ]!!.newInstance();
+//        }
+//        catch ( e: Exception )
+//        {
+//            Log.i( "ftcext.ConfigActivity",
+//                    "Encountered a(n) ${e.javaClass.simpleName} when created ${config.OpModeName}",
+//                    e );
+//        }
+//
+//        for ( ( key, value ) in config.dataMap )
+//        {
+//            val inType = guessType( value );
+//
+//            var preference: Preference;
+//
+//            // create the specific type of preference based on what was returned by guessType()
+//            if ( inType is Boolean )
+//            {
+//                preference = CheckBoxPreference( this );
+//                preference.isChecked = inType;
+//            }
+//            else if ( inType is Long || inType is Double )
+//            {
+//                preference = EditTextPreference( this );
+//                // TODO force only some characters to be allowed
+//                preference.text = inType.toString();
+//            }
+//            else
+//            {
+//                preference = EditTextPreference( this );
+//                preference.text = inType.toString();
+//            }
+//
+//            preference.title =
+//                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
+//                    else                      key;
+//
+//
+//            preference.setOnPreferenceChangeListener { preference, value ->
+//                config[ key ] = value.toString();
+//
+//                if ( value !is Boolean ) preference.title = "$key (= $value)";
+//
+//                true;
+//            };
+//
+//            variantPref.addPreference( preference ); // add the preference
+//        }
+//    }
+//
+//    private fun guessType( value: String ): Any
+//    {
+//        // try to cast it numerically, in order from least to most restrictive
+//        try { return value.toDouble(); } catch ( e: Exception ) {}
+//        try { return value.toLong(); } catch ( e: Exception ) {}
+//
+//        // if it's true or false, it's a boolean
+//        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
+//
+//        // it's a string
+//        return value;
+//    }
+
+}
+
+class OpModeListPreference : PreferenceFragment()
+{
+
+    override fun onCreate( savedInstanceState: Bundle? )
     {
-        for ( opMode in getOpModeNames() )
+        super.onCreate( savedInstanceState );
+        addPreferencesFromResource( R.xml.prefs_opmode_list);
+
+        val opModeList = findPreference( "opmode_list" ) as PreferenceCategory;
+
+        // add the VariantListPreferences
+        for ( ( name, clazz ) in OpModes )
         {
-            val subScreen = preferenceManager.createPreferenceScreen( this );
-            subScreen.title = opMode;
+            val opModeScreen = preferenceManager.createPreferenceScreen( activity );
+            opModeScreen.title = name;
+            opModeScreen.setOnPreferenceClickListener {
 
-            val variantList = PreferenceCategory( this );
-            variantList.title = "$opMode Configuration Variants";
-            subScreen.addPreference( variantList );
+                val fragment = VariantListPreference();
+                fragment.Name = name;
+                fragment.Class = clazz;
 
-            addVariants( variantList, opMode );
-
-            list.addPreference( subScreen );
-        }
-    }
-
-    private fun addVariants( list: PreferenceCategory, opMode: String )
-    {
-        for ( variant in getOpModeConfigs( opMode ) )
-        {
-            val subScreen = preferenceManager.createPreferenceScreen( this );
-            subScreen.title = variant.Variant;
-
-            // TODO add opmode configurables
-            val configurableList = PreferenceCategory( this );
-            configurableList.title = "$opMode (${variant.Variant} variant) Settings";
-            subScreen.addPreference( configurableList );
-
-            val activeVariant = getActiveVariant( opMode );
-            addConfigurables( configurableList, variant );
-            setActiveConfig( opMode, activeVariant ); // reset the active variant to the real one
-
-            list.addPreference( subScreen );
-        }
-    }
-
-    private fun addConfigurables( list: PreferenceCategory, config: OpModeConfig )
-    {
-        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), FalseHardwareMap( this ) );
-
-        setActiveConfig( config.OpModeName, config.Variant ); // set this to be the active config so it gets used
-
-        // instantiate the opmode so that the config has all of the values
-        try
-        {
-            v( "Instantiating ${config.OpModeName} for configuration" );
-            OpModes[ config.OpModeName ]!!.newInstance();
-        }
-        catch ( e: Exception )
-        {
-            v( "Encountered a(n) ${e.javaClass.simpleName} when instantiated ${config.OpModeName}" );
-            Log.e( "ftcext.ConfigActivity", "a", e );
-        }
-
-        for ( ( key, value ) in config.dataMap )
-        {
-            val inType = guessType( value );
-
-            var preference: Preference;
-
-            // create the specific type of preference based on what was returned by guessType()
-            if ( inType is Boolean )
-            {
-                preference = CheckBoxPreference( this );
-                preference.isChecked = inType;
-            }
-            else if ( inType is Long || inType is Double )
-            {
-                preference = EditTextPreference( this );
-                // TODO force only some characters to be allowed
-                preference.text = inType.toString();
-            }
-            else
-            {
-                preference = EditTextPreference( this );
-                preference.text = inType.toString();
-            }
-
-            preference.title =
-                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
-                    else                      key;
-
-
-            preference.setOnPreferenceChangeListener { preference, value ->
-                config[ key ] = value.toString();
-
-                if ( value !is Boolean ) preference.title = "$key (= $value)";
+                // switch to the new fragment
+                fragmentManager.beginTransaction().replace( android.R.id.content, fragment ).commit();
 
                 true;
             };
 
-            list.addPreference( preference ); // add the preference
+            opModeList.addPreference( opModeScreen );
         }
     }
 
-    private fun guessType( value: String ): Any
+}
+
+class VariantListPreference : PreferenceFragment()
+{
+
+    var Name: String? = null;
+
+    var Class: Class< out AbstractOpMode >? = null;
+
+    override fun onCreate( savedInstanceState: Bundle? )
     {
-        // try to cast it numerically, in order from least to most restrictive
-        try { return value.toDouble(); } catch ( e: Exception ) {}
-        try { return value.toLong(); } catch ( e: Exception ) {}
+        super.onCreate( savedInstanceState );
+        addPreferencesFromResource( R.xml.prefs_variant_list);
 
-        // if it's true or false, it's a boolean
-        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
+        preferenceScreen.title = "$Name Variants";
 
-        // it's a string
-        return value;
+        val variantList = findPreference( "variant_list" ) as PreferenceCategory;
+
+        // add the ConfigurableListPreferences
+        for ( variant in getOpModeConfigs( Name!! ) )
+        {
+            val variantScreen = preferenceManager.createPreferenceScreen( activity );
+            variantScreen.title = variant.Variant;
+
+            // TODO add VariantPreferences fragments on press
+
+            variantList.addPreference( variantScreen );
+        }
+    }
+
+}
+
+class VariantPreferences : PreferenceFragment()
+{
+
+    override fun onCreate( savedInstanceState: Bundle? )
+    {
+        super.onCreate( savedInstanceState );
+        addPreferencesFromResource( R.xml.prefs_variant);
+
+        // add the preferences
     }
 
 }

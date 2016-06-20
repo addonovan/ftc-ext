@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title= "General">
+
+        <PreferenceScreen
+            android:title="Delete this variant"
+            android:id="@+id/prefs_delete_variant">
+
+            <!-- When clicked, a dialog will pop up to confirm deletion -->
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Preferences"
+        android:id="@+id/prefs_config_list">
+
+        <!-- Populated programmatically -->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

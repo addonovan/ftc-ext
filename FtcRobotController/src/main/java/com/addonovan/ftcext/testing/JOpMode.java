@@ -1,8 +1,10 @@
 package com.addonovan.ftcext.testing;
 
 import com.addonovan.ftcext.control.OpMode;
+import com.addonovan.ftcext.control.Register;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+@Register( name = "JOpMode" )
 public class JOpMode extends OpMode
 {
 
@@ -21,7 +23,7 @@ public class JOpMode extends OpMode
     @Override
     public void loop()
     {
-        
+
     }
 
     @Override
