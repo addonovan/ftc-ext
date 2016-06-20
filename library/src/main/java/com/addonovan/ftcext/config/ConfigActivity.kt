@@ -1,10 +1,9 @@
 package com.addonovan.ftcext.config
 
-import android.app.Fragment
 import android.os.Bundle
 import android.preference.*
+import android.support.v7.app.AppCompatActivity
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.control.AbstractOpMode
 import com.addonovan.ftcext.control.OpModes
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -12,7 +11,7 @@ import com.qualcomm.robotcore.robocol.Telemetry
 /**
  * The activity used to edit and create new OpMode configurations.
  */
-class ConfigActivity : PreferenceActivity()
+class ConfigActivity : AppCompatActivity()
 {
 
     override fun onCreate( savedInstanceState: Bundle? )
@@ -51,7 +50,7 @@ class OpModeListPreference : PreferenceFragment()
                 // switch to the new fragment
                 fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
 
-                true; // click handeled
+                true; // click handled
             };
 
             opModeList.addPreference( opModeScreen );
@@ -175,6 +174,7 @@ class VariantConfigPreference : PreferenceFragment()
         deleteVariant.setOnPreferenceClickListener {
 
             // TODO ask the user to confirm
+
             variant.delete();
 
             // if this is default, recreate the preference
