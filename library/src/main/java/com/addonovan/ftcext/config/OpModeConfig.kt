@@ -61,6 +61,16 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
      */
     fun clear() = dataMap.clear();
 
+    /**
+     * Activates this configuration.
+     */
+    fun activate() = setActiveConfig( OpModeName, Variant );
+
+    /**
+     * Deletes this configuration.
+     */
+    fun delete() = deleteVariant( OpModeName, Variant );
+
     //
     // Json Serialization
     //
@@ -199,7 +209,7 @@ fun getOpModeNames() = activeVariants.keys;
  *
  * @return The OpModeConfig for the given [opModeName] and [variant].
  */
-fun getOpModeConfig( opModeName: String, variant: String = "default" ): OpModeConfig
+internal fun getOpModeConfig( opModeName: String, variant: String ): OpModeConfig
 {
     val key = Pair( opModeName, variant ); // the opModeName and variant pair
 
@@ -233,7 +243,15 @@ fun getActiveConfig( opModeName: String ): OpModeConfig
     return getOpModeConfig( opModeName, getActiveVariant( opModeName ) );
 }
 
-fun setActiveConfig( opModeName: String, variant: String )
+/**
+ * Sets the active variant.
+ *
+ * @param[opModeName]
+ *          The name of the opmode.
+ * @param[variant]
+ *          The variant of opmode to activate.
+ */
+internal fun setActiveConfig( opModeName: String, variant: String )
 {
     getOpModeConfig( opModeName, variant ).i( "$opModeName active variant is now $variant" ); // ensure it exists
     activeVariants[ opModeName ] = variant; // mark the active variant
@@ -247,7 +265,7 @@ fun setActiveConfig( opModeName: String, variant: String )
  *          The name of the opmode to fetch the config for.
  * @return The active variant name of the given opmode.
  */
-fun getActiveVariant( opModeName: String ): String
+internal fun getActiveVariant( opModeName: String ): String
 {
     if ( !activeVariants.containsKey( opModeName ) )
     {
@@ -256,6 +274,26 @@ fun getActiveVariant( opModeName: String ): String
 
     return activeVariants[ opModeName ]!!;
 }
+
+/**
+ * Deletes the given variant.
+ *
+ * @param[opModeName]
+ *          The name of the opmode.
+ * @param[variant]
+ *          The variant of the opmode to delete.
+ */
+internal fun deleteVariant( opModeName: String, variant: String )
+{
+    // reset it back to default if it isn't already
+    if ( activeVariants[ opModeName ] == variant )
+    {
+        activeVariants[ opModeName ] = "default";
+    }
+
+    configMap.remove( Pair( opModeName, variant ) ); // remove it from the map
+}
+
 
 /**
  * Finds all the variants of OpModeConfigs for the given OpMode.
@@ -271,7 +309,7 @@ fun getOpModeConfigs( opModeName: String ): ArrayList< OpModeConfig >
 
     // make sure there's at least the [default] variant
     // also makes sure that [default] is the first choice
-    list += getOpModeConfig( opModeName );
+    list += getOpModeConfig( opModeName, "default" );
 
     // find all the OpModeConfigs for this OpMode
     for ( ( key, config ) in configMap )

@@ -6,7 +6,7 @@
 
         <PreferenceScreen
             android:title="Delete this variant"
-            android:id="@+id/prefs_delete_variant">
+            android:key="delete_variant">
 
             <!-- When clicked, a dialog will pop up to confirm deletion -->
 
@@ -16,7 +16,7 @@
 
     <PreferenceCategory
         android:title="Preferences"
-        android:id="@+id/prefs_config_list">
+        android:key="config_list">
 
         <!-- Populated programmatically -->
 

@@ -36,6 +36,14 @@ import java.util.*
 @Suppress( "unused" ) fun Any.e( data: String ) = Log.e( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
 
+@Suppress( "unused" ) fun Any.v( data: String, throwable: Throwable ) = Log.v( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.d( data: String, throwable: Throwable ) = Log.d( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.i( data: String, throwable: Throwable ) = Log.i( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.w( data: String, throwable: Throwable ) = Log.w( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.e( data: String, throwable: Throwable ) = Log.e( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.wtf( data: String, throwable: Throwable ) = Log.wtf( "ftcext.${javaClass.simpleName}", data, throwable );
+
+
 /**
  * Returns the class of the first generic type parameter.
  * For example, if passed an `ArrayList< String >`, this

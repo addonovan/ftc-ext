@@ -184,7 +184,7 @@ class OpModeListPreference : PreferenceFragment()
             opModeScreen.title = name;
             opModeScreen.setOnPreferenceClickListener {
 
-                currentOpMode = Pair( name, clazz );
+                currentOpModeName = name;
 
                 // switch to the new fragment
                 fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
@@ -198,15 +198,17 @@ class OpModeListPreference : PreferenceFragment()
 
 }
 
+
+
 /** Storage for the VariantListPreference fragment. */
-private var currentOpMode: Pair< String, Class< out AbstractOpMode > >? = null;
+private var currentOpModeName: String? = null;
 
 class VariantListPreference : PreferenceFragment()
 {
 
-    private val opMode by lazy()
+    private val opModeName by lazy()
     {
-        currentOpMode!!;
+        currentOpModeName!!;
     }
 
     override fun onCreate( savedInstanceState: Bundle? )
@@ -214,9 +216,19 @@ class VariantListPreference : PreferenceFragment()
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_variant_list );
 
+        val configs = getOpModeConfigs( opModeName ); // all the configurations for the opmode
+
         // add action for clicking activate variant
         val chooseVariant = findPreference( "choose_variant" ) as ListPreference;
-        chooseVariant.setOnPreferenceClickListener { selectActiveVariant(); true; };
+        chooseVariant.entries = Array( configs.size, { i -> configs[ i ].Variant } ); // create a list of all variants to select from
+        chooseVariant.entryValues = chooseVariant.entries; // they're the same
+        chooseVariant.value = getActiveVariant( opModeName );
+
+        // change the active config when the preference is updated
+        chooseVariant.setOnPreferenceChangeListener { preference, value ->
+            setActiveConfig( opModeName, value as String );
+            true;
+        };
 
         // add action for creating a variant
         val createVariant = findPreference( "create_variant" ) as EditTextPreference;
@@ -226,33 +238,133 @@ class VariantListPreference : PreferenceFragment()
         // the category for variants
         val variantList = findPreference( "variant_list" ) as PreferenceCategory;
 
-        for ( config in getOpModeConfigs( opMode.first ) )
+        for ( config in configs )
         {
             val variantScreen = preferenceManager.createPreferenceScreen( activity );
             variantScreen.title = config.Variant;
 
-            // TODO add variant configuration
+            variantScreen.setOnPreferenceClickListener {
+
+                currentVariant = config;
+
+                // switch fragments
+                fragmentManager.beginTransaction().replace( android.R.id.content, VariantConfigPreference() ).commit();
+
+                true;
+            };
 
             variantList.addPreference( variantScreen );
         }
     }
 
-    private fun selectActiveVariant()
-    {
-
-    }
-
+    /**
+     * Adds a new variant to the list of configurations.
+     *
+     * @param[name]
+     *          The name of the new variant.
+     * @return `true` if the name was okay, `false`, if it wasn't.
+     */
     private fun addVariant( name: String ): Boolean
     {
-        if ( name.isBlank() || name == "default" ) return false; // the name isn't acceptable
+        val variantName = name.trim();
 
-        getOpModeConfig( opMode.first, name ); // create the variant entry
-        currentOpMode = opMode; // just to be sure
+        // the name isn't acceptable if it's:
+        // 1. blank or empty
+        // 2. 'default' in any case
+        // 3. Already the name of a variant (case insensitive)
+        if ( variantName.isBlank() || variantName.equals( "default", ignoreCase = true ) ) return false;
+
+        // is this already a variant?
+        for ( exisingConfig in getOpModeConfigs( opModeName ) )
+        {
+            if ( name.equals( exisingConfig.Variant, ignoreCase = true ) ) return false;
+        }
+
+        getOpModeConfig( opModeName, name ); // create the variant entry
+        currentOpModeName = opModeName;
 
         // restart the fragment to handle the new variant
         fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
 
         return true; // the preference can be updated
+    }
+
+}
+
+
+
+/** Storage for the VariantConfigPReference fragment. */
+private var currentVariant: OpModeConfig? = null;
+
+class VariantConfigPreference : PreferenceFragment()
+{
+
+    private val variant by lazy()
+    {
+        currentVariant!!;
+    }
+
+    override fun onCreate( savedInstanceState: Bundle? )
+    {
+        super.onCreate( savedInstanceState );
+        addPreferencesFromResource( R.xml.prefs_variant );
+
+        val deleteVariant = findPreference( "delete_variant" ) as PreferenceScreen;
+        deleteVariant.setOnPreferenceClickListener {
+
+            // TODO ask the user to confirm
+            variant.delete();
+
+            // if this is default, recreate the preference
+            if ( variant.Variant.equals( "default", ignoreCase = true ) )
+            {
+                getOpModeConfig( variant.OpModeName, "default" );
+            }
+
+            // go back to the previous screen
+            currentOpModeName = variant.OpModeName;
+
+            fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
+
+            true;
+        };
+
+        setDefaults();
+
+        val configList = findPreference( "config_list" ) as PreferenceCategory;
+
+        // iterate over the values
+        for ( ( name, value ) in variant.dataMap )
+        {
+            // TODO add the value and it's preference based on it's value
+        }
+    }
+
+    /**
+     * Sets the default values to the current variant if they weren't already
+     * configured.
+     */
+    private fun setDefaults()
+    {
+        val name = variant.OpModeName;
+        val realActiveVariant = getActiveVariant( name );
+
+        variant.activate();
+
+        // when instantiated, all the variables will be set and our temporarily-active-config
+        // will have all the default values, if it didn't already have the entries
+        try
+        {
+            val instance = OpModes[ variant.OpModeName ]!!.newInstance();
+            instance.init(); // just to be sure, initialize the class as well
+        }
+        catch ( e: Exception )
+        {
+            w( "Exception instantiating OpMode (${variant.OpModeName}) for configuration", e );
+            w( "Some values may not be present in the configurator" ); // configurator is a word?
+        }
+
+        setActiveConfig( name, realActiveVariant ); // undo our cheat
     }
 
 }

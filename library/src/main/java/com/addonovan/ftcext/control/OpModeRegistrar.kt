@@ -73,7 +73,7 @@ class OpModeRegistrar() : OpModeRegister
             // if it's a regular OpMode
             if ( OpMode::class.java.isAssignableFrom( opMode ) )
             {
-                getOpModeConfig( name ); // create a configuration for it
+                getOpModeConfig( name, "default" ); // create a configuration for it
 
                 manager.register( name, OpModeWrapper( opMode as Class< out OpMode > ) );
                 i( "Registered OpMode class ${opMode.simpleName} as $name" );
@@ -83,7 +83,7 @@ class OpModeRegistrar() : OpModeRegister
             // if it's a LinearOpMode
             else if ( LinearOpMode::class.java.isAssignableFrom( opMode ) )
             {
-                getOpModeConfig( name ); // create a configuration for it
+                getOpModeConfig( name, "default" ); // create a configuration for it
 
                 manager.register( name, LinearOpModeWrapper( opMode as Class< out LinearOpMode > ) );
                 i( "Registered LinearOpMode class ${opMode.simpleName} as $name" );
