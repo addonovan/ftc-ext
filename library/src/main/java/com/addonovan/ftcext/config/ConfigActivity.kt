@@ -113,57 +113,9 @@ class ConfigActivity : PreferenceActivity()
 //
 //        for ( ( key, value ) in config.dataMap )
 //        {
-//            val inType = guessType( value );
-//
-//            var preference: Preference;
-//
-//            // create the specific type of preference based on what was returned by guessType()
-//            if ( inType is Boolean )
-//            {
-//                preference = CheckBoxPreference( this );
-//                preference.isChecked = inType;
-//            }
-//            else if ( inType is Long || inType is Double )
-//            {
-//                preference = EditTextPreference( this );
-//                // TODO force only some characters to be allowed
-//                preference.text = inType.toString();
-//            }
-//            else
-//            {
-//                preference = EditTextPreference( this );
-//                preference.text = inType.toString();
-//            }
-//
-//            preference.title =
-//                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
-//                    else                      key;
-//
-//
-//            preference.setOnPreferenceChangeListener { preference, value ->
-//                config[ key ] = value.toString();
-//
-//                if ( value !is Boolean ) preference.title = "$key (= $value)";
-//
-//                true;
-//            };
-//
-//            variantPref.addPreference( preference ); // add the preference
-//        }
+
 //    }
 //
-//    private fun guessType( value: String ): Any
-//    {
-//        // try to cast it numerically, in order from least to most restrictive
-//        try { return value.toDouble(); } catch ( e: Exception ) {}
-//        try { return value.toLong(); } catch ( e: Exception ) {}
-//
-//        // if it's true or false, it's a boolean
-//        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
-//
-//        // it's a string
-//        return value;
-//    }
 
 }
 
@@ -332,11 +284,47 @@ class VariantConfigPreference : PreferenceFragment()
         setDefaults();
 
         val configList = findPreference( "config_list" ) as PreferenceCategory;
+        val config = variant.dataMap;
 
         // iterate over the values
-        for ( ( name, value ) in variant.dataMap )
+        for ( ( key, value ) in config )
         {
-            // TODO add the value and it's preference based on it's value
+            val inType = guessType( value );
+
+            var preference: Preference;
+
+            // create the specific type of preference based on what was returned by guessType()
+            if ( inType is Boolean )
+            {
+                preference = CheckBoxPreference( activity );
+                preference.isChecked = inType;
+            }
+            else if ( inType is Long || inType is Double )
+            {
+                preference = EditTextPreference( activity );
+                // TODO force only some characters to be allowed
+                preference.text = inType.toString();
+            }
+            else
+            {
+                preference = EditTextPreference( activity );
+                preference.text = inType.toString();
+            }
+
+            preference.title =
+                    if ( inType !is Boolean ) "$key (= ${config[ key ]})";
+                    else                      key;
+
+
+            preference.setOnPreferenceChangeListener { preference, value ->
+                config[ key ] = value.toString();
+
+                if ( value !is Boolean ) preference.title = "$key (= $value)";
+
+                true;
+            };
+
+            configList.addPreference( preference ); // add the preference
         }
     }
 
@@ -365,6 +353,19 @@ class VariantConfigPreference : PreferenceFragment()
         }
 
         setActiveConfig( name, realActiveVariant ); // undo our cheat
+    }
+
+    private fun guessType( value: String ): Any
+    {
+        // try to cast it numerically, in order from least to most restrictive
+        try { return value.toDouble(); } catch ( e: Exception ) {}
+        try { return value.toLong(); } catch ( e: Exception ) {}
+
+        // if it's true or false, it's a boolean
+        if ( value.toLowerCase() == "true" || value.toLowerCase() == "false" ) return value.toBoolean();
+
+        // it's a string
+        return value;
     }
 
 }
