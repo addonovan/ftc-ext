@@ -1,6 +1,7 @@
 package com.addonovan.ftcext.config;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.AccelerationSensor;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDevice;
@@ -28,6 +30,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.SerialNumber;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.locks.Lock;
 
 /**
@@ -39,34 +42,6 @@ import java.util.concurrent.locks.Lock;
  */
 public class FalseHardwareMap extends HardwareMap
 {
-
-    //
-    // Fields
-    //
-
-    public DeviceMapping< DcMotorController > dcMotorController;
-    public DeviceMapping< DcMotor > dcMotor;
-    public DeviceMapping< ServoController > servoController;
-    public DeviceMapping< Servo > servo;
-    public DeviceMapping< LegacyModule > legacyModule;
-    public DeviceMapping< TouchSensorMultiplexer > touchSensorMultiplexer;
-    public DeviceMapping< DeviceInterfaceModule > deviceInterfaceModule;
-    public DeviceMapping< AnalogInput > analogInput;
-    public DeviceMapping< DigitalChannel > digitalChannel;
-    public DeviceMapping< OpticalDistanceSensor > opticalDistanceSensor;
-    public DeviceMapping< TouchSensor > touchSensor;
-    public DeviceMapping< PWMOutput > pwmOutput;
-    public DeviceMapping< I2cDevice > i2cDevice;
-    public DeviceMapping< AnalogOutput > analogOutput;
-    public DeviceMapping< ColorSensor > colorSensor;
-    public DeviceMapping< LED > led;
-    public DeviceMapping< AccelerationSensor > accelerationSensor;
-    public DeviceMapping< CompassSensor > compassSensor;
-    public DeviceMapping< GyroSensor > gyroSensor;
-    public DeviceMapping< IrSeekerSensor > irSeekerSensor;
-    public DeviceMapping< LightSensor > lightSensor;
-    public DeviceMapping< UltrasonicSensor > ultrasonicSensor;
-    public DeviceMapping< VoltageSensor > voltageSensor;
 
     //
     // Constructors
@@ -90,7 +65,7 @@ public class FalseHardwareMap extends HardwareMap
         i2cDevice = new FalseDeviceMapping<>( new I2cDevice( null, 0 ) );
         analogOutput = new FalseDeviceMapping<>( new AnalogOutput( null, 0 ) );
         colorSensor = new FalseDeviceMapping<>( emptyColorSensor );
-        led = new FalseDeviceMapping<>( new LED( null, 0 ) );
+        led = new FalseDeviceMapping<>( new LED( emptyDigitalChannelController, 0 ) );
         accelerationSensor = new FalseDeviceMapping<>( emptyAccelerationSensor );
         compassSensor = new FalseDeviceMapping<>( emptyCompassSensor );
         gyroSensor = new FalseDeviceMapping<>( emptyGyroSensor );
@@ -955,6 +930,63 @@ public class FalseHardwareMap extends HardwareMap
         public int getI2cAddress()
         {
             return 0;
+        }
+
+        @Override
+        public String getDeviceName()
+        {
+            return null;
+        }
+
+        @Override
+        public String getConnectionInfo()
+        {
+            return null;
+        }
+
+        @Override
+        public int getVersion()
+        {
+            return 0;
+        }
+
+        @Override
+        public void close()
+        {
+
+        }
+    };
+
+    private DigitalChannelController emptyDigitalChannelController = new DigitalChannelController()
+    {
+        @Override
+        public SerialNumber getSerialNumber()
+        {
+            return null;
+        }
+
+        @Override
+        public Mode getDigitalChannelMode( int i )
+        {
+            return null;
+        }
+
+        @Override
+        public void setDigitalChannelMode( int i, Mode mode )
+        {
+
+        }
+
+        @Override
+        public boolean getDigitalChannelState( int i )
+        {
+            return false;
+        }
+
+        @Override
+        public void setDigitalChannelState( int i, boolean b )
+        {
+
         }
 
         @Override

@@ -2,10 +2,10 @@ package com.addonovan.ftcext.config
 
 import android.os.Bundle
 import android.preference.*
+import android.util.Log
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.OpModes
 import com.qualcomm.robotcore.hardware.Gamepad
-import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.robocol.Telemetry
 
 /**
@@ -64,7 +64,7 @@ class ConfigActivity : PreferenceActivity()
 
     private fun addConfigurables( list: PreferenceCategory, config: OpModeConfig )
     {
-        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), HardwareMap( this ) );
+        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), FalseHardwareMap( this ) );
 
         setActiveConfig( config.OpModeName, config.Variant ); // set this to be the active config so it gets used
 
@@ -77,6 +77,7 @@ class ConfigActivity : PreferenceActivity()
         catch ( e: Exception )
         {
             v( "Encountered a(n) ${e.javaClass.simpleName} when instantiated ${config.OpModeName}" );
+            Log.e( "ftcext.ConfigActivity", "a", e );
         }
 
         for ( ( key, value ) in config.dataMap )

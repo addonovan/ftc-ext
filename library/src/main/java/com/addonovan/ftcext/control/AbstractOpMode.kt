@@ -129,7 +129,7 @@ abstract class AbstractOpMode()
     // Config Fetching
     //
 
-    /** The selected configuration variant (defaults to &#91;default&$93;) */
+    /** The selected configuration variant (defaults to default) */
     private var config = getActiveConfig( getRegisterName( javaClass ) );
 
     /**
@@ -160,7 +160,7 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Long )    = config[ name, default ];
+    final fun get( name: String, default: Long ) = config[ name, default ];
 
     /**
      * Gets a `double` value from the configuration. Returns the default

@@ -13,6 +13,9 @@ class OpMode1() : OpMode()
     val motor_left = motor( "motor_left" );
     val motor_right = motor( "motor_right" );
 
+    val blueTeam = get( "blue_team", true );
+    val stuff = get( "stuff", 100000 );
+
     override fun init(){}
     override fun loop(){}
 }

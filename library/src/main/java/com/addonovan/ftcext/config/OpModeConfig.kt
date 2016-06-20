@@ -160,7 +160,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     // Sets
     operator fun set( key: String, value: String ): String
     {
-        dataMap.put( key, value ) as String; // well I completely misunderstood what `put` returned
+        dataMap.put( key, value ); // well I completely misunderstood what `put` returned
         return value;
     }
 
