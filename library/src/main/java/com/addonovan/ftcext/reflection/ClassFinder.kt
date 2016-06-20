@@ -134,7 +134,7 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
 
             result.add( c );
         }
-        catch ( e: Exception )
+        catch ( e: Throwable ) // now catches everything!
         {
             // then this class wasn't instantiable, so don't bother doing anything
         }
@@ -150,6 +150,8 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
  */
 private fun isBlacklisted( name: String ): Boolean
 {
+    if ( name.contains( "$" ) ) return true;
+
     for ( blacklisted in blackList )
     {
         if ( name.startsWith( blacklisted ) ) return true;
