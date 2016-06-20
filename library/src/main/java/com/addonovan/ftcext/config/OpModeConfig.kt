@@ -24,7 +24,6 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     /** The name of the OpMode for which this is a configuration. */
     val OpModeName: String = name;
 
-
     /** The backing field for [Variant], this can be updated, but only inside the class. */
     private var _variant: String = "[default]";
 
@@ -32,8 +31,17 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     val Variant: String
         get() = _variant;
 
-    /** The configuration map. Everything is a string and must be converted when read. */
-    internal val dataMap = HashMap< String, String >();
+    //
+    // Data Maps
+    //
+
+    private val longMap = HashMap< String, Long >();
+
+    private val doubleMap = HashMap< String, Double >();
+
+    private val booleanMap = HashMap< String, Boolean >();
+
+    private val stringMap = HashMap< String, String >();
 
     //
     // Constructors
@@ -73,11 +81,14 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     // Write to the json file
     // the JSONObject for an OpModeConfig will look like this:
     // {
-    //      "variant": "$variant",
-    //      "dataMap": [
-    //          [ "$key", "$value" ],
+    //      "variant": $variant,
+    //      "longMap" : [
+    //          [ "$key", $value ],
     //          ...
-    //      ]
+    //      ],
+    //      "doubleMap" : ...
+    //      "booleanMap" : ...
+    //      "stringMap" : ...
     // }
 
     override fun toJson( writer: JsonWriter )
@@ -86,14 +97,24 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
 
         writer.name( "variant" ).value( Variant );
 
-        // write the data map
-        writer.name( "dataMap" ).beginObject();
-        for ( ( key, value ) in dataMap )
+        val maps = mapOf(
+                Pair( "longMap", longMap ),
+                Pair( "doubleMap", doubleMap ),
+                Pair( "booleanMap", booleanMap ),
+                Pair( "stringMap", stringMap )
+        );
+
+        // write the maps
+        for ( ( mapName, map ) in maps )
         {
-            writer.name( key ).value( value ); // log the key value pair
+            writer.name( mapName ).beginArray(); // start the array
+            for ( ( key, value ) in map )
+            {
+                writer.beginArray().name( key ).name( value.toString() ).endArray(); // each pair get its own array
+            }
+            writer.endArray(); // end the map array
         }
 
-        writer.endObject(); // end dataMap
         writer.endObject(); // end OpModeConfig
     }
 
@@ -101,11 +122,29 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     {
         _variant = json.getString( "variant" );
 
-        val map = json.getJSONArray( "dataMap" );
-        for ( i in 0..map.length() )
+        val map = json.getJSONObject( "dataMap" );
+        val types = arrayOf( "long", "double", "boolean", "string" );
+
+        for ( typeName in types )
         {
-            val mapEntry = map.getJSONArray( i );
-            dataMap[ mapEntry.getString( 0 ) ] = mapEntry.getString( 1 );
+            val array = map.getJSONArray( typeName ); // find the array for the given type
+
+            for ( i in 0..array.length() - 1 )
+            {
+                val kvArray = array.getJSONArray( i ); // [0] = key, [1] = value
+
+                val key = kvArray.getString( 0 );
+                val value = kvArray.getString( 1 );
+
+                // insert the key and value into the correct map
+                when ( typeName )
+                {
+                    "long"    -> longMap.put( key, value.toLong() );
+                    "double"  -> doubleMap.put( key, value.toDouble() );
+                    "boolean" -> booleanMap.put( key, value.toBoolean() );
+                    "string"  -> stringMap.put( key, value );
+                }
+            }
         }
     }
 
@@ -113,22 +152,36 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     // Operator Overloads
     //
 
-    // Non-nullable Gets
-    operator fun get( key: String, default: String )  = dataMap[ key ]              ?: set( key, default );
-    operator fun get( key: String, default: Long )    = dataMap[ key ]?.toLong()    ?: set( key, default );
-    operator fun get( key: String, default: Double )  = dataMap[ key ]?.toDouble()  ?: set( key, default );
-    operator fun get( key: String, default: Boolean ) = dataMap[ key ]?.toBoolean() ?: set( key, default );
+    // Gets
+    operator fun get( key: String, default: Long )    = longMap[ key ]    ?: set( key, default );
+    operator fun get( key: String, default: Double )  = doubleMap[ key ]  ?: set( key, default );
+    operator fun get( key: String, default: Boolean ) = booleanMap[ key ] ?: set( key, default );
+    operator fun get( key: String, default: String )  = stringMap[ key ]  ?: set( key, default );
 
     // Sets
-    operator fun set( key: String, value: String ): String
+    operator fun set( key: String, value: Long ): Long
     {
-        dataMap.put( key, value ); // well I completely misunderstood what `put` returned
+        longMap[ key ] = value;
         return value;
     }
 
-    operator fun set( key: String, value: Long )    = set( key, value.toString() ).toLong();
-    operator fun set( key: String, value: Double )  = set( key, value.toString() ).toDouble();
-    operator fun set( key: String, value: Boolean ) = set( key, value.toString() ).toBoolean();
+    operator fun set( key: String, value: Double ): Double
+    {
+        doubleMap[ key ] = value;
+        return value;
+    }
+
+    operator fun set( key: String, value: Boolean ): Boolean
+    {
+        booleanMap[ key ] = value;
+        return value;
+    }
+
+    operator fun set( key: String, value: String ): String
+    {
+        stringMap[ key ] = value;
+        return value;
+    }
 
 }
 
