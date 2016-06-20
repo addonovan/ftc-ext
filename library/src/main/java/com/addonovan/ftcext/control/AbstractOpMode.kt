@@ -213,42 +213,33 @@ abstract class AbstractOpMode()
     // Device Fetching
     //
 
-    private final fun < T > getDevice( name: String, map: HardwareMap.DeviceMapping< T > ): T
-    {
-        if ( inConfig )
-        {
-            // TODO if in config thing goes here
-        }
+    final fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
+    final fun motor( name: String ) = hardwareMap.dcMotor[ name ];
 
-        return map[ name ];
-    }
+    final fun servoController( name: String ) = hardwareMap.servoController[ name ];
+    final fun servo( name: String ) = hardwareMap.servo[ name ];
 
-    final fun getMotorcontroller( name: String ) = getDevice( name, hardwareMap.dcMotorController );
-    final fun getMotor( name: String )           = getDevice( name, hardwareMap.dcMotor );
+    final fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ];
+    final fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ];
 
-    final fun getServoController( name: String ) = getDevice( name, hardwareMap.servoController );
-    final fun getServo( name: String )           = getDevice( name, hardwareMap.servo );
+    final fun analogIn( name: String ) = hardwareMap.analogInput[ name ];
+    final fun analogOut( name: String ) = hardwareMap.analogOutput[ name ];
+    final fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ];
+    final fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ];
+    final fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ];
 
-    final fun getLegacyModule( name: String )          = getDevice( name, hardwareMap.legacyModule );
-    final fun getDeviceInterfaceModule( name: String ) = getDevice( name, hardwareMap.deviceInterfaceModule );
+    final fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ];
+    final fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ];
+    final fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ];
+    final fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ];
+    final fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ];
+    final fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ];
+    final fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
+    final fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
+    final fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
+    final fun voltagSensor( name: String ) = hardwareMap.voltageSensor[ name ];
 
-    final fun getAnalogInput( name: String )    = getDevice( name, hardwareMap.analogInput );
-    final fun getAnalogOutput( name: String )   = getDevice( name, hardwareMap.analogOutput );
-    final fun getDigitalChannel( name: String ) = getDevice( name, hardwareMap.digitalChannel );
-    final fun getPwmOutput( name: String )      = getDevice( name, hardwareMap.pwmOutput );
-    final fun getI2CDevice( name: String )      = getDevice( name, hardwareMap.i2cDevice );
+    final fun touchSesnroMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
+    final fun led( name: String ) = hardwareMap.led[ name ];
 
-    final fun getOpticalDistanceSensor( name: String ) = getDevice( name, hardwareMap.opticalDistanceSensor );
-    final fun getTouchSensor( name: String )           = getDevice( name, hardwareMap.touchSensor );
-    final fun getColorSensor( name: String )           = getDevice( name, hardwareMap.colorSensor );
-    final fun getAccelerationSensor( name: String )    = getDevice( name, hardwareMap.accelerationSensor );
-    final fun getCompassSensor( name: String )         = getDevice( name, hardwareMap.compassSensor );
-    final fun getGyroSensor( name: String )            = getDevice( name, hardwareMap.gyroSensor );
-    final fun getIrSensor( name: String )              = getDevice( name, hardwareMap.irSeekerSensor );
-    final fun getLightSensor( name: String )           = getDevice( name, hardwareMap.lightSensor );
-    final fun getUltrasonicSensor( name: String )      = getDevice( name, hardwareMap.ultrasonicSensor );
-    final fun getVoltageSensor( name: String )         = getDevice( name, hardwareMap.voltageSensor );
-
-    final fun getTouchSensorMultiplexer( name: String ) = getDevice( name, hardwareMap.touchSensorMultiplexer );
-    final fun getLED( name: String )                    = getDevice( name, hardwareMap.led );
 }
