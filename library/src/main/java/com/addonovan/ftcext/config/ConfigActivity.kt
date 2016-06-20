@@ -14,6 +14,17 @@ import com.qualcomm.robotcore.robocol.Telemetry
 class ConfigActivity : AppCompatActivity()
 {
 
+    //
+    // Vars
+    //
+
+    /** The current fragment that we're looking at (used in [onBackPressed]).*/
+    internal var CurrentFragment: CustomPreferenceFragment? = null;
+
+    //
+    // Overrides
+    //
+
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
@@ -26,15 +37,61 @@ class ConfigActivity : AppCompatActivity()
         System.setProperty( "ftcext.inconfig", "false" ); // unset the flag
     }
 
+    override fun onBackPressed()
+    {
+        val fragment = CurrentFragment;
+
+        // if it's null (or the top-level fragment), just let the super handle it
+        if ( fragment == null || fragment is OpModeListPreference )
+        {
+            super.onBackPressed();
+            return;
+        }
+
+        // switch to the super fragment
+        fragmentManager.beginTransaction().replace( android.R.id.content, fragment.SuperFragment ).commit();
+    }
+
 }
 
-class OpModeListPreference : PreferenceFragment()
+abstract class CustomPreferenceFragment : PreferenceFragment()
 {
+
+    /** The fragment for the next level up. */
+    abstract val SuperFragment: PreferenceFragment?;
+
+    override fun onCreate( savedInstanceState: Bundle? )
+    {
+        super.onCreate( savedInstanceState );
+        ( activity as ConfigActivity ).CurrentFragment = this; // register this with the activity so it can handle back presses
+    }
+
+    /**
+     * Sets the title in the toolbar to the given text.
+     *
+     * @param[title]
+     *          The new title of the activity.
+     */
+    fun setTitle( title: String )
+    {
+        ( activity as ConfigActivity ).actionBar?.title = title;
+        ( activity as ConfigActivity ).supportActionBar?.title = title;
+    }
+
+}
+
+
+class OpModeListPreference : CustomPreferenceFragment()
+{
+
+    override val SuperFragment = null;
 
     override fun onCreate( savedInstanceState: Bundle? )
     {
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_opmode_list);
+
+        setTitle( "OpModes" );
 
         val opModeList = findPreference( "opmode_list" ) as PreferenceCategory;
 
@@ -64,8 +121,10 @@ class OpModeListPreference : PreferenceFragment()
 /** Storage for the VariantListPreference fragment. */
 private var currentOpModeName: String? = null;
 
-class VariantListPreference : PreferenceFragment()
+class VariantListPreference : CustomPreferenceFragment()
 {
+
+    override val SuperFragment = OpModeListPreference();
 
     private val opModeName by lazy()
     {
@@ -76,6 +135,8 @@ class VariantListPreference : PreferenceFragment()
     {
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_variant_list );
+
+        setTitle( "$opModeName Variants" );
 
         val configs = getOpModeConfigs( opModeName ); // all the configurations for the opmode
 
@@ -157,8 +218,15 @@ class VariantListPreference : PreferenceFragment()
 /** Storage for the VariantConfigPReference fragment. */
 private var currentVariant: OpModeConfig? = null;
 
-class VariantConfigPreference : PreferenceFragment()
+class VariantConfigPreference : CustomPreferenceFragment()
 {
+
+    override val SuperFragment by lazy()
+    {
+        currentOpModeName = variant.OpModeName; // make sure this is correct
+        val fragment = VariantListPreference();
+        fragment;
+    }
 
     private val variant by lazy()
     {
@@ -169,6 +237,8 @@ class VariantConfigPreference : PreferenceFragment()
     {
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_variant );
+
+        setTitle( "Configure ${variant.OpModeName} [${variant.Variant}]" );
 
         val deleteVariant = findPreference( "delete_variant" ) as PreferenceScreen;
         deleteVariant.setOnPreferenceClickListener {
