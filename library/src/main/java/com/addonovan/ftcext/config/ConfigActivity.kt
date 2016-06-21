@@ -329,13 +329,11 @@ class VariantConfigPreference : CustomPreferenceFragment()
         {
 
             // create the correct editor based on the type of the value
-            val preference = when ( value.javaClass )
-            {
-                Long::class.java    -> createNumericPreference( key, value as Long, null );
-                Double::class.java  -> createNumericPreference( key, null, value as Double );
-                Boolean::class.java -> createBooleanPreference( key, value as Boolean );
-                else                -> createStringPreference( key, value.toString() );
-            }
+            val preference =
+                     if ( value is Long )    createNumericPreference( key, value, null );
+                else if ( value is Double )  createNumericPreference( key, null, value );
+                else if ( value is Boolean ) createBooleanPreference( key, value );
+                else                         createStringPreference( key, value.toString() );
 
             configList.addPreference( preference ); // add the preference
         }
