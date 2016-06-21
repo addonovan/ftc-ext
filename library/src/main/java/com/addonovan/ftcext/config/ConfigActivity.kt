@@ -407,7 +407,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             if ( isLong )
             {
-                if ( value.toString().matches( "(-)?[0-9]+".toRegex() ) )
+                try
                 {
                     variant[ key ] = value as Long;
                     i( "Changed $key (long) to $value ($variant)")
@@ -416,25 +416,25 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
                     true; // this was a valid value
                 }
-                else
+                catch ( e: NumberFormatException )
                 {
                     false; // this was an invalid value
                 }
             }
             else
             {
-                if ( value.toString().matches( "(-)?[0-9]+(\\\\.[0-9]+)?".toRegex() ) )
+                try
                 {
                     variant[ key ] = value as Double;
                     i( "Changed $key (double) to $value ($variant)" );
 
                     textbox.summary = "\t$value";
 
-                    true; // valid value
+                    true;
                 }
-                else
+                catch ( e: NumberFormatException )
                 {
-                    false; // invalid value
+                    false; // invalid number format
                 }
             }
         };
