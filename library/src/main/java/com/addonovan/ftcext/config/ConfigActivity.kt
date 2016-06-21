@@ -325,6 +325,19 @@ class VariantConfigPreference : CustomPreferenceFragment()
             true;
         };
 
+        val resetVariant = findPreference( "reset_variant" ) as PreferenceScreen;
+        resetVariant.setOnPreferenceClickListener {
+
+            // TODO ask the user to confirm
+
+            variant.clear(); // wipe the values
+
+            // create a new fragment for hanlding the rest
+            fragmentManager.beginTransaction().replace( android.R.id.content, VariantConfigPreference() ).commit();
+
+            true;
+        };
+
         setDefaults();
 
         val configList = findPreference( "config_list" ) as PreferenceCategory;

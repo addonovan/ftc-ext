@@ -13,6 +13,14 @@
 
         </PreferenceScreen>
 
+        <PreferenceScreen
+            android:title="Reset this variant"
+            android:key="reset_variant">
+
+            <!-- When clicked, a dialog will pop up to confirm the reset -->
+
+        </PreferenceScreen>
+
     </PreferenceCategory>
 
     <PreferenceCategory

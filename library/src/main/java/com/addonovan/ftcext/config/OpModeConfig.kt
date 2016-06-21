@@ -67,6 +67,18 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     //
 
     /**
+     * Clears the maps so that it will be reset to the default
+     * values on the next run.
+     */
+    fun clear()
+    {
+        longMap.clear();
+        doubleMap.clear();
+        booleanMap.clear();
+        stringMap.clear();
+    }
+
+    /**
      * Activates this configuration.
      */
     fun activate() = setActiveConfig( OpModeName, Variant );
