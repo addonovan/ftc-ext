@@ -101,7 +101,7 @@ class ClassFinder()
 private val blackList: LinkedHashSet< String > =
         linkedSetOf( "com.google", "com.android", "dalvik", "android", // android packages
                      "java", "kotlin",                                 // language packages
-                     "com.qualcomm", "com.ftdi" );                     // FTC packages
+                     "com.ftdi" );                                     // some FTC packages
 
 /**
  * The base classes that every ClassFinder is based off of
@@ -150,6 +150,8 @@ private val baseClasses: LinkedList< Class< * > > by lazy()
  */
 private fun isBlacklisted( name: String ): Boolean
 {
+    if ( name.contains( "$" ) ) return true;
+
     for ( blacklisted in blackList )
     {
         if ( name.startsWith( blacklisted ) ) return true;

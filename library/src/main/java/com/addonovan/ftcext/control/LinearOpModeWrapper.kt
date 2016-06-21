@@ -14,6 +14,7 @@ import com.addonovan.ftcext.*
 class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com.qualcomm.robotcore.eventloop.opmode.LinearOpMode()
 {
 
+    /** The actual OpMode that this is a wrapper for. */
     private var instance: LinearOpMode? = null;
 
     override fun runOpMode()

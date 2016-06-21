@@ -1,14 +1,11 @@
 package com.addonovan.ftcext
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.qualcomm.robotcore.hardware.Gamepad
-import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
-import java.io.File
 import java.lang.reflect.ParameterizedType
-import java.net.URL
-import java.net.URLClassLoader
 import java.util.*
 
 /**
@@ -39,6 +36,14 @@ import java.util.*
 @Suppress( "unused" ) fun Any.e( data: String ) = Log.e( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
 
+@Suppress( "unused" ) fun Any.v( data: String, throwable: Throwable ) = Log.v( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.d( data: String, throwable: Throwable ) = Log.d( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.i( data: String, throwable: Throwable ) = Log.i( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.w( data: String, throwable: Throwable ) = Log.w( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.e( data: String, throwable: Throwable ) = Log.e( "ftcext.${javaClass.simpleName}", data, throwable );
+@Suppress( "unused" ) fun Any.wtf( data: String, throwable: Throwable ) = Log.wtf( "ftcext.${javaClass.simpleName}", data, throwable );
+
+
 /**
  * Returns the class of the first generic type parameter.
  * For example, if passed an `ArrayList< String >`, this
@@ -46,18 +51,61 @@ import java.util.*
  *
  * @param[thing]
  *          The generic object to get the type parameter from.
+ * @param[argument]
+ *          The generic argument to get, by default it's 0.
+ *
  * @return The type parameter of the object.
  */
-fun getGenericType( thing: Any ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ 0 ].javaClass;
+fun getGenericType( thing: Any, argument: Int = 0 ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ argument ].javaClass;
 
 /**
  * The current application context.
- * This is the equivalent of the [HardwareMap.Context]; however, this
+ * This is the equivalent of the [HardwareMap.appContext]; however, this
  * is intended to be used in places where there is no Hardware map available.
  */
 val Context by lazy()
 {
     Class.forName( "android.app.ActivityThread" ).getMethod( "currentApplication" ).invoke( null ) as Context;
+}
+
+/**
+ * The current activity. Please don't look at the source for this.
+ * Please please please please please.
+ */
+val Activity: Activity by lazy()
+{
+    // just ignore this please
+    val activityThreadClass = Class.forName( "android.app.ActivityThread" );
+    val activityThread = activityThreadClass.getMethod( "currentActivityThread" ).invoke( null );
+    val activitiesField = activityThreadClass.getDeclaredField( "mActivities" );
+    activitiesField.isAccessible = true;
+
+    // seriously, stop reading
+    var activity: Activity? = null;
+
+    val activities = activitiesField.get( activityThread ) as Map< *, * >;
+    for ( activityRecord in activities.values )
+    {
+        if ( activityRecord == null ) continue;
+
+        // it's only going to get worse
+        val activityRecordClass = activityRecord.javaClass;
+        val pausedField = activityRecordClass.getDeclaredField( "paused" );
+        pausedField.isAccessible = true;
+
+        if ( !pausedField.getBoolean( activityRecord ) )
+        {
+            val activityField = activityRecordClass.getDeclaredField( "activity" );
+            activityField.isAccessible = true;
+
+            activity = activityField.get( activityRecord ) as Activity;
+        }
+    }
+
+    // activity is really hard to spell
+    if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
+
+    activity!!; // "not needed" my ass, it errors unless this is here
 }
 
 //

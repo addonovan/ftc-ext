@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General">
+
+        <ListPreference
+            android:key="choose_variant"
+            android:title="Select Active Variant">
+
+        </ListPreference>
+
+        <EditTextPreference
+            android:key="create_variant"
+            android:defaultValue=""
+            android:title="Create new variant"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="variant_list"
+        android:title="Variants">
+
+        <!-- Populated Programmatically -->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
