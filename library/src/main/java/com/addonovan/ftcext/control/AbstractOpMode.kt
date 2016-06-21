@@ -130,7 +130,11 @@ abstract class AbstractOpMode()
     //
 
     /** The selected configuration variant (defaults to default) */
-    private var config = getActiveConfig( RegisteredName );
+    private val config = getActiveConfig( RegisteredName );
+
+    // unless these methods are expanded, apparently they don't exist according to the JVM
+    // this bullshit randomly fucking happened and took me over 2 hours to fix
+    // seriously, fuck you, JVM/ART whatever the hell is running this bullshit
 
     /**
      * Gets a `String` value from the configuration. Returns the default
@@ -145,7 +149,10 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: String )  = config[ name, default ];
+    final fun get( name: String, default: String ): String
+    {
+        return config[ name, default ];
+    }
 
     /**
      * Gets a `long` value from the configuration. Returns the default
@@ -160,7 +167,10 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Long ) = config[ name, default ];
+    final fun get( name: String, default: Long ): Long
+    {
+        return config[ name, default ]
+    }
 
     /**
      * Gets a `double` value from the configuration. Returns the default
@@ -175,7 +185,10 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Double )  = config[ name, default ];
+    final fun get( name: String, default: Double ): Double
+    {
+        return config[ name, default ];
+    };
 
     /**
      * Gets a `boolean` value from the configuration. Returns the default
@@ -190,7 +203,10 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Boolean ) = config[ name, default ];
+    final fun get( name: String, default: Boolean ): Boolean
+    {
+        return config[ name, default ];
+    }
 
     //
     // Device Fetching

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.preference.*
 import android.support.v7.app.AppCompatActivity
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.control.OpModes
+import com.addonovan.ftcext.control.*
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.robocol.Telemetry
 
