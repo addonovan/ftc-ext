@@ -1,6 +1,8 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.CONFIG_FILE
+import com.addonovan.ftcext.config.writeConfigs
 
 /**
  * A wrapper for the OpMode class. This acts as the standard
@@ -32,19 +34,17 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
         {
             instance = opMode.newInstance();
         }
-        instance?.init();
+
+        instance!!.init();
     }
 
-    override fun init_loop() = instance?.init_loop() ?: throw NullPointerException();
+    override fun init_loop() = instance!!.init_loop();
 
-    override fun start() = instance?.start() ?: throw NullPointerException();
+    override fun start() = instance!!.start();
 
-    override fun loop() = instance?.loop() ?: throw NullPointerException();
+    override fun loop() = instance!!.loop();
 
-    override fun stop()
-    {
-        instance?.stop() ?: throw NullPointerException();
-    }
+    override fun stop() = instance!!.stop();
 
 
 }

@@ -25,7 +25,8 @@ class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com
         {
             instance = opMode.newInstance();
         }
-        instance?.runOpMode();
+
+        instance!!.runOpMode();
     }
 
 }
