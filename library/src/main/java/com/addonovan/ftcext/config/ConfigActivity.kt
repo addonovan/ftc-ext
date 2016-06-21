@@ -414,7 +414,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
             {
                 try
                 {
-                    variant[ key ] = ( value as String ).toDouble();
+                    variant[ key ] = ( value as String ).toLong();
                     i( "Changed $key (long) to $value ($variant)")
 
                     textbox.summary = "\t$value";
