@@ -248,9 +248,9 @@ class VariantListPreference : CustomPreferenceFragment()
         if ( trimmedName.isBlank() || trimmedName.equals( "default", ignoreCase = true ) ) return false;
 
         // is this already a variant?
-        for ( exisingConfig in getOpModeConfigs( opModeName ) )
+        for ( existingConfig in getOpModeConfigs( opModeName ) )
         {
-            if ( trimmedName.equals( exisingConfig.Variant, ignoreCase = true ) ) return false;
+            if ( trimmedName.equals( existingConfig.Variant, ignoreCase = true ) ) return false;
         }
 
         getOpModeConfig( opModeName, trimmedName ); // create the variant entry
