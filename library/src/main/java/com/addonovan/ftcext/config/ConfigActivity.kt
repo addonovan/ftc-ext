@@ -327,44 +327,15 @@ class VariantConfigPreference : CustomPreferenceFragment()
         // iterate over the values
         for ( ( key, value ) in config )
         {
-            var preference: Preference;
 
-            // create the specific type of preference based on what was returned by guessType()
-            if ( value is Boolean )
+            // create the correct editor based on the type of the value
+            val preference = when ( value.javaClass )
             {
-                preference = CheckBoxPreference( activity );
-                preference.isChecked = value;
+                Long::class.java    -> createNumericPreference( key, value as Long, null );
+                Double::class.java  -> createNumericPreference( key, null, value as Double );
+                Boolean::class.java -> createBooleanPreference( key, value as Boolean );
+                else                -> createStringPreference( key, value.toString() );
             }
-            else if ( value is Long || value is Double )
-            {
-                preference = EditTextPreference( activity );
-                // TODO force only some characters to be allowed
-                preference.text = value.toString();
-            }
-            else
-            {
-                preference = EditTextPreference( activity );
-                preference.text = value.toString();
-            }
-
-            preference.title =
-                    if ( value !is Boolean ) "$key (= $value)";
-                    else                      key;
-
-
-            preference.setOnPreferenceChangeListener { preference, newValue ->
-
-                // allows the compiler to resolve which overload I'm calling
-                if ( newValue is Long )    variant[ key ] = newValue;
-                if ( newValue is Double )  variant[ key ] = newValue;
-                if ( newValue is Boolean ) variant[ key ] = newValue;
-                if ( newValue is String )  variant[ key ] = newValue;
-
-
-                if ( newValue !is Boolean ) preference.title = "$key (= $newValue)";
-
-                true;
-            };
 
             configList.addPreference( preference ); // add the preference
         }
