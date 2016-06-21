@@ -388,10 +388,10 @@ class VariantConfigPreference : CustomPreferenceFragment()
             val instance = OpModes[ variant.OpModeName ]!!.newInstance();
             instance.init(); // just to be sure, initialize the class as well
         }
-        catch ( e: Exception )
+        catch ( e: Throwable )
         {
-            w( "Exception instantiating OpMode (${variant.OpModeName}) for configuration", e );
-            w( "Some values may not be present in the configurator" ); // configurator is a word?
+            e( "Exception instantiating OpMode (${variant.OpModeName}) for configuration", e );
+            e( "Some values may not be present in the configurator" ); // configurator is a word?
         }
 
         setActiveConfig( name, realActiveVariant ); // undo our cheat

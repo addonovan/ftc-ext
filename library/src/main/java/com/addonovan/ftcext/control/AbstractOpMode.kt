@@ -130,7 +130,7 @@ abstract class AbstractOpMode()
     //
 
     /** The selected configuration variant (defaults to default) */
-    private var config = getActiveConfig( getRegisterName( javaClass ) );
+    private var config = getActiveConfig( RegisteredName );
 
     /**
      * Gets a `String` value from the configuration. Returns the default

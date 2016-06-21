@@ -1,14 +1,14 @@
 package com.addonovan.ftcext.testing
 
 import com.addonovan.ftcext.control.*
-import com.qualcomm.robotcore.hardware.DcMotor
 
 @Register( "OpMode1" )
-class OpMode1() : OpMode()
+class OpMode1 : OpMode()
 {
-    val redTeam = get( "red_team", false );
+
     val motorSpeed = get( "motor_speed", 1.0 );
     val timeLength = get( "time_length", 1 );
+    val redTeam = get( "red_team", false );
 
     val motor_left = motor( "motor_left" );
     val motor_right = motor( "motor_right" );
@@ -21,7 +21,7 @@ class OpMode1() : OpMode()
 }
 
 @Register( "OpMode2" )
-class OpMode2() : OpMode()
+class OpMode2 : OpMode()
 {
     val motorSpeed = get( "motor_speed", 0.5 );
     val duration = get( "duration", 500000 );
@@ -31,7 +31,7 @@ class OpMode2() : OpMode()
 }
 
 @Register( "OpMode3" )
-class OpMode3() : OpMode()
+class OpMode3 : OpMode()
 {
     override fun init(){}
     override fun loop(){}
@@ -42,10 +42,10 @@ class OpMode3() : OpMode()
 //
 
 @Register( "IOM 1" )
-abstract class OpMode4() : OpMode();
+abstract class OpMode4 : OpMode();
 
 @Register( "IOM 2" )
-private class OpMode5() : OpMode()
+private class OpMode5 : OpMode()
 {
     override fun init(){}
     override fun loop(){}
