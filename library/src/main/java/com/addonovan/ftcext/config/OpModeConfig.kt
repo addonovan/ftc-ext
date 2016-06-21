@@ -124,7 +124,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     {
         _variant = json.getString( "variant" );
 
-        val types = arrayOf( "long", "double", "boolean", "string" );
+        val types = arrayOf( "longMap", "doubleMap", "booleanMap", "stringMap" );
 
         for ( typeName in types )
         {
@@ -140,10 +140,10 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
                 // insert the key and value into the correct map
                 when ( typeName )
                 {
-                    "long"    -> longMap.put( key, value.toLong() );
-                    "double"  -> doubleMap.put( key, value.toDouble() );
-                    "boolean" -> booleanMap.put( key, value.toBoolean() );
-                    "string"  -> stringMap.put( key, value );
+                    "longMap"    -> longMap.put( key, value.toLong() );
+                    "doubleMap"  -> doubleMap.put( key, value.toDouble() );
+                    "booleanMap" -> booleanMap.put( key, value.toBoolean() );
+                    "stringMap"  -> stringMap.put( key, value );
                 }
             }
         }
