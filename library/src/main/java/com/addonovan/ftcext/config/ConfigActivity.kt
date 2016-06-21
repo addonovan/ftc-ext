@@ -353,7 +353,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
         checkbox.setOnPreferenceChangeListener { preference, value ->
 
             variant[ key ] = value as Boolean;
-            i( "Changed $key to $value ($variant)" );
+            i( "Changed $key (boolean) to $value ($variant)" );
 
             true;
         };
@@ -364,12 +364,14 @@ class VariantConfigPreference : CustomPreferenceFragment()
     private fun createStringPreference( key: String, value: String ): EditTextPreference
     {
         val textbox = EditTextPreference( activity );
-        textbox.title = "$key\n\t$value";
+        textbox.title = "$key";
+        textbox.summary = "\t$value";
         textbox.text = value;
         textbox.setOnPreferenceChangeListener { preference, value ->
 
             variant[ key ] = value as String;
-            i( "Changed $key to $value ($variant" );
+            i( "Changed $key (string) to $value ($variant" );
+            textbox.summary = value;
 
             true;
         };
@@ -388,7 +390,8 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
         val value = ( long ?: double )!!;
         val textbox = EditTextPreference( activity );
-        textbox.title = "$key\n\t$value";
+        textbox.title = "$key";
+        textbox.summary = "\t$value";
         textbox.text = value.toString();
         textbox.setOnPreferenceChangeListener { preference, value ->
 
@@ -397,7 +400,10 @@ class VariantConfigPreference : CustomPreferenceFragment()
                 if ( value.toString().matches( "(-)?[0-9]+".toRegex() ) )
                 {
                     variant[ key ] = value as Long;
-                    i( "Changed $key to $value ($variant)")
+                    i( "Changed $key (long) to $value ($variant)")
+
+                    textbox.summary = value.toString();
+
                     true; // this was a valid value
                 }
                 else
@@ -410,7 +416,10 @@ class VariantConfigPreference : CustomPreferenceFragment()
                 if ( value.toString().matches( "(-)?[0-9]+(\\\\.[0-9]+)?".toRegex() ) )
                 {
                     variant[ key ] = value as Double;
-                    i( "Changed $key to $value ($variant)" );
+                    i( "Changed $key (double) to $value ($variant)" );
+
+                    textbox.summary = value.toString();
+
                     true; // valid value
                 }
                 else
