@@ -1,6 +1,7 @@
 package com.addonovan.ftcext.config
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import com.addonovan.ftcext.*
 
 /**
@@ -9,8 +10,6 @@ import com.addonovan.ftcext.*
  * @author addonovan
  * @since 6/20/16
  */
-
-private val defaultImage = RobotIcon.background;
 
 /**
  * Attaches the click listener which starts [ConfigActivity] to the
@@ -29,7 +28,9 @@ fun attachRobotIconListener()
     };
 
     Activity.runOnUiThread {
-        RobotIcon.setBackgroundResource( R.drawable.robot_icon );
+        RobotIcon.setBackgroundResource( R.drawable.animated_robot_icon );
+
+        ( RobotIcon.background as AnimationDrawable ).start();
     };
 }
 
@@ -46,6 +47,6 @@ fun detachRobotIconListener()
     };
 
     Activity.runOnUiThread {
-        RobotIcon.background = defaultImage;
+        RobotIcon.setBackgroundResource( R.drawable.robot_icon_off);
     };
 }
