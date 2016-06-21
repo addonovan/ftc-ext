@@ -413,7 +413,7 @@ fun loadConfigs( f: File )
             activeVariants[ opModeName ] = activeVariant; // set the active variant for this opmode
 
             // add all the variants to the map
-            for ( j in 2..opModeArray.length() )
+            for ( j in 2..opModeArray.length() - 1 )
             {
                 val config = OpModeConfig( opModeName );
                 config.fromJson( opModeArray.getJSONObject( j ) );
