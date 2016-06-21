@@ -239,21 +239,21 @@ class VariantListPreference : CustomPreferenceFragment()
      */
     private fun addVariant( name: String ): Boolean
     {
-        val variantName = name.trim();
+        val trimmedName = name.trim();
 
         // the name isn't acceptable if it's:
         // 1. blank or empty
         // 2. 'default' in any case
         // 3. Already the name of a variant (case insensitive)
-        if ( variantName.isBlank() || variantName.equals( "default", ignoreCase = true ) ) return false;
+        if ( trimmedName.isBlank() || trimmedName.equals( "default", ignoreCase = true ) ) return false;
 
         // is this already a variant?
         for ( exisingConfig in getOpModeConfigs( opModeName ) )
         {
-            if ( name.equals( exisingConfig.Variant, ignoreCase = true ) ) return false;
+            if ( trimmedName.equals( exisingConfig.Variant, ignoreCase = true ) ) return false;
         }
 
-        getOpModeConfig( opModeName, name ); // create the variant entry
+        getOpModeConfig( opModeName, trimmedName ); // create the variant entry
         currentOpModeName = opModeName;
 
         // restart the fragment to handle the new variant
