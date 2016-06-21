@@ -1,8 +1,7 @@
 package com.addonovan.ftcext
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 
 /**
  * Adds components from the FTC application to our

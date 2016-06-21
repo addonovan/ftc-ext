@@ -50,8 +50,6 @@ class OpModeRegistrar() : OpModeRegister
     {
         i( "Discovering OpModes" );
 
-        loadConfigs( CONFIG_FILE );
-
         // OpModes must be
         // instantiable
         // subclasses of ftcext's OpMode
@@ -100,6 +98,7 @@ class OpModeRegistrar() : OpModeRegister
         }
 
         attachRobotIconListener();
+        loadConfigs( CONFIG_FILE );
     }
 
 }

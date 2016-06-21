@@ -2,6 +2,7 @@ package com.addonovan.ftcext.config
 
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
+import android.widget.Toast
 import com.addonovan.ftcext.*
 
 /**
@@ -18,6 +19,13 @@ import com.addonovan.ftcext.*
  */
 fun attachRobotIconListener()
 {
+    // probably the user's first run with this framework if this is true
+    if ( !CONFIG_FILE.exists() )
+    {
+        val message = "Click on the robot icon when the button is flashing to configure OpModes";
+        Toast.makeText( Activity, message, Toast.LENGTH_LONG ).show();
+    }
+
     i( "ftcext.ConfigHelper", "Attaching robot icon's click listener" );
     RobotIcon.setOnClickListener { view ->
 
