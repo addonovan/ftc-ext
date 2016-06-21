@@ -1,8 +1,7 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.config.CONFIG_FILE
-import com.addonovan.ftcext.config.writeConfigs
+import com.addonovan.ftcext.config.*
 
 /**
  * A wrapper for the OpMode class. This acts as the standard
@@ -38,6 +37,7 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
         instance!!.init();
 
         writeConfigs( CONFIG_FILE ); // save the config file, theoretically there might not be another chance
+        detachRobotIconListener();
     }
 
     override fun init_loop() = instance!!.init_loop();
@@ -46,7 +46,11 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
 
     override fun loop() = instance!!.loop();
 
-    override fun stop() = instance!!.stop();
+    override fun stop()
+    {
+        instance!!.stop();
+        attachRobotIconListener(); // reattach the listener
+    }
 
 
 }

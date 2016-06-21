@@ -99,18 +99,7 @@ class OpModeRegistrar() : OpModeRegister
             }
         }
 
-        i( "Attaching click listener to robot icon" );
-
-        // now there is absolutely no visible trace of this program in case it
-        // technically violates rules (which I'm sure it doesn't, but, hey, I'm not
-        // actually a team member anymore)
-        RobotIcon.setOnClickListener { view ->
-
-            this@OpModeRegistrar.i( "Switching to ConfigActivity" );
-            val intent = Intent( Activity, ConfigActivity::class.java );
-            Activity.startActivity( intent );
-
-        };
+        attachRobotIconListener();
     }
 
 }

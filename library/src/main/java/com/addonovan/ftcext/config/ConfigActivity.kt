@@ -312,6 +312,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
             variant.delete();
 
             // if this is default, recreate the preference
+            // just in case we somehow managed to get here
             if ( variant.Variant.equals( "default", ignoreCase = true ) )
             {
                 getOpModeConfig( variant.OpModeName, "default" );
@@ -324,6 +325,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             true;
         };
+        deleteVariant.isEnabled = !variant.Variant.equals( "default", ignoreCase = true ); // disabled for default profiles
 
         val resetVariant = findPreference( "reset_variant" ) as PreferenceScreen;
         resetVariant.setOnPreferenceClickListener {
