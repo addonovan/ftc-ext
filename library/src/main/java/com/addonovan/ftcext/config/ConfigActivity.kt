@@ -3,6 +3,7 @@ package com.addonovan.ftcext.config
 import android.os.Bundle
 import android.preference.*
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.*
 import com.qualcomm.robotcore.hardware.Gamepad
@@ -379,9 +380,9 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
     private fun createNumericPreference( key: String, long: Long?, double: Double? ): EditTextPreference
     {
-        if ( ( long == null ) xor ( double == null ) )
+        if ( !( ( long != null ) xor ( double != null ) ) )
         {
-            throw IllegalArgumentException( "Only one value can be null: `long` == null XOR `double` == null" );
+            throw IllegalArgumentException( "Only one value can be null: `long` != null XOR `double` != null" );
         }
 
         val isLong = long != null;
@@ -391,6 +392,17 @@ class VariantConfigPreference : CustomPreferenceFragment()
         textbox.title = "$key";
         textbox.summary = "\t$value";
         textbox.text = value.toString();
+
+        // allow only signed numbers, and decimals (only if a double)
+        textbox.editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED;
+
+        // add the decimal flag if it's a double
+        if ( !isLong )
+        {
+            textbox.editText.inputType = textbox.editText.inputType or InputType.TYPE_NUMBER_FLAG_DECIMAL;
+        }
+
+
         textbox.setOnPreferenceChangeListener { preference, value ->
 
             if ( isLong )
