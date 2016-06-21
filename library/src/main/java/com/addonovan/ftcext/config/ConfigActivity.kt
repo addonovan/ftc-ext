@@ -371,7 +371,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             variant[ key ] = value as String;
             i( "Changed $key (string) to $value ($variant" );
-            textbox.summary = value;
+            textbox.summary = "\t$value";
 
             true;
         };
@@ -402,7 +402,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
                     variant[ key ] = value as Long;
                     i( "Changed $key (long) to $value ($variant)")
 
-                    textbox.summary = value.toString();
+                    textbox.summary = "\t$value";
 
                     true; // this was a valid value
                 }
@@ -418,7 +418,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
                     variant[ key ] = value as Double;
                     i( "Changed $key (double) to $value ($variant)" );
 
-                    textbox.summary = value.toString();
+                    textbox.summary = "\t$value";
 
                     true; // valid value
                 }
