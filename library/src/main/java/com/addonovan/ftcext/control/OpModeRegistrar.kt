@@ -1,9 +1,13 @@
 package com.addonovan.ftcext.control
 
+import android.content.Intent
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
+import com.qualcomm.robotcore.hardware.HardwareMap
+import java.util.*
 
 /**
  * The class responsible for finding all the OpModes that
@@ -58,7 +62,7 @@ class OpModeRegistrar() : OpModeRegister
         {
             val name = getRegisterName( opMode );
 
-            if ( name.isNullOrBlank() || name == "Stop Robot" || name.contains( "=" ) )
+            if ( name.isBlank() || name == "Stop Robot" || name.contains( "=" ) )
             {
                 e( "$name is NOT a valid OpMode name! Change it to something that is!" );
                 e( "OpMode names cannot be blank, null, \"Stop Robot\", or contain a '='" );
@@ -68,14 +72,22 @@ class OpModeRegistrar() : OpModeRegister
             // if it's a regular OpMode
             if ( OpMode::class.java.isAssignableFrom( opMode ) )
             {
+                getOpModeConfig( name, "default" ); // create a configuration for it
+
                 manager.register( name, OpModeWrapper( opMode as Class< out OpMode > ) );
                 i( "Registered OpMode class ${opMode.simpleName} as $name" );
+
+                OpModes[ name ] = opMode;
             }
             // if it's a LinearOpMode
             else if ( LinearOpMode::class.java.isAssignableFrom( opMode ) )
             {
+                getOpModeConfig( name, "default" ); // create a configuration for it
+
                 manager.register( name, LinearOpModeWrapper( opMode as Class< out LinearOpMode > ) );
                 i( "Registered LinearOpMode class ${opMode.simpleName} as $name" );
+
+                OpModes[ name ] = opMode;
             }
             // an unknown subclass of AbstractOpMode
             else
@@ -84,6 +96,12 @@ class OpModeRegistrar() : OpModeRegister
                 e( "OpModes must inherit from either com.addonovan.ftcext.control.OpMode or com.addonovan.ftcext.control.LinearOpMode!" );
             }
         }
+
+        attachRobotIconListener();
+        loadConfigs( CONFIG_FILE );
     }
 
 }
+
+/** A map of OpModes and their registered names. */
+val OpModes = HashMap< String, Class< out AbstractOpMode > >();

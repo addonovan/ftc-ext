@@ -1,6 +1,10 @@
 package com.addonovan.ftcext.control
 
+import android.text.Editable
+import android.text.TextWatcher
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.reflection.ClassFinder
 import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -25,6 +29,12 @@ abstract class AbstractOpMode()
     // Values
     //
 
+    /** The name that this OpMode is registered as in the Registrar. */
+    val RegisteredName by lazy()
+    {
+        getRegisterName( javaClass );
+    }
+
     /** The first controller. */
     val gamepad1: Gamepad
             get() = Hardware.gamepad1;
@@ -40,6 +50,56 @@ abstract class AbstractOpMode()
     /** Direct access to the hardware map. Directly referencing this is discouraged. */
     val hardwareMap: HardwareMap
             get() = Hardware.hardwareMap;
+
+    /** True if we're in `inConfig` mode, where some operations are skipped. */
+    private val inConfig = System.getProperty( "ftcext.inconfig", "false" ).toBoolean();
+
+    //
+    // Constructors
+    //
+
+    init
+    {
+        // only do this if we aren't being created for configuration purposes
+        if ( !inConfig )
+        {
+            // add a text change listener so that whenever
+            // Qualcomm tries to change it
+            OpModeLabel.addTextChangedListener( object : TextWatcher
+            {
+                override fun afterTextChanged( s: Editable? ){}
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
+
+                override fun onTextChanged( s: CharSequence, start: Int, before: Int, count: Int )
+                {
+                    val string = s.toString();
+
+                    val name = getRegisterName( this@AbstractOpMode.javaClass );
+
+                    // remove our listener whenever the OpMode is over
+                    if ( !string.contains( name ) )
+                    {
+                        OpModeLabel.removeTextChangedListener( this );
+                    }
+
+                    // if it doesn't have the configuration details, add them
+                    if ( !string.contains( "[" ) )
+                    {
+                        // run on the ui thread so we don't get yelled at
+                        Activity.runOnUiThread {
+                            // when this is created, update the opmode label to also show
+                            // the active variant
+
+                            val text = "Op Mode: $name [${getActiveVariant( name )}]";
+                            this@AbstractOpMode.v( "Updating OpMode label to read: \"$text\"" );
+
+                            OpModeLabel.text = text;
+                        }
+                    }
+                }
+            } );
+        }
+    }
 
     //
     // Things from Original OpMode
@@ -66,103 +126,119 @@ abstract class AbstractOpMode()
     open fun stop() {};
 
     //
+    // Config Fetching
+    //
+
+    /** The selected configuration variant (defaults to default) */
+    private val config = getActiveConfig( RegisteredName );
+
+    // unless these methods are expanded, apparently they don't exist according to the JVM
+    // this bullshit randomly fucking happened and took me over 2 hours to fix
+    // seriously, fuck you, JVM/ART whatever the hell is running this bullshit
+
+    /**
+     * Gets a `String` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: String ): String
+    {
+        return config[ name, default ];
+    }
+
+    /**
+     * Gets a `long` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Long ): Long
+    {
+        return config[ name, default ];
+    }
+
+    /**
+     * Gets a `double` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Double ): Double
+    {
+        return config[ name, default ];
+    };
+
+    /**
+     * Gets a `boolean` value from the configuration. Returns the default
+     * value after adding it to the configuration if there was no
+     * value in the map for the key.
+     *
+     * @param[name]
+     *          The name of the property.
+     * @param[default]
+     *          The default value if the property isn't found.
+     *
+     * @return The value of the property in the configuration, or the default if
+     *         there was none.
+     */
+    final fun get( name: String, default: Boolean ): Boolean
+    {
+        return config[ name, default ];
+    }
+
+    //
     // Device Fetching
     //
 
-    /** All the different types of DeviceMappings in the hardware map */
-    private val hardwareMaps by lazy()
-    {
-        FieldFinder( hardwareMap ).inheritsFrom( HardwareMap.DeviceMapping::class.java ).get();
-    }
+    @Suppress( "unused" ) final fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
+    @Suppress( "unused" ) final fun motor( name: String ) = hardwareMap.dcMotor[ name ];
 
-    /**
-     * The map of cached device mappings. Awful name for it, I know.
-     * The key is the class in the generics of the value, i.e.
-     * `deviceMappingMap[ Int.javaClass ] = HardwareMap.DeviceMapping< Int >`
-     */
-    private val deviceMappingMap = HashMap< Class< * >, HardwareMap.DeviceMapping< * > >();
+    @Suppress( "unused" ) final fun servoController( name: String ) = hardwareMap.servoController[ name ];
+    @Suppress( "unused" ) final fun servo( name: String ) = hardwareMap.servo[ name ];
 
-    /**
-     * Finds the device with the given name in the correct device mapping based off of
-     * the type parameters. For example:
-     *
-     * `private final DcMotor left_motor = getDevice< DcMotor >( "left_motor" );`
-     *
-     * instead of
-     *
-     * `private final DcMotor left_motor = getHardwareMap().dcMotor.get( "left_motor" );`
-     *
-     * On top of being (ever-so-slightly) shorter, this replaces multiple different
-     * method and field calls (i.e. [hardwareMap.dcMotor], [hardwareMap.irSeekerSensor], etc),
-     * and ensures that the device will never be `null`, because this method will error
-     * immediately on class initialization if it is, instead of whenever the first
-     * methods are invoked on it.
-     *
-     * @param[name]
-     *          The name of the hardware device.
-     * @return The device with the given name and the specified type (via type parameters).
-     *
-     * @throws NullPointerException
-     *          If no hardware device with the given name could be found.
-     * @throws IllegalArgumentException
-     *          If the generic type wasn't a supported type in the hardware map.
-     */
-    final fun < T : HardwareDevice > getDevice( name: String ): T
-    {
-        val type = getGenericType( ArrayList< T >() ); // oh god, this is such a hack
-        val map = getDeviceMapping< T >( type ); // the corresponding map for this type
+    @Suppress( "unused" ) final fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ];
+    @Suppress( "unused" ) final fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ];
 
-        val value = map[ name ] ?: throw NullPointerException( "No hardware of type ${type.simpleName} with the name $name" );
+    @Suppress( "unused" ) final fun analogIn( name: String ) = hardwareMap.analogInput[ name ];
+    @Suppress( "unused" ) final fun analogOut( name: String ) = hardwareMap.analogOutput[ name ];
+    @Suppress( "unused" ) final fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ];
+    @Suppress( "unused" ) final fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ];
+    @Suppress( "unused" ) final fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ];
 
-        return value;
-    }
+    @Suppress( "unused" ) final fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ];
+    @Suppress( "unused" ) final fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ];
+    @Suppress( "unused" ) final fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ];
+    @Suppress( "unused" ) final fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ];
+    @Suppress( "unused" ) final fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ];
+    @Suppress( "unused" ) final fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ];
+    @Suppress( "unused" ) final fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
+    @Suppress( "unused" ) final fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
+    @Suppress( "unused" ) final fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
+    @Suppress( "unused" ) final fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ];
 
-    /**
-     * Gets the correct [HardwareMap.DeviceMapping] for the given type.
-     *
-     * @param[type]
-     *          The class type (in reality, it's the class of `T`, but that's not checked).
-     * @return The correct [HardwareMap.DeviceMapping] for type `T`.
-     *
-     * @throws IllegalArgumentException
-     *          If the generic type wasn't a supported type in the hardware map.
-     */
-    @Suppress( "unchecked_cast" ) // the cast is checked via reflections
-    private fun < T > getDeviceMapping( type: Class< * > ): HardwareMap.DeviceMapping< T >
-    {
-        // if we've already found the device mapping before, just look it up
-        if ( deviceMappingMap.containsKey( type ) )
-        {
-            return deviceMappingMap[ type ] as HardwareMap.DeviceMapping< T >; // this should be ensured by how the data is entered into the map
-        }
-
-        // search for the correct hardware map manually
-        for ( field in hardwareMaps )
-        {
-            val deviceMapping = field.get( hardwareMap ) as HardwareMap.DeviceMapping< * >; // find the specific map for this OpMode
-
-            // if you didn't want to see hacks, you shouldn't've come here :/
-
-            // find the data-backing hashmap's field
-            val mapField = deviceMapping.javaClass.getDeclaredField( "a" );
-            mapField.isAccessible = true; // force it to be accessible
-
-            // get the value of the field
-            val map = mapField.get( deviceMapping ) as HashMap< String, * >;
-
-            // if the type of the map is the same one as the one we're given
-            if ( getGenericType( map.values ).isAssignableFrom( type ) )
-            {
-                val value = deviceMapping as HardwareMap.DeviceMapping< T >;
-                deviceMappingMap[ type ] = value; // cache it in the map so we don't have to do this loop again
-                return value;
-            }
-        }
-
-        // doing this ensures that we'll never have to check for null types anywhere!
-        // also, if it somehow gets to this, the user is an idiot anyways, and needs
-        // to immediately see that it fails.
-        throw IllegalArgumentException( "No hardware map available for type ${type.simpleName}" );
-    }
+    @Suppress( "unused" ) final fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
+    @Suppress( "unused" ) final fun led( name: String ) = hardwareMap.led[ name ];
 
 }
