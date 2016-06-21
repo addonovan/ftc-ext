@@ -210,6 +210,12 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
         return list;
     }
 
+    //
+    // Overrides
+    //
+
+    override fun toString() = "$OpModeName [$Variant]";
+
 }
 
 //

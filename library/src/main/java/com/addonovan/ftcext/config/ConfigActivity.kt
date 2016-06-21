@@ -370,6 +370,88 @@ class VariantConfigPreference : CustomPreferenceFragment()
         }
     }
 
+    //
+    // Actions
+    //
+
+    private fun createBooleanPreference(key: String, value: Boolean ): CheckBoxPreference
+    {
+        val checkbox = CheckBoxPreference( activity );
+        checkbox.title = key;
+        checkbox.isChecked = value;
+        checkbox.setOnPreferenceChangeListener { preference, value ->
+
+            variant[ key ] = value as Boolean;
+            i( "Changed $key to $value ($variant)" );
+
+            true;
+        };
+
+        return checkbox;
+    }
+
+    private fun createStringPreference( key: String, value: String ): EditTextPreference
+    {
+        val textbox = EditTextPreference( activity );
+        textbox.title = "$key\n\t$value";
+        textbox.text = value;
+        textbox.setOnPreferenceChangeListener { preference, value ->
+
+            variant[ key ] = value as String;
+            i( "Changed $key to $value ($variant" );
+
+            true;
+        };
+
+        return textbox;
+    }
+
+    private fun createNumericPreference( key: String, long: Long?, double: Double? ): EditTextPreference
+    {
+        if ( ( long == null ) xor ( double == null ) )
+        {
+            throw IllegalArgumentException( "Only one value can be null: `long` == null XOR `double` == null" );
+        }
+
+        val isLong = long != null;
+
+        val value = ( long ?: double )!!;
+        val textbox = EditTextPreference( activity );
+        textbox.title = "$key\n\t$value";
+        textbox.text = value.toString();
+        textbox.setOnPreferenceChangeListener { preference, value ->
+
+            if ( isLong )
+            {
+                if ( value.toString().matches( "(-)?[0-9]+".toRegex() ) )
+                {
+                    variant[ key ] = value as Long;
+                    i( "Changed $key to $value ($variant)")
+                    true; // this was a valid value
+                }
+                else
+                {
+                    false; // this was an invalid value
+                }
+            }
+            else
+            {
+                if ( value.toString().matches( "(-)?[0-9]+(\\\\.[0-9]+)?".toRegex() ) )
+                {
+                    variant[ key ] = value as Double;
+                    i( "Changed $key to $value ($variant)" );
+                    true; // valid value
+                }
+                else
+                {
+                    false; // invalid value
+                }
+            }
+        };
+
+        return textbox;
+    }
+
     /**
      * Sets the default values to the current variant if they weren't already
      * configured.
