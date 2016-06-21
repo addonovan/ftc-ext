@@ -1,5 +1,6 @@
 package com.addonovan.ftcext.config
 
+import android.os.Environment
 import android.util.JsonWriter
 import android.util.Log
 import com.addonovan.ftcext.*
@@ -111,7 +112,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
             writer.name( mapName ).beginArray(); // start the array
             for ( ( key, value ) in map )
             {
-                writer.beginArray().name( key ).name( value.toString() ).endArray(); // each pair get its own array
+                writer.beginArray().value( key ).value( value.toString() ).endArray(); // each pair get its own array
             }
             writer.endArray(); // end the map array
         }
@@ -123,12 +124,11 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     {
         _variant = json.getString( "variant" );
 
-        val map = json.getJSONObject( "dataMap" );
         val types = arrayOf( "long", "double", "boolean", "string" );
 
         for ( typeName in types )
         {
-            val array = map.getJSONArray( typeName ); // find the array for the given type
+            val array = json.getJSONArray( typeName ); // find the array for the given type
 
             for ( i in 0..array.length() - 1 )
             {
@@ -223,18 +223,13 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
 //
 
 /** The standard config file. */
-val CONFIG_FILE = File( Context.filesDir, "OpModeConfigs.json" );
+val CONFIG_FILE = File( Environment.getExternalStorageDirectory(), "/FIRST/OpModeConfigs.json" );
 
 /** The map of all OpModeConfigs */
 private val configMap = HashMap< Pair< String, String >, OpModeConfig >();
 
 /** The map of the opmode names vs. their active variants. */
 private val activeVariants = HashMap< String, String >();
-
-/**
- * @return The names of all the OpModes with configurations.
- */
-fun getOpModeNames() = activeVariants.keys;
 
 /**
  * Gets the configuration for the given opmode name and variant. If one is
@@ -384,6 +379,8 @@ fun loadConfigs( f: File )
     // just create the file if it doesn't exist
     if ( !f.exists() )
     {
+        if ( !f.parentFile.exists() ) f.parentFile.mkdirs();
+
         f.createNewFile();
         return;
     }
@@ -407,7 +404,7 @@ fun loadConfigs( f: File )
             for ( j in 2..opModeArray.length() )
             {
                 val config = OpModeConfig( opModeName );
-                config.fromJson( opModeArray.getJSONObject( i ) );
+                config.fromJson( opModeArray.getJSONObject( j ) );
                 configMap[ Pair( opModeName, config.Variant ) ] = config; // add it to the map
 
                 config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
@@ -431,6 +428,8 @@ fun writeConfigs( f: File )
     val writer = JsonWriter( OutputStreamWriter( FileOutputStream( f ) ) ); // write for creating the json files
     writer.setIndent( "   " ); // 3 spaces, because we're satan
 
+    writer.beginObject(); // apparently we have to be in a big-ol' object
+
     writer.name( "configs" ).beginArray(); // create our array of configs
 
     for ( ( opMode, variant ) in activeVariants )
@@ -450,4 +449,7 @@ fun writeConfigs( f: File )
     }
 
     writer.endArray(); // end our array
+    writer.endObject(); // end our big-ol' object
+
+    writer.close(); // close the writer because we're nice
 }
