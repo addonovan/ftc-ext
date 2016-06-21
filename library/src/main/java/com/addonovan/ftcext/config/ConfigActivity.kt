@@ -53,6 +53,11 @@ class ConfigActivity : AppCompatActivity()
         fragmentManager.beginTransaction().replace( android.R.id.content, fragment.SuperFragment ).commit();
     }
 
+    override fun onDestroy()
+    {
+        writeConfigs( CONFIG_FILE ); // save our edits
+        super.onDestroy();
+    }
 }
 
 /**

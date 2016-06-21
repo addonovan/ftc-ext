@@ -1,6 +1,8 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.config.CONFIG_FILE
+import com.addonovan.ftcext.config.writeConfigs
 
 /**
  * A wrapper for a LinearOpMode.
@@ -26,6 +28,7 @@ class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com
             instance = opMode.newInstance();
         }
 
+        writeConfigs( CONFIG_FILE ); // write the config, theoretically there might not be another chance
         instance!!.runOpMode();
     }
 

@@ -2,8 +2,7 @@ package com.addonovan.ftcext.control
 
 import android.content.Intent
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.config.ConfigActivity
-import com.addonovan.ftcext.config.getOpModeConfig
+import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
@@ -50,6 +49,8 @@ class OpModeRegistrar() : OpModeRegister
     override fun register( manager: OpModeManager )
     {
         i( "Discovering OpModes" );
+
+        loadConfigs( CONFIG_FILE );
 
         // OpModes must be
         // instantiable
@@ -108,8 +109,8 @@ class OpModeRegistrar() : OpModeRegister
             this@OpModeRegistrar.i( "Switching to ConfigActivity" );
             val intent = Intent( Activity, ConfigActivity::class.java );
             Activity.startActivity( intent );
-        };
 
+        };
     }
 
 }
