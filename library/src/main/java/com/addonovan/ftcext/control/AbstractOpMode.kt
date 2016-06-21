@@ -169,7 +169,7 @@ abstract class AbstractOpMode()
      */
     final fun get( name: String, default: Long ): Long
     {
-        return config[ name, default ]
+        return config[ name, default ];
     }
 
     /**
@@ -236,9 +236,9 @@ abstract class AbstractOpMode()
     @Suppress( "unused" ) final fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
     @Suppress( "unused" ) final fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
     @Suppress( "unused" ) final fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
-    @Suppress( "unused" ) final fun voltagSensor( name: String ) = hardwareMap.voltageSensor[ name ];
+    @Suppress( "unused" ) final fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ];
 
-    @Suppress( "unused" ) final fun touchSesnroMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
+    @Suppress( "unused" ) final fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
     @Suppress( "unused" ) final fun led( name: String ) = hardwareMap.led[ name ];
 
 }
