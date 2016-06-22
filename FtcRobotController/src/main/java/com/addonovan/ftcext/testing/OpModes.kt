@@ -11,10 +11,10 @@ class OpMode1 : OpMode()
     val timeLength = get( "time_length", 1 );
     val redTeam = get( "red_team", false );
 
+    val motor_back = getDevice< DcMotor >( "motor_left" );
+
     val motor_left = motor( "motor_left" );
     val motor_right = motor( "motor_right" );
-
-    val motor_back = getDevice< DcMotor >( "motor_left" );
 
     val blueTeam = get( "blue_team", true );
     val stuff = get( "stuff", 100000 );
