@@ -1,6 +1,7 @@
 package com.addonovan.ftcext.testing
 
 import com.addonovan.ftcext.control.*
+import com.qualcomm.robotcore.hardware.DcMotor
 
 @Register( "OpMode1" )
 class OpMode1 : OpMode()
@@ -12,6 +13,8 @@ class OpMode1 : OpMode()
 
     val motor_left = motor( "motor_left" );
     val motor_right = motor( "motor_right" );
+
+    val motor_back = getDevice< DcMotor >( "motor_left" );
 
     val blueTeam = get( "blue_team", true );
     val stuff = get( "stuff", 100000 );
