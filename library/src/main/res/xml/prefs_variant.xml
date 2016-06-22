@@ -6,7 +6,7 @@
         android:title= "General">
 
         <PreferenceScreen
-            android:title="Delete this variant"
+            android:title="Delete this profile"
             android:key="delete_variant">
 
             <!-- When clicked, a dialog will pop up to confirm deletion -->
@@ -14,7 +14,7 @@
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:title="Reset this variant"
+            android:title="Reset this profile"
             android:key="reset_variant">
 
             <!-- When clicked, a dialog will pop up to confirm the reset -->

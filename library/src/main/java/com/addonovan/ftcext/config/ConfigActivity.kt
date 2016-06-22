@@ -184,12 +184,12 @@ class VariantListPreference : CustomPreferenceFragment()
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_variant_list );
 
-        setTitle( "$opModeName Variants" );
+        setTitle( "$opModeName" );
         val configs = getOpModeConfigs( opModeName ); // all the configurations for the opmode
 
         // add action for clicking activate variant
         val chooseVariant = findPreference( "choose_variant" ) as ListPreference;
-        chooseVariant.entries = Array( configs.size, { i -> configs[ i ].Variant } ); // create a list of all variants to select from
+        chooseVariant.entries = Array( configs.size, { i -> configs[ i ].VariantName } ); // create a list of all variants to select from
         chooseVariant.entryValues = chooseVariant.entries; // they're the same
         chooseVariant.value = getActiveVariant( opModeName );
 
@@ -210,7 +210,7 @@ class VariantListPreference : CustomPreferenceFragment()
         for ( config in configs )
         {
             val variantScreen = preferenceManager.createPreferenceScreen( activity );
-            variantScreen.title = config.Variant;
+            variantScreen.title = config.VariantName;
 
             variantScreen.setOnPreferenceClickListener {
 
@@ -250,7 +250,7 @@ class VariantListPreference : CustomPreferenceFragment()
         // is this already a variant?
         for ( existingConfig in getOpModeConfigs( opModeName ) )
         {
-            if ( trimmedName.equals( existingConfig.Variant, ignoreCase = true ) ) return false;
+            if ( trimmedName.equals( existingConfig.VariantName, ignoreCase = true ) ) return false;
         }
 
         getOpModeConfig( opModeName, trimmedName ); // create the variant entry
@@ -302,7 +302,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
         super.onCreate( savedInstanceState );
         addPreferencesFromResource( R.xml.prefs_variant );
 
-        setTitle( "Configure ${variant.OpModeName} [${variant.Variant}]" );
+        setTitle( "$variant" );
 
         val deleteVariant = findPreference( "delete_variant" ) as PreferenceScreen;
         deleteVariant.setOnPreferenceClickListener {
@@ -313,7 +313,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             // if this is default, recreate the preference
             // just in case we somehow managed to get here
-            if ( variant.Variant.equals( "default", ignoreCase = true ) )
+            if ( variant.VariantName.equals( "default", ignoreCase = true ) )
             {
                 getOpModeConfig( variant.OpModeName, "default" );
             }
@@ -325,7 +325,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             true;
         };
-        deleteVariant.isEnabled = !variant.Variant.equals( "default", ignoreCase = true ); // disabled for default profiles
+        deleteVariant.isEnabled = !variant.VariantName.equals( "default", ignoreCase = true ); // disabled for default profiles
 
         val resetVariant = findPreference( "reset_variant" ) as PreferenceScreen;
         resetVariant.setOnPreferenceClickListener {
@@ -334,7 +334,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
 
             variant.clear(); // wipe the values
 
-            // create a new fragment for hanlding the rest
+            // create a new fragment for handling the rest
             fragmentManager.beginTransaction().replace( android.R.id.content, VariantConfigPreference() ).commit();
 
             true;

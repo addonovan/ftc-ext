@@ -7,20 +7,20 @@
 
         <ListPreference
             android:key="choose_variant"
-            android:title="Select Active Variant">
+            android:title="Select active profile">
 
         </ListPreference>
 
         <EditTextPreference
             android:key="create_variant"
             android:defaultValue=""
-            android:title="Create new variant"/>
+            android:title="Create new profile"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="variant_list"
-        android:title="Variants">
+        android:title="Profiles">
 
         <!-- Populated Programmatically -->
 
