@@ -26,12 +26,12 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     /** The name of the OpMode for which this is a configuration. */
     val OpModeName: String = name;
 
-    /** The backing field for [Variant], this can be updated, but only inside the class. */
-    private var _variant: String = "[default]";
+    /** The backing field for [VariantName], this can be updated, but only inside the class. */
+    private var _variantName: String = "[default]";
 
     /** The variant of configuration for the OpMode. */
-    val Variant: String
-        get() = _variant;
+    val VariantName: String
+        get() = _variantName;
 
     //
     // Data Maps
@@ -59,7 +59,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
      */
     internal constructor( opModeName: String, variant: String ) : this( opModeName )
     {
-        _variant = variant;
+        _variantName = variant;
     }
 
     //
@@ -81,12 +81,12 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     /**
      * Activates this configuration.
      */
-    fun activate() = setActiveConfig( OpModeName, Variant );
+    fun activate() = setActiveConfig( OpModeName, VariantName);
 
     /**
      * Deletes this configuration.
      */
-    fun delete() = deleteVariant( OpModeName, Variant );
+    fun delete() = deleteVariant( OpModeName, VariantName);
 
     //
     // Json Serialization
@@ -109,7 +109,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     {
         writer.beginObject(); // start OpModeConfig
 
-        writer.name( "variant" ).value( Variant );
+        writer.name( "variant" ).value(VariantName);
 
         val maps = mapOf(
                 Pair( "longMap", longMap ),
@@ -134,7 +134,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
 
     override fun fromJson( json: JSONObject )
     {
-        _variant = json.getString( "variant" );
+        _variantName = json.getString( "variant" );
 
         val types = arrayOf( "longMap", "doubleMap", "booleanMap", "stringMap" );
 
@@ -226,7 +226,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     // Overrides
     //
 
-    override fun toString() = "$OpModeName [$Variant]";
+    override fun toString() = "$OpModeName [$VariantName]";
 
 }
 
@@ -417,9 +417,9 @@ fun loadConfigs( f: File )
             {
                 val config = OpModeConfig( opModeName );
                 config.fromJson( opModeArray.getJSONObject( j ) );
-                configMap[ Pair( opModeName, config.Variant ) ] = config; // add it to the map
+                configMap[ Pair( opModeName, config.VariantName) ] = config; // add it to the map
 
-                config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.Variant} variant)" );
+                config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.VariantName} variant)" );
             }
         }
     }
