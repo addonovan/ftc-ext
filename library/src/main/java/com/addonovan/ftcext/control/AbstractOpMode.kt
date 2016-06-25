@@ -4,11 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
-import com.addonovan.ftcext.reflection.ClassFinder
-import com.addonovan.ftcext.reflection.FieldFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
-import java.util.*
 
 /**
  * The OpMode class built upon Qualcomm's. This class provides more utility
@@ -227,39 +224,15 @@ abstract class AbstractOpMode()
      */
     final inline fun < reified T : HardwareDevice > getDevice( name: String ): T
     {
-        return when ( T::class.java )
+        try
         {
-            DcMotorController::class.java      -> motorController( name )
-            DcMotor::class.java                -> motor( name )
-
-            ServoController::class.java        -> servoController( name )
-            Servo::class.java                  -> servo( name )
-
-            LegacyModule::class.java           -> legacyModule( name )
-            DeviceInterfaceModule::class.java  -> deviceInterfaceModule( name )
-
-            AnalogInput::class.java            -> analogIn( name )
-            AnalogOutput::class.java           -> analogOut( name )
-            DigitalChannel::class.java         -> digitalChannel( name )
-            PWMOutput::class.java              -> pwmOut( name )
-            I2cDevice::class.java              -> i2cDevice( name )
-
-            OpticalDistanceSensor::class.java  -> opticalDistanceSensor( name )
-            TouchSensor::class.java            -> touchSensor( name )
-            ColorSensor::class.java            -> colorSensor( name )
-            AccelerationSensor::class.java     -> accelerationSensor( name )
-            CompassSensor::class.java          -> compassSensor( name )
-            GyroSensor::class.java             -> gyroSensor( name )
-            IrSeekerSensor::class.java         -> irSensor( name )
-            LightSensor::class.java            -> lightSensor( name )
-            UltrasonicSensor::class.java       -> ultrasonicSensor( name )
-            VoltageSensor::class.java          -> voltageSensor( name )
-
-            TouchSensorMultiplexer::class.java -> touchSensorMultiplexer( name )
-            LED::class.java                    -> led( name )
-
-            else                               -> throw IllegalArgumentException( "Invalid HardwareDevice type! Try up-casting so the type can be recognized." );
-        } as T;
+            return hardwareMap.getDeviceByType( T::class.java, name ) as T;
+        }
+        catch ( e: Exception )
+        {
+            e( "Exception fetching hardware device (type: ${T::class.java.simpleName}) by name $name", e );
+            throw e;
+        }
     }
 
     @Suppress( "unused" ) final fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
@@ -291,4 +264,9 @@ abstract class AbstractOpMode()
     @Suppress( "unused" ) final fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
     @Suppress( "unused" ) final fun led( name: String ) = hardwareMap.led[ name ];
 
+}
+
+fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String ): HardwareDevice
+{
+    throw Exception();
 }
