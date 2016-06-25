@@ -20,11 +20,38 @@ private val HardwareMap.deviceClassMap: HashMap< Class< out HardwareDevice >, De
         // initialize the map the first time around
         if ( _deviceClassMap.size == 0 )
         {
-            // TODO
+             addToMap( dcMotorController );
+             addToMap( dcMotor );
+             addToMap( servoController );
+             addToMap( servo );
+             addToMap( legacyModule );
+             addToMap( touchSensorMultiplexer );
+             addToMap( deviceInterfaceModule );
+             addToMap( analogInput );
+             addToMap( digitalChannel );
+             addToMap( opticalDistanceSensor );
+             addToMap( touchSensor );
+             addToMap( pwmOutput );
+             addToMap( i2cDevice );
+             addToMap( analogOutput );
+             addToMap( colorSensor );
+             addToMap( led );
+             addToMap( accelerationSensor );
+             addToMap( compassSensor );
+             addToMap( gyroSensor );
+             addToMap( irSeekerSensor );
+             addToMap( lightSensor );
+             addToMap( ultrasonicSensor );
+             addToMap( voltageSensor );
         }
 
-        throw Exception();
+        return _deviceClassMap;
     }
+
+private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMapping< T > )
+{
+    _deviceClassMap[ T::class.java ] = mapping;
+}
 
 fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice>, name: String ): HardwareDevice
 {
