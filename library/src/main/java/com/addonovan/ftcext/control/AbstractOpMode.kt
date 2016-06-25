@@ -265,8 +265,3 @@ abstract class AbstractOpMode()
     @Suppress( "unused" ) final fun led( name: String ) = hardwareMap.led[ name ];
 
 }
-
-fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String ): HardwareDevice
-{
-    throw Exception();
-}
