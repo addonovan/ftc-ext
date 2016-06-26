@@ -108,7 +108,7 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
 
     try
     {
-        return deviceMapping[ name ]!!;
+        return deviceMapping[ name ];
     }
     catch ( e: Exception )
     {
