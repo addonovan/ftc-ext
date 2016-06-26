@@ -210,8 +210,6 @@ abstract class AbstractOpMode()
     //
 
     /**
-     * **KOTLIN-ONLY**
-     *
      * A single method approach to getting a device, this requires a type parameter
      * on the method, however, which means this cannot be correctly used if referenced
      * in java.
@@ -222,18 +220,11 @@ abstract class AbstractOpMode()
      * @return The value in the `DeviceMapping` in the hardware map for the given type,
      *         [T], with the key [name].
      */
-    final inline fun < reified T : HardwareDevice > getDevice( name: String ): T
-    {
-        try
-        {
-            return hardwareMap.getDeviceByType( T::class.java, name ) as T;
-        }
-        catch ( e: Exception )
-        {
-            e( "Exception fetching hardware device (type: ${T::class.java.simpleName}) by name $name", e );
-            throw e;
-        }
-    }
+    final inline fun < reified T : HardwareDevice > getDevice( name: String ) = hardwareMap.getDeviceByType( T::class.java, name ) as T;
+
+    //
+    // Java pleb-stuff
+    //
 
     @Suppress( "unused" ) final fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
     @Suppress( "unused" ) final fun motor( name: String ) = hardwareMap.dcMotor[ name ];
