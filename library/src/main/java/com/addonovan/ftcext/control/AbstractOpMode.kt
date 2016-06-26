@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.hardware.CurrentHardware
 import com.addonovan.ftcext.hardware.HardwareExtension;
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
@@ -35,19 +36,19 @@ abstract class AbstractOpMode()
 
     /** The first controller. */
     val gamepad1: Gamepad
-            get() = Hardware.gamepad1;
+            get() = CurrentHardware.gamepad1;
 
     /** The second controller. */
     val gamepad2: Gamepad
-            get() = Hardware.gamepad2;
+            get() = CurrentHardware.gamepad2;
 
     /** Telemetry for sending back current states and what not. */
     val telemetry: Telemetry
-            get() = Hardware.telemetry;
+            get() = CurrentHardware.telemetry;
 
     /** Direct access to the hardware map. Directly referencing this is discouraged. */
     val hardwareMap: HardwareMap
-            get() = Hardware.hardwareMap;
+            get() = CurrentHardware.hardwareMap;
 
     /** True if we're in `inConfig` mode, where some operations are skipped. */
     private val inConfig = System.getProperty( "ftcext.inconfig", "false" ).toBoolean();
