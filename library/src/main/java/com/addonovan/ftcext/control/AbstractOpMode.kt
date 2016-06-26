@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.hardware.HardwareExtension;
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.robocol.Telemetry
 
@@ -219,6 +220,22 @@ abstract class AbstractOpMode()
      *
      * @return The value in the `DeviceMapping` in the hardware map for the given type,
      *         [T], with the key [name].
+     *
+     * @throws IllegalArgumentException
+     *          If [T] had no DeviceMapping associated with it.
+     * @throws NullPointerException
+     *          If there was no entry for [name] with the type [T].
+     * @throws IllegalAnnotationValueException
+     *          If the [T] class had a [HardwareExtension] annotation on it that had
+     *          an invalid value (that is, one that doesn't have a value in the backing
+     *          map of classes and `DeviceMapping`s) assigned to the `hardwareMapType`
+     *          parameter.
+     *          This should *never* happen to an end-user, that would mean that the
+     *          developer who wrote the extension did so wrongly.
+     * @throws IllegalClassSetupException
+     *          If [T] is a [HardwareExtension] that has been insufficiently
+     *          set up, which could be for a multitude of reasons, check the
+     *          error message if this occurs for more details.
      */
     final inline fun < reified T : HardwareDevice > getDevice( name: String ) = hardwareMap.getDeviceByType( T::class.java, name ) as T;
 
@@ -231,17 +248,30 @@ abstract class AbstractOpMode()
      *
      * @param[name]
      *          The name of the device to fetch.
-     * @param[clazz]
+     * @param[type]
      *          The class of the hardware device, this doesn't necessary have to be one
      *          of the types directly associated in the hardware map.
      *
      * @return The value in the `DeviceMapping` in the hardware map for the given type,
-     *         [clazz], with the key [name].
+     *         [type], with the key [name].
+     *
+     * @throws IllegalArgumentException
+     *          If [type] had no DeviceMapping associated with it.
+     * @throws NullPointerException
+     *          If there was no entry for [name] with the type [type].
+     * @throws IllegalAnnotationValueException
+     *          If the [type] class had a [HardwareExtension] annotation on it that had
+     *          an invalid value (that is, one that doesn't have a value in the backing
+     *          map of classes and `DeviceMapping`s) assigned to the `hardwareMapType`
+     *          parameter.
+     *          This should *never* happen to an end-user, that would mean that the
+     *          developer who wrote the extension did so wrongly.
+     * @throws IllegalClassSetupException
+     *          If [type] is a [HardwareExtension] that has been insufficiently
+     *          set up, which could be for a multitude of reasons, check the
+     *          error message if this occurs for more details.
      */
-    final fun getDevice( name: String, clazz: Class< out HardwareDevice > ): HardwareDevice
-    {
-        return hardwareMap.getDeviceByType( clazz, name );
-    }
+    final fun getDevice(name: String, type: Class< out HardwareDevice > ) = hardwareMap.getDeviceByType( type, name );
 
     //
     // Java pleb-stuff
