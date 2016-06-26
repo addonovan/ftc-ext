@@ -95,7 +95,7 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
     }
 
     // the second condition was met, but the device is still not a
-    // direct decendent of anything in the hardware device mappings
+    // direct descendant of anything in the hardware device mappings
     // so we can't find the correct map for it
     if ( !deviceClassMap.containsKey( baseType ) )
     {
