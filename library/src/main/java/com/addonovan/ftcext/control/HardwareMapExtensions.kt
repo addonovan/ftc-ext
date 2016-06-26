@@ -85,6 +85,10 @@ private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMappi
  *          parameter.
  *          This should *never* happen to an end-user, that would mean that the
  *          developer who wrote the extension did so wrongly.
+ * @throws IllegalClassSetupException
+ *          If [type] is a [HardwareExtension] that has been insufficiently
+ *          set up, which could be for a multitude of reasons, check the
+ *          error message if this occurs for more details.
  */
 @Suppress( "unchecked_cast" )
 fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String ): HardwareDevice
