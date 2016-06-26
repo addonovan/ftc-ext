@@ -45,20 +45,6 @@ import java.util.*
 
 
 /**
- * Returns the class of the first generic type parameter.
- * For example, if passed an `ArrayList< String >`, this
- * will return [String.class] (Java) or [String.class.javaClass] (Kotlin).
- *
- * @param[thing]
- *          The generic object to get the type parameter from.
- * @param[argument]
- *          The generic argument to get, by default it's 0.
- *
- * @return The type parameter of the object.
- */
-fun getGenericType( thing: Any, argument: Int = 0 ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ argument ].javaClass;
-
-/**
  * The current application context.
  * This is the equivalent of the [HardwareMap.appContext]; however, this
  * is intended to be used in places where there is no Hardware map available.
@@ -102,10 +88,7 @@ val Activity: Activity by lazy()
         }
     }
 
-    // activity is really hard to spell
-    if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
-
-    activity!!; // "not needed" my ass, it errors unless this is here
+    activity ?: throw NullPointerException( "Failed to find activity!" ); // "not needed" my ass, it errors unless this is here
 }
 
 //
