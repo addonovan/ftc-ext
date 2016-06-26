@@ -24,6 +24,7 @@
 
 package com.addonovan.ftcext.hardware
 
+import com.addonovan.ftcext.*
 import com.qualcomm.robotcore.hardware.*
 import kotlin.reflect.KClass
 
@@ -67,3 +68,19 @@ import kotlin.reflect.KClass
 @Retention( AnnotationRetention.RUNTIME )
 @MustBeDocumented
 annotation class HardwareExtension( val hardwareMapType: KClass< out HardwareDevice > );
+
+/**
+ * An extension method for checking if the current class has the
+ * [HardwareExtension] annotation on it.
+ *
+ * @return `true` if this class has the `HardwareExtension` annotation on it.
+ */
+fun Class< * >.isHardwareExtension() = isAnnotationPresent( HardwareExtension::class.java );
+
+/**
+ * @return The `hardwareMapType` value from the [HardwareExtension] annotation
+ *         on this class.
+ */
+fun Class< * >.getHardwareMapType() =
+        if ( !this.isHardwareExtension() ) throw IllegalArgumentException( "No @HardwareExtension annotation on class \"${simpleName}\"" );
+        else getAnnotation( HardwareExtension::class.java ).hardwareMapType;
