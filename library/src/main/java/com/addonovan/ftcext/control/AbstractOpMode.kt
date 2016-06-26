@@ -222,6 +222,27 @@ abstract class AbstractOpMode()
      */
     final inline fun < reified T : HardwareDevice > getDevice( name: String ) = hardwareMap.getDeviceByType( T::class.java, name ) as T;
 
+    /**
+     * **Java Only**
+     *
+     * A single method approach to getting a device, this requires the type to be
+     * explicitly given; however, it returns a generic [HardwareDevice] object which
+     * must be casted down before use.
+     *
+     * @param[name]
+     *          The name of the device to fetch.
+     * @param[clazz]
+     *          The class of the hardware device, this doesn't necessary have to be one
+     *          of the types directly associated in the hardware map.
+     *
+     * @return The value in the `DeviceMapping` in the hardware map for the given type,
+     *         [clazz], with the key [name].
+     */
+    final fun getDevice( name: String, clazz: Class< out HardwareDevice > ): HardwareDevice
+    {
+        return hardwareMap.getDeviceByType( clazz, name );
+    }
+
     //
     // Java pleb-stuff
     //
