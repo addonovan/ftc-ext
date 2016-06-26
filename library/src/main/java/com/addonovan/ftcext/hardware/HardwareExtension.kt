@@ -69,6 +69,10 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 annotation class HardwareExtension( val hardwareMapType: KClass< out HardwareDevice > );
 
+//
+// Extension functions
+//
+
 /**
  * An extension method for checking if the current class has the
  * [HardwareExtension] annotation on it.
