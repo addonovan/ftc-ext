@@ -4,8 +4,7 @@ import com.addonovan.ftcext.*
 import com.addonovan.ftcext.hardware.*
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping
-import java.lang.reflect.Constructor
-import java.lang.reflect.Method
+import java.lang.reflect.*
 import java.util.*
 
 /**
@@ -152,11 +151,35 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
 
     try
     {
-        return deviceMapping[ name ]!!;
+        val device = deviceMapping[ name ]!!;
+
+        if ( isExtension )
+        {
+            // if it's an extension, create the extension object and return it
+            return constructor!!.newInstance( device );
+        }
+        else
+        {
+            // if it's not an extension, just return the value from the map
+            return device;
+        }
     }
-    catch ( e: Exception )
+    // catch an IllegalArgumentException from the deviceMapping.get() method
+    catch ( e: IllegalArgumentException )
     {
         e( "Failed to find the device by name $name!", e );
         throw NullPointerException( "No device with the type ${type.simpleName} by the name \"$name\"" );
+    }
+    // catch the other exceptions
+    catch ( e: Throwable )
+    {
+        // if they're from the newInstance invocation
+        if ( e is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
+        if ( e is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
+        // IllegalArgumentException can't happen as the constructor has already been chosen for the specified arguments
+
+        if ( e is InvocationTargetException ) e( "Exception while invoking HardwareExtension constructor: ${e.javaClass.name}" );
+
+        throw e; // throw it again
     }
 }
