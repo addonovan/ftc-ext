@@ -28,6 +28,8 @@ package com.addonovan.ftcext.utils
  * The interval is said to be "true" when the current time is
  * within the given interval.
  *
+ * For more accurate timing, see [HQInterval].
+ *
  * @param[startTime]
  *          The time (in milliseconds, based on [System.currentTimeMillis])
  *          that this Interval will start being active at.
@@ -36,8 +38,10 @@ package com.addonovan.ftcext.utils
  *
  * @author addonovan
  * @since 6/27/16
+ *
+ * @see [HQInterval]
  */
-class Interval( startTime: Long, duration: Long )
+open class Interval( startTime: Long, duration: Long )
 {
 
     //
@@ -45,10 +49,10 @@ class Interval( startTime: Long, duration: Long )
     //
 
     /** The time that this interval begins to be active at (milliseconds). */
-    val StartTime = startTime;
+    open val StartTime = startTime;
 
     /** The time that this interval stops being active at (milliseconds). */
-    val EndTime = startTime + duration;
+    open val EndTime = startTime + duration;
 
     //
     // Constructors
@@ -71,7 +75,7 @@ class Interval( startTime: Long, duration: Long )
     /**
      * @return If this interval is active or not.
      */
-    fun isActive(): Boolean
+    open fun isActive(): Boolean
     {
         val time = System.currentTimeMillis();
 
