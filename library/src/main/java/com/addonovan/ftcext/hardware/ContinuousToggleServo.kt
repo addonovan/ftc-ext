@@ -170,8 +170,8 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
         position =
                 when ( EngagedDirection )
                 {
-                    Direction.FORWARD -> 0.0;
-                    Direction.REVERSE -> 1.0;
+                    Direction.FORWARD -> 1.0;
+                    Direction.REVERSE -> 0.0;
                 }
 
         _currentPosition = State.ENGAGING;
@@ -187,8 +187,8 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
         position =
                 when ( EngagedDirection )
                 {
-                    Direction.FORWARD -> 1.0;
-                    Direction.REVERSE -> 0.0;
+                    Direction.FORWARD -> 0.0;
+                    Direction.REVERSE -> 1.0;
                 }
 
         _currentPosition = State.DISENGAGING;
