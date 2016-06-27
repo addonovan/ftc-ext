@@ -28,11 +28,11 @@ package com.addonovan.ftcext.utils
  * of any type of motor and its components which allows for higher level
  * control of encoder movements.
  *
- * @param[motorType]
+ * @param[Motor]
  *          The motor used in this assembly.
- * @param[wheelType]
+ * @param[Wheel]
  *          The wheel used in this assembly.
- * @param[gearRatio]
+ * @param[GearRatio]
  *          The gear ratio in this assembly (default is 1:1). This should be
  *          the number of spins of the motor divided by the spins of the wheel
  *          at the end.
@@ -57,7 +57,12 @@ class MotorAssembly(
      */
     fun toDistance( ticks: Int ): Double
     {
-        return ( ticks / Motor.EncoderTicks.toDouble() ) * Wheel.Circumference;
+        // train tracks!
+        // ticks     1 rotation      x wheel spins     1 wheel circumference
+        // ----- * ------------- * ---------------- * ----------------------- = distance
+        // 1         # ticks         1 motor spin      1 wheel spin
+        // rearranged for grouping similar operations
+        return ( ticks * Wheel.Circumference ).toDouble() / ( Motor.EncoderTicks * GearRatio );
     }
 
     /**
@@ -71,7 +76,12 @@ class MotorAssembly(
      */
     fun toTicks( distance: Double ): Int
     {
-        return Math.round( GearRatio * ( distance / Wheel.Circumference ) * Motor.EncoderTicks ).toInt();
+        // train tracks! (again!)
+        // distance    x wheel spins             x motor spins     # ticks
+        // -------- * ----------------------- * --------------- * ------------ = ticks
+        // 1           1 wheel circumference     1 wheel spin      1 rotation
+        // rearranged for grouping similar operations
+        return Math.round( ( distance * Motor.EncoderTicks * GearRatio ).toDouble() / Wheel.Circumference ).toInt();
     }
 
 }
