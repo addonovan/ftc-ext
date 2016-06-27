@@ -23,9 +23,138 @@
  */
 package com.addonovan.ftcext.hardware
 
+import com.qualcomm.robotcore.hardware.Servo
+
 /**
- * !Description!
+ * A type of servo that can be toggled between two states
+ * as well as acting like a normal servo.
  *
  * @author addonovan
  * @since 6/26/16
  */
+@HardwareExtension( Servo::class )
+class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
+{
+
+    //
+    // Timing
+    //
+
+    /**
+     * The amount of time (in milliseconds) to ensure between [toggle] calls go
+     * through and toggle the position, by default this is 350.
+     */
+    var ToggleDelay: Long = 350;
+
+    /** The last time the [toggle] call went through. */
+    private var lastToggle: Long = 0;
+
+    //
+    // Current Positioning
+    //
+
+    /** The backing field for [CurrentPosition]. */
+    private var _currentPosition = ServoPosition.ENGAGED;
+
+    /**
+     * The current position of the ToggleServo.
+     */
+    val CurrentPosition: ServoPosition
+        get() = _currentPosition;
+
+    //
+    // Positions
+    //
+
+    /**
+     * The engaged position of the Toggle Servo, [toggleOn] will set
+     * the servo to this position. This value must be between [0.0, 1.0].
+     */
+    var EngagedPosition: Double = 0.0;
+        get() = field;
+
+        /**
+         * @param[value]
+         *          The new value, must be on [0, 1].
+         */
+        set( value )
+        {
+            if ( value < 0 ) throw IllegalArgumentException( "EngagedPosition cannot be less than 0!" );
+            if ( value > 1 ) throw IllegalArgumentException( "EngagedPosition cannot be greater than 1!" );
+            field = value;
+        }
+
+    /**
+     * The disengaged position of the Toggle Servo, [toggleOff] will set
+     * the servo to this position. This value must be between [0.0, 1.0].
+     */
+    var DisengagedPosition: Double = 0.0;
+        get() = field;
+
+        /**
+         * @param[value]
+         *          The new value, must be on [0, 1].
+         */
+        set( value )
+        {
+            if ( value < 0 ) throw IllegalArgumentException( "DisengagedPosition cannot be less than 0!" );
+            if ( value > 1 ) throw IllegalArgumentException( "EngagedPosition cannot be greater than 1!" );
+            field = value;
+        }
+
+    //
+    // Toggling
+    //
+
+    /**
+     * Toggles the servo to the opposite state than it's currently in.
+     */
+    fun toggle()
+    {
+        // ensure that at least [ToggleDelay] milliseconds have passed since
+        // this method was last invoked.
+        if ( System.currentTimeMillis() - lastToggle < ToggleDelay ) return;
+
+        // toggle the position
+        when ( _currentPosition )
+        {
+            ServoPosition.ENGAGED    -> toggleOff();
+            ServoPosition.DISENGAGED -> toggleOn();
+        }
+
+        lastToggle = System.currentTimeMillis(); // reset the timer
+    }
+
+    /**
+     * Sets the servo's position to the [DisengagedPosition].
+     */
+    fun toggleOff()
+    {
+        position = DisengagedPosition;
+    }
+
+    /**
+     * Sets the servo's position to the [EngagedPosition]
+     */
+    fun toggleOn()
+    {
+        position = EngagedPosition;
+    }
+
+}
+
+/**
+ * The position of a [ToggleServo].
+ *
+ * @param[StringValue]
+ *          The value of the position as a string.
+ */
+enum class ServoPosition( val StringValue: String )
+{
+    /** The servo is currently in its engaged state. */
+    ENGAGED( "Engaged" ),
+
+    /** The servo is currently in its disengaged state. */
+    DISENGAGED( "Disengaged" );
+
+}
