@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.hardware.Servo
  * @since 6/26/16
  */
 @HardwareExtension( Servo::class )
-class ContinuousServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
+open class ContinuousServo(servo: Servo ) : Servo( servo.controller, servo.portNumber )
 {
 
     //

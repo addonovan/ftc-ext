@@ -24,7 +24,6 @@
 
 package com.addonovan.ftcext.hardware
 
-import com.addonovan.ftcext.*
 import com.qualcomm.robotcore.hardware.*
 import kotlin.reflect.KClass
 

@@ -24,35 +24,61 @@
 package com.addonovan.ftcext.hardware
 
 import com.qualcomm.robotcore.hardware.Servo
+import kotlin.concurrent.thread
 
 /**
- * A type of servo that can be toggled between two states
- * as well as acting like a normal servo.
+ * A blend between the [ContinuousServo] and the [ToggleServo]. This
+ * inherits from a ContinuousServo, rather than a ToggleServo, because
+ * this functions far differently than a normal ToggleServo does.
+ *
+ * How this functions is a little difficult to understand from the
+ * code; however, it is actually quite simple. When a servo is
+ * toggled, it will switch to the correct state, and, after
+ * [ToggleRunTime] milliseconds, it will stop and be in the end state.
+ * For example, if a servo were toggled on, it would run in
+ * the direction given by [EngagedPosition] under the status of "Engaging"
+ * for [ToggleRunTime] milliseconds, then stop under the status of
+ * "Engaged". When it is next toggled, it will run for [ToggleRunTime]
+ * milliseconds in the direction given by [DisengagedPosition] under
+ * the status of "Disengaging", then it will stop and have the status
+ * of "Disengaged" until it's toggled next.
+ *
+ * @param[servo]
+ *          The servo to create a ContinuousToggleServo from.
  *
  * @author addonovan
  * @since 6/26/16
+ *
+ * @see [ToggleServo]
+ * @see [ContinuousServo]
  */
-@HardwareExtension( Servo::class )
-class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
+class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
 {
 
     //
-    // State enum
+    // States
     //
 
     /**
-     * The position of a [ToggleServo].
+     * The position of a [ContinuousToggleServo].
      *
      * @param[StringValue]
      *          The value of the position as a string.
      */
     enum class Position( val StringValue: String )
     {
-        /** The servo is currently in its engaged state. */
+
+        /** The servo is in its engaged state. */
         ENGAGED( "Engaged" ),
 
-        /** The servo is currently in its disengaged state. */
-        DISENGAGED( "Disengaged" );
+        /** The servo is moving in its engaged direction. */
+        ENGAGING( "Engaging" ),
+
+        /** The servo is in its disengaged state. */
+        DISENGAGED( "Disengaged" ),
+
+        /** The servo is moving in its disengaged direction. */
+        DISENGAGING( "Disengaging" );
 
     }
 
@@ -66,7 +92,15 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
      */
     var ToggleDelay: Long = 350;
 
-    /** The last time the [toggle] call went through. */
+    /**
+     * The amount of time (in milliseconds) to be running the either direction,
+     * by default this is 350.
+     */
+    var ToggleRunTime: Long = 350;
+
+    /**
+     * The last time the [toggle] call went through.
+     */
     private var lastToggle: Long = 0;
 
     //
@@ -74,6 +108,7 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     //
 
     /** The backing field for [CurrentPosition]. */
+    @Volatile
     private var _currentPosition = Position.ENGAGED;
 
     /**
@@ -127,6 +162,14 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     //
 
     /**
+     * The number of toggle threads we have running. This is incremented when a
+     * toggling thread starts and decremented when it exits.
+     *
+     * @see [dispatchUpdateThread]
+     */
+    @Volatile private var toggleThreadCount = 0;
+
+    /**
      * Toggles the servo to the opposite state than it's currently in.
      */
     fun toggle()
@@ -138,8 +181,9 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
         // toggle the position
         when ( _currentPosition )
         {
-            Position.ENGAGED    -> toggleOff();
-            Position.DISENGAGED -> toggleOn();
+            Position.ENGAGED, Position.ENGAGING       -> toggleOff();
+
+            Position.DISENGAGED, Position.DISENGAGING -> toggleOn();
         }
 
         lastToggle = System.currentTimeMillis(); // reset the timer
@@ -151,7 +195,9 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     fun toggleOn()
     {
         position = EngagedPosition;
-        _currentPosition = Position.ENGAGED;
+        _currentPosition = Position.ENGAGING;
+
+        dispatchUpdateThread();
     }
 
     /**
@@ -160,7 +206,36 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     fun toggleOff()
     {
         position = DisengagedPosition;
-        _currentPosition = Position.DISENGAGED;
+        _currentPosition = Position.DISENGAGING;
+
+        dispatchUpdateThread();
+    }
+
+    /**
+     * Dispatches the background thread that will stop the servo after [ToggleRunTime]
+     * milliseconds have passed, provided no other toggling has occurred.
+     */
+    private fun dispatchUpdateThread()
+    {
+        thread {
+
+            toggleThreadCount++; // we've just started our thread, after all
+
+            Thread.sleep( ToggleRunTime ); // wait for the specified time
+
+            // if we're the only running thread, then no other toggling has been going on!
+            if ( toggleThreadCount == 1 )
+            {
+                stop(); // stop all movement
+
+                // update the position
+                if ( _currentPosition == Position.ENGAGING ) _currentPosition = Position.ENGAGED;
+                if ( _currentPosition == Position.DISENGAGING ) _currentPosition = Position.DISENGAGING;
+            }
+
+            toggleThreadCount--; // we're now ended
+
+        }.start();
     }
 
 }
