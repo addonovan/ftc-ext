@@ -163,7 +163,7 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
     }
 
     /**
-     * Sets the servo's position to the [EngagedDirection]
+     * Moves the servo in the direction of the [EngagedDirection].
      */
     fun toggleOn()
     {
@@ -180,15 +180,15 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
     }
 
     /**
-     * Sets the servo's position to the [DisengagedPosition].
+     * Moves the servo in the opposite direction of the [EngagedDirection].
      */
     fun toggleOff()
     {
         position =
                 when ( EngagedDirection )
                 {
-                    Direction.FORWARD -> 0.0;
-                    Direction.REVERSE -> 1.0;
+                    Direction.FORWARD -> 1.0;
+                    Direction.REVERSE -> 0.0;
                 }
 
         _currentPosition = State.DISENGAGING;
