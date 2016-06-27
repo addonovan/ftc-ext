@@ -2,6 +2,8 @@ package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.hardware.CurrentHardware
+import com.addonovan.ftcext.hardware.HardwareBundle
 
 /**
  * A wrapper for a LinearOpMode.
@@ -20,7 +22,7 @@ class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com
 
     override fun runOpMode()
     {
-        Hardware = HardwareBundle( gamepad1, gamepad2, telemetry, hardwareMap );
+        CurrentHardware = HardwareBundle( gamepad1, gamepad2, telemetry, hardwareMap );
 
         if ( instance == null )
         {
