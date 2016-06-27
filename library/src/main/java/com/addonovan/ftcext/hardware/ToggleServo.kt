@@ -37,6 +37,26 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
 {
 
     //
+    // State enum
+    //
+
+    /**
+     * The position of a [ToggleServo].
+     *
+     * @param[StringValue]
+     *          The value of the position as a string.
+     */
+    enum class Position(val StringValue: String )
+    {
+        /** The servo is currently in its engaged state. */
+        ENGAGED( "Engaged" ),
+
+        /** The servo is currently in its disengaged state. */
+        DISENGAGED( "Disengaged" );
+
+    }
+
+    //
     // Timing
     //
 
@@ -54,12 +74,12 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     //
 
     /** The backing field for [CurrentPosition]. */
-    private var _currentPosition = ServoPosition.ENGAGED;
+    private var _currentPosition = Position.ENGAGED;
 
     /**
      * The current position of the ToggleServo.
      */
-    val CurrentPosition: ServoPosition
+    val CurrentPosition: Position
         get() = _currentPosition;
 
     //
@@ -118,19 +138,11 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
         // toggle the position
         when ( _currentPosition )
         {
-            ServoPosition.ENGAGED    -> toggleOff();
-            ServoPosition.DISENGAGED -> toggleOn();
+            Position.ENGAGED    -> toggleOff();
+            Position.DISENGAGED -> toggleOn();
         }
 
         lastToggle = System.currentTimeMillis(); // reset the timer
-    }
-
-    /**
-     * Sets the servo's position to the [DisengagedPosition].
-     */
-    fun toggleOff()
-    {
-        position = DisengagedPosition;
     }
 
     /**
@@ -139,22 +151,16 @@ class ToggleServo( servo: Servo ) : Servo( servo.controller, servo.portNumber )
     fun toggleOn()
     {
         position = EngagedPosition;
+        _currentPosition = Position.ENGAGED;
     }
 
-}
-
-/**
- * The position of a [ToggleServo].
- *
- * @param[StringValue]
- *          The value of the position as a string.
- */
-enum class ServoPosition( val StringValue: String )
-{
-    /** The servo is currently in its engaged state. */
-    ENGAGED( "Engaged" ),
-
-    /** The servo is currently in its disengaged state. */
-    DISENGAGED( "Disengaged" );
+    /**
+     * Sets the servo's position to the [DisengagedPosition].
+     */
+    fun toggleOff()
+    {
+        position = DisengagedPosition;
+        _currentPosition = Position.DISENGAGED;
+    }
 
 }
