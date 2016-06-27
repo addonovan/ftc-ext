@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.*
+import com.addonovan.ftcext.hardware.CurrentHardware
+import com.addonovan.ftcext.hardware.HardwareBundle
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.robocol.Telemetry
 
@@ -30,7 +32,7 @@ class ConfigActivity : AppCompatActivity()
     {
         super.onCreate( savedInstanceState );
         System.setProperty( "ftcext.inconfig", "true" ); // makes sure some errors don't happen
-        Hardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), FalseHardwareMap( this ) ); // spoof hardware info
+        CurrentHardware = HardwareBundle( Gamepad(), Gamepad(), Telemetry(), FalseHardwareMap( this ) ); // spoof hardware info
 
         // add the main fragment then let it sort it out from here
         fragmentManager.beginTransaction().replace( android.R.id.content, OpModeListPreference() ).commit();

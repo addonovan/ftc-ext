@@ -3,10 +3,6 @@ package com.addonovan.ftcext
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.qualcomm.robotcore.hardware.*
-import com.qualcomm.robotcore.robocol.Telemetry
-import java.lang.reflect.ParameterizedType
-import java.util.*
 
 /**
  * Hacks. You probably don't want to look at this file.
@@ -43,20 +39,6 @@ import java.util.*
 @Suppress( "unused" ) fun Any.e( data: String, throwable: Throwable ) = Log.e( "ftcext.${javaClass.simpleName}", data, throwable );
 @Suppress( "unused" ) fun Any.wtf( data: String, throwable: Throwable ) = Log.wtf( "ftcext.${javaClass.simpleName}", data, throwable );
 
-
-/**
- * Returns the class of the first generic type parameter.
- * For example, if passed an `ArrayList< String >`, this
- * will return [String.class] (Java) or [String.class.javaClass] (Kotlin).
- *
- * @param[thing]
- *          The generic object to get the type parameter from.
- * @param[argument]
- *          The generic argument to get, by default it's 0.
- *
- * @return The type parameter of the object.
- */
-fun getGenericType( thing: Any, argument: Int = 0 ) = ( thing.javaClass.genericSuperclass as ParameterizedType ).actualTypeArguments[ argument ].javaClass;
 
 /**
  * The current application context.
@@ -102,41 +84,5 @@ val Activity: Activity by lazy()
         }
     }
 
-    // activity is really hard to spell
-    if ( activity == null ) throw NullPointerException( "Failed to find activity!" );
-
-    activity!!; // "not needed" my ass, it errors unless this is here
+    activity ?: throw NullPointerException( "Failed to find activity!" ); // "not needed" my ass, it errors unless this is here
 }
-
-//
-// OpMode Hacks
-//
-
-/**
- * A bundle of hardware information for an OpMode.
- * This contains the two gamepads, the telemetry object, and the hardware map for
- * the OpMode to use.
- */
-data class HardwareBundle( val gamepad1: Gamepad, val gamepad2: Gamepad, val telemetry: Telemetry, val hardwareMap: HardwareMap );
-
-/** The backing nullable field for [Hardware] */
-private var _hardware: HardwareBundle? = null;
-
-/**
- * A bundle of hardware information.
- * This is ensured to be non-null, because if the backing field
- * is null, a [NullPointerException] will be thrown.
- *
- * @throws NullPointerException
- *          If the backing field hasn't been set yet.
- */
-var Hardware: HardwareBundle
-    get()
-    {
-        if ( _hardware == null ) throw NullPointerException( "HardwareBundle is being accessed before it's been set!" );
-        return _hardware as HardwareBundle; // this will probably never throw an exception, hopefully
-    }
-    set( value )
-    {
-        _hardware = value;
-    }

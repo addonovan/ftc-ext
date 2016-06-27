@@ -1,7 +1,8 @@
 package com.addonovan.ftcext.control
 
-import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
+import com.addonovan.ftcext.hardware.CurrentHardware
+import com.addonovan.ftcext.hardware.HardwareBundle
 
 /**
  * A wrapper for the OpMode class. This acts as the standard
@@ -27,7 +28,7 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
     override fun init()
     {
         // create the hardware bundle for the OpMode to use
-        Hardware = HardwareBundle( gamepad1, gamepad2, telemetry, hardwareMap );
+        CurrentHardware = HardwareBundle( gamepad1, gamepad2, telemetry, hardwareMap );
 
         if ( instance == null )
         {

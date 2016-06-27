@@ -1,8 +1,10 @@
 package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.hardware.*
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping
+import java.lang.reflect.*
 import java.util.*
 
 /**
@@ -76,26 +78,71 @@ private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMappi
  *          If [type] had no DeviceMapping associated with it.
  * @throws NullPointerException
  *          If there was no entry for [name] with the type [type].
+ * @throws IllegalAnnotationValueException
+ *          If the [type] class had a [HardwareExtension] annotation on it that had
+ *          an invalid value (that is, one that doesn't have a value in the backing
+ *          map of classes and `DeviceMapping`s) assigned to the `hardwareMapType`
+ *          parameter.
+ *          This should *never* happen to an end-user, that would mean that the
+ *          developer who wrote the extension did so wrongly.
+ * @throws IllegalClassSetupException
+ *          If [type] is a [HardwareExtension] that has been insufficiently
+ *          set up, which could be for a multitude of reasons, check the
+ *          error message if this occurs for more details.
  */
 @Suppress( "unchecked_cast" )
 fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String ): HardwareDevice
 {
-    // keep going up the hierarchy for hardware devices until:
-    // 1. the base type is in the class map
-    // 2. the base type's superclass is HardwareDevice itself
-    //
-    // after the loop breaks we know that:
-    // if there's a key for "baseType" that we can find the correct device mapping for the type
-    // otherwise, we need to throw an exception because there's no map for the given type
-
     var baseType = type;
-    while ( !deviceClassMap.containsKey( baseType ) && baseType.superclass != HardwareDevice::class.java )
+    val isExtension = type.isHardwareExtension();
+    var constructor: Constructor< out HardwareDevice >? = null;
+
+    if ( isExtension )
     {
-        baseType = baseType.superclass as Class< out HardwareDevice >;
+        // If the class is an @HardwareExtension, we can grab the base type right out of the
+        // annotation parameters
+
+        baseType = type.getHardwareMapType().java;
+
+        // ensure the base type is a valid one
+        if ( !deviceClassMap.containsKey( baseType ) )
+        {
+            e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
+            throw IllegalAnnotationValueException( HardwareExtension::class.java, "hardwareMapType", type );
+        }
+
+        // ensure that there's a correct constructor for the extension class
+        try
+        {
+            constructor = type.getConstructor( baseType );
+        }
+        catch ( nsme: NoSuchMethodException )
+        {
+            e( "Encountered NoSuchMethodException when searching for constructor in HardwareExtension class!" );
+            throw IllegalClassSetupException(
+                    type,
+                    "A HardwareExtension class must have a constructor witch a single parameter of the \"hardwareMapType\"'s class!"
+            );
+        }
+    }
+    else
+    {
+        // keep going up the hierarchy for hardware devices until:
+        // 1. the base type is in the class map
+        // 2. the base type's superclass is HardwareDevice itself
+        //
+        // after the loop breaks we know that:
+        // if there's a key for "baseType" that we can find the correct device mapping for the type
+        // otherwise, we need to throw an exception because there's no map for the given type
+
+        while ( !deviceClassMap.containsKey( baseType ) && baseType.superclass != HardwareDevice::class.java )
+        {
+            baseType = baseType.superclass as Class< out HardwareDevice >;
+        }
     }
 
     // the second condition was met, but the device is still not a
-    // direct decendent of anything in the hardware device mappings
+    // direct descendant of anything in the hardware device mappings
     // so we can't find the correct map for it
     if ( !deviceClassMap.containsKey( baseType ) )
     {
@@ -108,11 +155,35 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
 
     try
     {
-        return deviceMapping[ name ]!!;
+        val device = deviceMapping[ name ]!!;
+
+        if ( isExtension )
+        {
+            // if it's an extension, create the extension object and return it
+            return constructor!!.newInstance( device );
+        }
+        else
+        {
+            // if it's not an extension, just return the value from the map
+            return device;
+        }
     }
-    catch ( e: Exception )
+    // catch an IllegalArgumentException from the deviceMapping.get() method
+    catch ( e: IllegalArgumentException )
     {
         e( "Failed to find the device by name $name!", e );
         throw NullPointerException( "No device with the type ${type.simpleName} by the name \"$name\"" );
+    }
+    // catch the other exceptions
+    catch ( e: Throwable )
+    {
+        // if they're from the newInstance invocation
+        if ( e is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
+        if ( e is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
+        // IllegalArgumentException can't happen as the constructor has already been chosen for the specified arguments
+
+        if ( e is InvocationTargetException ) e( "Exception while invoking HardwareExtension constructor: ${e.javaClass.name}" );
+
+        throw e; // throw it again
     }
 }
