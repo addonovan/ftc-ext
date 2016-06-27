@@ -36,7 +36,7 @@ import kotlin.concurrent.thread
  * toggled, it will switch to the correct state, and, after
  * [ToggleRunTime] milliseconds, it will stop and be in the end state.
  * For example, if a servo were toggled on, it would run in
- * the direction given by [EngagedPosition] under the status of "Engaging"
+ * the direction given by [EngagedDirection] under the status of "Engaging"
  * for [ToggleRunTime] milliseconds, then stop under the status of
  * "Engaged". When it is next toggled, it will run for [ToggleRunTime]
  * milliseconds in the direction given by [DisengagedPosition] under
@@ -65,7 +65,7 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
      * @param[StringValue]
      *          The value of the position as a string.
      */
-    enum class Position( val StringValue: String )
+    enum class State( val StringValue: String )
     {
 
         /** The servo is in its engaged state. */
@@ -109,12 +109,12 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
 
     /** The backing field for [CurrentPosition]. */
     @Volatile
-    private var _currentPosition = Position.ENGAGED;
+    private var _currentPosition = State.ENGAGED;
 
     /**
      * The current position of the ToggleServo.
      */
-    val CurrentPosition: Position
+    val CurrentPosition: State
         get() = _currentPosition;
 
     //
@@ -122,40 +122,13 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
     //
 
     /**
-     * The engaged position of the Toggle Servo, [toggleOn] will set
-     * the servo to this position. This value must be between [0.0, 1.0].
+     * The direction to move when the servo is in the "engaging"
+     * state. When the servo is in the "disengaging" state it will
+     * move in the opposite direction of this.
+     *
+     * @see [State]
      */
-    var EngagedPosition: Double = 0.0;
-        get() = field;
-
-        /**
-         * @param[value]
-         *          The new value, must be on [0, 1].
-         */
-        set( value )
-        {
-            if ( value < 0 ) throw IllegalArgumentException( "EngagedPosition cannot be less than 0!" );
-            if ( value > 1 ) throw IllegalArgumentException( "EngagedPosition cannot be greater than 1!" );
-            field = value;
-        }
-
-    /**
-     * The disengaged position of the Toggle Servo, [toggleOff] will set
-     * the servo to this position. This value must be between [0.0, 1.0].
-     */
-    var DisengagedPosition: Double = 0.0;
-        get() = field;
-
-        /**
-         * @param[value]
-         *          The new value, must be on [0, 1].
-         */
-        set( value )
-        {
-            if ( value < 0 ) throw IllegalArgumentException( "DisengagedPosition cannot be less than 0!" );
-            if ( value > 1 ) throw IllegalArgumentException( "EngagedPosition cannot be greater than 1!" );
-            field = value;
-        }
+    var EngagedDirection = Direction.FORWARD;
 
     //
     // Toggling
@@ -181,32 +154,44 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
         // toggle the position
         when ( _currentPosition )
         {
-            Position.ENGAGED, Position.ENGAGING       -> toggleOff();
+            State.ENGAGED, State.ENGAGING       -> toggleOff();
 
-            Position.DISENGAGED, Position.DISENGAGING -> toggleOn();
+            State.DISENGAGED, State.DISENGAGING -> toggleOn();
         }
 
         lastToggle = System.currentTimeMillis(); // reset the timer
     }
 
     /**
-     * Sets the servo's position to the [EngagedPosition]
+     * Moves the servo in the direction of the [EngagedDirection].
      */
     fun toggleOn()
     {
-        position = EngagedPosition;
-        _currentPosition = Position.ENGAGING;
+        position =
+                when ( EngagedDirection )
+                {
+                    Direction.FORWARD -> 1.0;
+                    Direction.REVERSE -> 0.0;
+                }
+
+        _currentPosition = State.ENGAGING;
 
         dispatchUpdateThread();
     }
 
     /**
-     * Sets the servo's position to the [DisengagedPosition].
+     * Moves the servo in the opposite direction of the [EngagedDirection].
      */
     fun toggleOff()
     {
-        position = DisengagedPosition;
-        _currentPosition = Position.DISENGAGING;
+        position =
+                when ( EngagedDirection )
+                {
+                    Direction.FORWARD -> 0.0;
+                    Direction.REVERSE -> 1.0;
+                }
+
+        _currentPosition = State.DISENGAGING;
 
         dispatchUpdateThread();
     }
@@ -229,8 +214,8 @@ class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
                 stop(); // stop all movement
 
                 // update the position
-                if ( _currentPosition == Position.ENGAGING ) _currentPosition = Position.ENGAGED;
-                if ( _currentPosition == Position.DISENGAGING ) _currentPosition = Position.DISENGAGING;
+                if ( _currentPosition == State.ENGAGING ) _currentPosition = State.ENGAGED;
+                if ( _currentPosition == State.DISENGAGING ) _currentPosition = State.DISENGAGING;
             }
 
             toggleThreadCount--; // we're now ended
