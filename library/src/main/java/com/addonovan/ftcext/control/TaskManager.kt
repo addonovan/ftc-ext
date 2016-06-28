@@ -77,6 +77,8 @@ object TaskManager
         {
             val wrapper = iter.next();
 
+            if ( !wrapper.Task.canStart() ) continue; // skip the task
+
             v( "Ticking task: \"${wrapper.Name}\"" );
             wrapper.Task.tick();
 
@@ -85,6 +87,8 @@ object TaskManager
             {
                 i( "Task \"${wrapper.Name}\" finished, removing from queue" );
                 iter.remove();
+
+                wrapper.Task.onFinish(); // let the task clean up
             }
         }
     }

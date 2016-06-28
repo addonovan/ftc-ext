@@ -36,6 +36,11 @@ interface Task
 {
 
     /**
+     * @return If the task is ready to begin or not.
+     */
+    fun canStart(): Boolean;
+
+    /**
      * 'Ticks' the task. This is executed as often as the OpMode's 'loop'
      * method is invoked, and should be written to function as if it were
      * in the loop method.
@@ -47,5 +52,10 @@ interface Task
      *         from the tasking queue.
      */
     fun isFinished(): Boolean;
+
+    /**
+     * Called when the task is complete for clean up.
+     */
+    fun onFinish();
 
 }

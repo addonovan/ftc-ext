@@ -23,9 +23,12 @@
  */
 package com.addonovan.ftcext.hardware
 
+import com.addonovan.ftcext.control.Task
+import com.addonovan.ftcext.control.TaskManager
 import com.addonovan.ftcext.utils.MotorAssembly
 import com.addonovan.ftcext.utils.MotorType
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorController
 
 /**
  * An abstraction on top of the [DcMotor] which makes it much easier
@@ -73,7 +76,56 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
     }
 
     //
-    // Movement
+    // Encoders
+    //
+
+    fun resetEncoders()
+    {
+
+    }
+
+    fun moveDistance( distance: Double, power: Double ): Task
+    {
+        val ticks = assembly.toTicks( distance ); // precalculate the number of ticks
+
+        // create the task
+        val task = object : Task
+        {
+
+            // continually try to reset the encoders until they eventually do, then
+            // we can actually start
+            override fun canStart(): Boolean
+            {
+                setMode( DcMotorController.RunMode.RESET_ENCODERS );
+                return currentPosition == 0;
+            }
+
+            override fun tick()
+            {
+                setPower( power ); // continually set the power
+            }
+
+            // we're only finished once we're in the right place
+            override fun isFinished(): Boolean
+            {
+                return currentPosition == ticks;
+            }
+
+            // we reached the goal
+            override fun onFinish()
+            {
+                brake();
+            }
+
+        };
+
+        TaskManager.registerTask( task, "Motor (${controller.deviceName} port $portNumber) running for $ticks encoder ticks" );
+
+        return task;
+    }
+
+    //
+    // Basic Movement
     //
 
     /**
