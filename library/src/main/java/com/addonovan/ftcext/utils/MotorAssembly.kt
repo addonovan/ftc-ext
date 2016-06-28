@@ -30,21 +30,25 @@ package com.addonovan.ftcext.utils
  *
  * @param[Motor]
  *          The motor used in this assembly.
- * @param[Wheel]
- *          The wheel used in this assembly.
+ * @param[WheelDiameter]
+ *          The diameter of the wheel used in the assembly (in cm). Default is
+ *          4 inches/10.16 cm.
  * @param[GearRatio]
  *          The gear ratio in this assembly (default is 1:1). This should be
  *          the number of spins of the motor divided by the spins of the wheel
  *          at the end.
  *
  * @see[MotorType]
- * @see[WheelType]
+ * @see[Wheel]
  */
 class MotorAssembly(
         val Motor: MotorType,
-        val Wheel: WheelType,
+        val WheelDiameter: Double = 10.16,
         val GearRatio: Double = 1.0 )
 {
+
+    /** The circumference of the wheel in this assembly. */
+    val WheelCircumference = Math.PI * WheelDiameter;
 
     /**
      * converts the number of encoder ticks on the motor to a distance based
@@ -62,7 +66,7 @@ class MotorAssembly(
         // ----- * ------------- * ---------------- * ----------------------- = distance
         // 1         # ticks         1 motor spin      1 wheel spin
         // rearranged for grouping similar operations
-        return ( ticks * Wheel.Circumference ).toDouble() / ( Motor.EncoderTicks * GearRatio );
+        return ( ticks * WheelCircumference ).toDouble() / ( Motor.EncoderTicks * GearRatio );
     }
 
     /**
@@ -81,7 +85,7 @@ class MotorAssembly(
         // -------- * ----------------------- * --------------- * ------------ = ticks
         // 1           1 wheel circumference     1 wheel spin      1 rotation
         // rearranged for grouping similar operations
-        return Math.round( ( distance * Motor.EncoderTicks * GearRatio ).toDouble() / Wheel.Circumference ).toInt();
+        return Math.round( ( distance * Motor.EncoderTicks * GearRatio ).toDouble() / WheelCircumference ).toInt();
     }
 
 }
@@ -117,35 +121,5 @@ enum class MotorType( encoderTicks: Int )
      * one full cycle.
      */
     val EncoderTicks = encoderTicks;
-
-}
-
-/**
- * The type of wheel that is attached to the motor.
- *
- * @param[diameter]
- *          The diameter of the wheel (cm).
- *
- * @author addonovan
- * @since 6/27/16
- */
-enum class WheelType( diameter: Double )
-{
-
-    //
-    // Instances
-    //
-
-    STEALTH_WHEEL( 10.16 );
-
-    //
-    // Vals
-    //
-
-    /** The diameter of the wheel (cm). */
-    val Diameter = diameter;
-
-    /** The circumference of the wheel (cm). */
-    val Circumference = Math.PI * diameter;
 
 }
