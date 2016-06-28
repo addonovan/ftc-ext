@@ -24,10 +24,18 @@
 package com.addonovan.ftcext.hardware
 
 import com.addonovan.ftcext.utils.MotorAssembly
+import com.addonovan.ftcext.utils.MotorType
 import com.qualcomm.robotcore.hardware.DcMotor
 
 /**
+ * An abstraction on top of the [DcMotor] which makes it much easier
+ * to move via encoders and distances. The [Assembly] value allows
+ * for the motor assembly to be specified so that movement by encoders
+ * becomes a trivial task.
  *
+ * A big thing to note is that motor values are no longer represented
+ * on the scale [-1.0, 1.0], but now are on the interval [-100.0, 100.0],
+ * because they are much easier to read that way.
  *
  * @author addonovan
  * @since 6/27/16
@@ -40,17 +48,49 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
     // Motor Assembly
     //
 
-    /** Backing field for [Assembly]. */
-    private var _assembly: MotorAssembly? = null;
+    /**
+     * The motor assembly that this motor is a part of. By default,
+     * this represents an assembly with a tetrix motor, with a 4 inch
+     * (10.16 cm) wheel, and a 1:1 gear ratio.
+     */
+    var Assembly: MotorAssembly = MotorAssembly( MotorType.TETRIX );
 
     /**
-     * The motor assembly that this motor is a part of.
+     * @param[assembly]
+     *          The new motor assembly to set for this motor.
+     *
+     * @return The value of this motor, for initialization purposes.
      */
-    var Assembly: MotorAssembly
-        get() = _assembly!!;
-        set( value )
-        {
-            _assembly = value;
-        }
+    fun setAssembly( assembly: MotorAssembly ): Motor
+    {
+        Assembly = assembly;
+        return this;
+    }
+
+    //
+    // Movement
+    //
+
+    /**
+     * Sets the power of the motor to be 0%.
+     */
+    fun brake()
+    {
+        power = 0.0;
+    }
+
+    /**
+     * @param[power]
+     *          The power to set the motor at [-100,100].
+     */
+    override fun setPower( power: Double )
+    {
+        super.setPower( power / 100.0 );
+    }
+
+    /**
+     * @return The power, on a scale of [-100,100].
+     */
+    override fun getPower() = super.getPower() * 100;
 
 }
