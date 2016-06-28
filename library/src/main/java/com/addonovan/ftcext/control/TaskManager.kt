@@ -43,15 +43,36 @@ object TaskManager
     // Vals
     //
 
+    /** Backing field for [IsLinearOpMode]. */
+    private var _isLinearOpMode = false;
+
+    /** If the current OpMode is a LinearOpMode */
+    val IsLinearOpMode: Boolean
+        get() = _isLinearOpMode;
+
     /** The tasks currently enqueued. */
     private val tasks = HashSet< TaskWrapper >();
+
+    //
+    // Linear OpMode handling
+    //
+
+    /**
+     * @param[isLinearOpMode]
+     *          If we're handling a LinearOpMode or not.
+     */
+    internal fun setIsLinearOpMode( isLinearOpMode: Boolean )
+    {
+        _isLinearOpMode = isLinearOpMode;
+    }
 
     //
     // Registration
     //
 
     /**
-     * Registers a task to be completed at a later time.
+     * Registers a task to be completed at a later time. If [IsLinearOpMode] is
+     * true, then the task will be executed immediately.
      *
      * @param[task]
      *          The task to complete.
@@ -60,7 +81,34 @@ object TaskManager
      */
     fun registerTask( task: Task, name: String )
     {
-        tasks += TaskWrapper( task, name );
+        if ( IsLinearOpMode )
+        {
+            i( "Running task: \"$name\"" );
+
+            v( "Waiting until task can start..." );
+            // sleep for 10 ms until the task can start
+            while ( !task.canStart() )
+            {
+                Thread.sleep( 10 );
+            }
+
+            v( "Running task until completion..." );
+            // continue to tick the task until it's finished
+            while ( !task.isFinished() )
+            {
+                task.tick();
+                Thread.sleep( 10 );
+            }
+
+            v( "Task completed!" );
+            task.onFinish();
+
+            i( "Completed task: \"$name\"" );
+        }
+        else
+        {
+            tasks += TaskWrapper( task, name );
+        }
     }
 
     //
@@ -72,6 +120,8 @@ object TaskManager
      */
     fun tick()
     {
+        if ( IsLinearOpMode ) throw UnsupportedOperationException( "TaskManager.tick() isn't supported for LinearOpModes!" );
+
         val iter = tasks.iterator();
         while ( iter.hasNext() )
         {

@@ -38,6 +38,7 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
         instance!!.init();
 
         writeConfigs( CONFIG_FILE ); // save the config file, theoretically there might not be another chance
+        TaskManager.setIsLinearOpMode( false );
         detachRobotIconListener();
     }
 
