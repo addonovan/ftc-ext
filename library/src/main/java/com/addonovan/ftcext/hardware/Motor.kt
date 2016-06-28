@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 
 /**
  * An abstraction on top of the [DcMotor] which makes it much easier
- * to move via encoders and distances. The [Assembly] value allows
+ * to move via encoders and distances. The [assembly] value allows
  * for the motor assembly to be specified so that movement by encoders
  * becomes a trivial task.
  *
@@ -53,9 +53,13 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
      * this represents an assembly with a tetrix motor, with a 4 inch
      * (10.16 cm) wheel, and a 1:1 gear ratio.
      */
-    var Assembly: MotorAssembly = MotorAssembly( MotorType.TETRIX );
+    private var assembly: MotorAssembly = MotorAssembly( MotorType.TETRIX );
 
     /**
+     * Sets the motor assembly that this motor is a part of. By default,
+     * this represents an assembly with a tetrix motor, with a 4 inch
+     * (10.16 cm) wheel, and a 1:1 gear ratio.
+     *
      * @param[assembly]
      *          The new motor assembly to set for this motor.
      *
@@ -63,7 +67,8 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
      */
     fun setAssembly( assembly: MotorAssembly ): Motor
     {
-        Assembly = assembly;
+        this.assembly = assembly;
+
         return this;
     }
 
