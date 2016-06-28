@@ -59,3 +59,16 @@ interface Task
     fun onFinish();
 
 }
+
+/**
+ * A simple task is an implementation of a task that can immediately start
+ * and has no necessary cleanup.
+ */
+abstract class SimpleTask : Task
+{
+
+    override fun canStart() = true;
+
+    override fun onFinish() {}
+
+}
