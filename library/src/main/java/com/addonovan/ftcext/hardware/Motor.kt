@@ -136,12 +136,15 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
     {
         val ticks = assembly.toTicks( distance ); // precalculate the number of ticks
 
-        // we don't need to reset the encoders if we just add the goal ticks to the current position
-        val goalTicks = ticks + currentPosition;
-
         // create the task
-        val task = object : SimpleTask()
+        val task = object : Task
         {
+
+            override fun canStart(): Boolean
+            {
+                setMode( DcMotorController.RunMode.RESET_ENCODERS );
+                return currentPosition == 0;
+            }
 
             override fun tick()
             {
@@ -151,7 +154,7 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
             // we're only finished once we're in the right place
             override fun isFinished(): Boolean
             {
-                return currentPosition == goalTicks;
+                return currentPosition == ticks;
             }
 
             // we reached the goal
