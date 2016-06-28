@@ -45,7 +45,11 @@ class OpModeWrapper( private val opMode: Class< out OpMode > ) : com.qualcomm.ro
 
     override fun start() = instance!!.start();
 
-    override fun loop() = instance!!.loop();
+    override fun loop()
+    {
+        instance!!.tickTasks();
+        instance!!.loop();
+    }
 
     override fun stop()
     {
