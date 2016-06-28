@@ -89,6 +89,9 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
      * Creates and registers a task with the [TaskManager] that will
      * reset the motor encoders.
      *
+     * If the OpMode is linear, then whenever this method returns, the
+     * task will have already been completed.
+     *
      * @return The created task. (Use [Task.isFinished] to determine
      *         when the task has been finished).
      */
@@ -115,6 +118,12 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
      * Creates and registers a task with the [TaskManager] that wil
      * make the motor move at the given power until the given distance
      * has been covered.
+     *
+     * If the OpMode is linear, then whenever this method returns, the
+     * task will have been completed.
+     *
+     * This is not guaranteed to be accurate, as it is entirely dependent
+     * upon motor encoders!
      *
      * @param[distance]
      *          The distance to cover (in cm).
