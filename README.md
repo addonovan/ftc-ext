@@ -9,7 +9,7 @@ nicer if you choose to use it as well; however, Java will work just as well.
 The [wiki](https://github.com/addonovan/ftc-ext/wiki) is far more in-depth about installation and how to 
 use individual API tools; however, below is a list of some neat features.
 
-## Hardware Access
+## [Hardware Access](https://github.com/addonovan/ftc-ext/wiki/Hardware%20Access)
 
 The OpMode lifecycle when using ftc-ext has been simplified. No longer do you have to separate the declaration
 from the initialization when creating hardware devices, it can be done immediately, as the hardware map has a
@@ -20,14 +20,6 @@ map's device mappings, meaning the lines take less time to write. This was done 
 hardware map in Java now requires a method call (`getHardwareMap()` instead of simply `hardwareMap`).
 [Here](https://github.com/addonovan/ftc-ext/wiki/Hardware-Access:-Standard-Methods) is a list of methods to get
 the correct hardware device with the new way.
-
-Additionally, there is another way to access any type of hardware device using a single method. This is intended
-mostly for Kotlin users, as the syntax for the Java equivalent is much ulgier and then the result must also be
-type-casted. The `getDevice< T : HardwareDevice >( name: String ): T` method will return a device of the given 
-type from the correct map. For Java users, the method signature is
-`HardwareDevice getDevice( String name, Class< ? extends HardwareDevice > deviceType )`. Notice how it returns a
-`HardwareDevice` and not a `T`? That means that, if you were getting a `DcMotor`, for example, you would then have
-to cast the result from the method. Not the best syntax ever, but it's the best I could do without method generics.
 
 #### Old Way
 **Java**
@@ -49,19 +41,19 @@ public class MyOpMode extends OpMode
 ```java
 public class MyOpMode extends OpMode
 {
-    private final DcMotor motor = motor( "motor_name" );
+    private final DcMotor motor1 = motor( "motor_name" );
+    private final DcMotor motor2 = ( DcMotor ) getDevice( "motor_name", DcMotor.class );
 }
 ```
 **Kotlin**
 ```kotlin
 class MyOpMode : OpMode()
 {
-    private val motor: DcMotor = getDevice( "motor_name" );
+    private val motor1 = motor( "motor_name" );
+    private val motor2: DcMotor = getDevice( "motor_name" );
 }
 ```
-(this syntax is more useful for more advanced methods in Kotlin, however, the java-equivalent is pretty ugly).
-
-To read more about hardware access read [Hardware Access](https://github.com/addonovan/ftc-ext/wiki/Hardware%20Access)
+`motor1` and `motor2` will have the same value, this just shows the different ways to access the same thing.  
 
 ## Configurations
 
