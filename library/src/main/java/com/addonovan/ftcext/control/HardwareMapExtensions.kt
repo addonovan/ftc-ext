@@ -116,20 +116,14 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
         {
             constructor = type.getConstructor( baseType );
         }
-        catch ( nsme: NoSuchMethodException )
-        {
-            constructor == null;
-        }
+        catch ( nsme: NoSuchMethodException ) {}
 
         // try to select a more specific one, but fall back to the other one
         try
         {
             constructor = type.getConstructor( baseType, String::class.java );
         }
-        catch ( nsme: NoSuchMethodException )
-        {
-            constructor = null;
-        }
+        catch ( nsme: NoSuchMethodException ) {}
 
         // if it's still null at this point
         if ( constructor == null )
