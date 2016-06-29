@@ -39,19 +39,24 @@ import com.qualcomm.robotcore.hardware.DcMotorController
  * on the scale [-1.0, 1.0], but now are on the interval [-100.0, 100.0],
  * because they are much easier to read that way.
  *
+ * @param[dcMotor]
+ *          The motor this is based off of.
+ * @param[name]
+ *          The name of this device in the hardware map.
+ *
  * @author addonovan
  * @since 6/27/16
  */
 @HardwareExtension( DcMotor::class )
-class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumber, dcMotor.direction )
+class Motor( dcMotor: DcMotor, name: String ) : DcMotor( dcMotor.controller, dcMotor.portNumber, dcMotor.direction )
 {
 
     //
     // Motor identification
     //
 
-    /** A representation of this motor based on the DcMotorController and its port. */
-    val Name = "Motor (${controller.deviceName} port $portNumber)";
+    /** The name of this motor in the hardware map */
+    val Name = "Motor: $name";
 
     //
     // Motor Assembly

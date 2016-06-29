@@ -118,10 +118,25 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
         }
         catch ( nsme: NoSuchMethodException )
         {
-            e( "Encountered NoSuchMethodException when searching for constructor in HardwareExtension class!" );
+            constructor == null;
+        }
+
+        // try to select a more specific one, but fall back to the other one
+        try
+        {
+            constructor = type.getConstructor( baseType, String::class.java );
+        }
+        catch ( nsme: NoSuchMethodException )
+        {
+            constructor = null;
+        }
+
+        // if it's still null at this point
+        if ( constructor == null )
+        {
+            e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
             throw IllegalClassSetupException(
-                    type,
-                    "A HardwareExtension class must have a constructor witch a single parameter of the \"hardwareMapType\"'s class!"
+                    type, "HardwareExtension devices must conform to certain constructor requirements!"
             );
         }
     }
@@ -160,7 +175,21 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
         if ( isExtension )
         {
             // if it's an extension, create the extension object and return it
-            return constructor!!.newInstance( device );
+
+            // 1 parameter is just the hardware device
+            if ( constructor!!.typeParameters.size == 1 )
+            {
+                return constructor.newInstance( device );
+            }
+            // 2 parameters is the hardware device AND its name
+            else if ( constructor.typeParameters.size == 2 )
+            {
+                return constructor.newInstance( device, name );
+            }
+            else
+            {
+                throw IllegalStateException( "huh but how?" ); // not descriptive, but will probably never occur
+            }
         }
         else
         {
