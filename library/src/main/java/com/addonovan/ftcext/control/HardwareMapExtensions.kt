@@ -63,6 +63,56 @@ private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMappi
 }
 
 /**
+ * Finds the correct Hardware extension constructor.
+ *
+ * @param[type]
+ *          The hardware extension class.
+ *
+ * @return The constructor for the extension, if one exists.
+ */
+private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevice > ): Constructor< out HardwareDevice >
+{
+    var constructor: Constructor< out HardwareDevice >? = null;
+
+    // If the class is an @HardwareExtension, we can grab the base type right out of the
+    // annotation parameters
+
+    val baseType = type.getHardwareMapType().java;
+
+    // ensure the base type is a valid one
+    if ( !deviceClassMap.containsKey( baseType ) )
+    {
+        e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
+        throw IllegalAnnotationValueException( HardwareExtension::class.java, "hardwareMapType", type );
+    }
+
+    // ensure that there's a correct constructor for the extension class
+    try
+    {
+        constructor = type.getConstructor( baseType );
+    }
+    catch ( nsme: NoSuchMethodException ) {}
+
+    // try to select a more specific one, but fall back to the other one
+    try
+    {
+        constructor = type.getConstructor( baseType, String::class.java );
+    }
+    catch ( nsme: NoSuchMethodException ) {}
+
+    // if it's still null at this point
+    if ( constructor == null )
+    {
+        e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
+        throw IllegalClassSetupException(
+                type, "HardwareExtension devices must conform to certain constructor requirements!"
+        );
+    }
+
+    return constructor;
+}
+
+/**
  * Gets the correct device from the Hardware device mappings in the HardwareMap by
  * using the type of HardwareDevice to find the correct hardware device mapping
  * and the name to get the correct value out of it.
@@ -99,40 +149,8 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
 
     if ( isExtension )
     {
-        // If the class is an @HardwareExtension, we can grab the base type right out of the
-        // annotation parameters
-
+        constructor = findExtensionConstructor( type );
         baseType = type.getHardwareMapType().java;
-
-        // ensure the base type is a valid one
-        if ( !deviceClassMap.containsKey( baseType ) )
-        {
-            e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
-            throw IllegalAnnotationValueException( HardwareExtension::class.java, "hardwareMapType", type );
-        }
-
-        // ensure that there's a correct constructor for the extension class
-        try
-        {
-            constructor = type.getConstructor( baseType );
-        }
-        catch ( nsme: NoSuchMethodException ) {}
-
-        // try to select a more specific one, but fall back to the other one
-        try
-        {
-            constructor = type.getConstructor( baseType, String::class.java );
-        }
-        catch ( nsme: NoSuchMethodException ) {}
-
-        // if it's still null at this point
-        if ( constructor == null )
-        {
-            e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
-            throw IllegalClassSetupException(
-                    type, "HardwareExtension devices must conform to certain constructor requirements!"
-            );
-        }
     }
     else
     {
