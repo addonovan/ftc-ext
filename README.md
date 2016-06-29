@@ -55,7 +55,7 @@ class MyOpMode : OpMode()
 ```
 `motor1` and `motor2` will have the same value, this just shows the different ways to access the same thing.  
 
-## Configurations
+## [Profiles & Configuration](https://github.com/addonovan/ftc-ext/wiki/Profiles%20&%20Configuration).
 
 All OpModes support configuration without any extra effort. Variables can be assigned a value based on values in
 a configuration file (which is easily editable inside the robot controller app itself!), and it will resort to a
@@ -79,18 +79,33 @@ private val isRed = get( "is_red", false );
 private val myName = get( "my_name", "Freddo" );
 ```
 
-To learn more about the configuration system, read
-[Profiles & Configuration](https://github.com/addonovan/ftc-ext/wiki/Profiles%20&%20Configuration).
+## [Hardware Extension](https://github.com/addonovan/ftc-ext/wiki/Advanced%20Hardware)
 
-## Task mangement
+Hardware extensions are new classes that add new functionality to old hardware devices. Take, for
+example, the `ToggleServo` class, which is an ftc-ext standard class. This class extends a `Servo`
+but also allows for the toggling between two positions (with a timer to make sure that a minimum
+amount of time passes before it toggles again. This time is also configurable). Or the
+`ContinuousToggleServo` class which extends the new `ContinuousServo` class (which extends `Servo`).
+This class allows for essentially the same functionality as the `ToggleServo` does; however, instead
+of moving to a position when toggle, this moves in a direction for a (configurable) amount of time.
+
+To access a hardware extension, simply use the `getDevice` method for accessing hardware as shown above
+(sorry Java users, it has to be done this way).  
+
+**Java**
+```java
+private final ToggleServo toggleServo = ( ToggleServo ) getDevice( "toggle_servo", ToggleServo.class );
+private final ContinuousToggleServo cts = ( ContinuousToggleServo ) getDevice( "cts", ContinuousToggleServo.class );
+```
+**Kotlin**
+```kotlin
+private val toggleServo: ToggleServo = getDevice( "toggle_servo" );
+private val cts: ContinuousToggleServo = getDevice( "cts" );
+```
+
+## [Task Management](https://github.com/addonovan/ftc-ext/wiki/Task%20Management)
 
 TODO write
-
-## Hardware Extension
-
-TODO write
-
-
 
 
 
