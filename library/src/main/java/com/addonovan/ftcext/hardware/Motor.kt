@@ -118,16 +118,14 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
     fun moveDistance( distance: Double, power: Double ): Task
     {
         val ticks = Assembly.toTicks( distance ); // precalculate the number of ticks
+        val resetTask = resetEncoders(); // register the task for resetting the encoders
 
         // create the task
         val task = object : Task
         {
 
-            override fun canStart(): Boolean
-            {
-                setMode( DcMotorController.RunMode.RESET_ENCODERS );
-                return currentPosition == 0;
-            }
+            // this task will only start after the motor encoders have been reset to zero
+            override fun canStart() = resetTask.isFinished();
 
             override fun tick()
             {
