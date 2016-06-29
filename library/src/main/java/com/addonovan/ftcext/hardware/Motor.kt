@@ -67,7 +67,23 @@ class Motor( dcMotor: DcMotor, name: String ) : DcMotor( dcMotor.controller, dcM
      * this represents an assembly with a tetrix motor, with a 4 inch
      * (10.16 cm) wheel, and a 1:1 gear ratio.
      */
-    var Assembly: MotorAssembly = MotorAssembly( MotorType.TETRIX );
+    private var assembly: MotorAssembly = MotorAssembly( MotorType.TETRIX );
+
+    /**
+     * @param[assembly]
+     *          The new motor assembly.
+     * @return This [Motor] so that this method can be invoked on initialization.
+     */
+    fun setAssembly( assembly: MotorAssembly ): Motor
+    {
+        this.assembly = assembly;
+        return this;
+    }
+
+    /**
+     * @return The current motor assembly.
+     */
+    fun getAssembly() = assembly;
 
     //
     // Encoders
@@ -122,7 +138,7 @@ class Motor( dcMotor: DcMotor, name: String ) : DcMotor( dcMotor.controller, dcM
      */
     fun moveDistance( distance: Double, power: Double ): Task
     {
-        val ticks = Assembly.toTicks( distance ); // precalculate the number of ticks
+        val ticks = assembly.toTicks( distance ); // precalculate the number of ticks
         val resetTask = resetEncoders(); // register the task for resetting the encoders
 
         // create the task
