@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:///shared/dev/ftc-ext/FtcRobotController/FtcRobotController.iml" filepath="/shared/dev/ftc-ext/FtcRobotController/FtcRobotController.iml" />
-      <module fileurl="file:///shared/dev/ftc-ext/ftc-ext.iml" filepath="/shared/dev/ftc-ext/ftc-ext.iml" />
-      <module fileurl="file:///shared/dev/ftc-ext/library/library.iml" filepath="/shared/dev/ftc-ext/library/library.iml" />
+      <module fileurl="file:///shared/dev/ftcext/FtcRobotController/FtcRobotController.iml" filepath="/shared/dev/ftcext/FtcRobotController/FtcRobotController.iml" />
+      <module fileurl="file:///shared/dev/ftcext/ftc-ext/ftc-ext.iml" filepath="/shared/dev/ftcext/ftc-ext/ftc-ext.iml" />
+      <module fileurl="file:///shared/dev/ftcext/ftcext.iml" filepath="/shared/dev/ftcext/ftcext.iml" />
     </modules>
   </component>
 </project>

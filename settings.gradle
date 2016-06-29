@@ -1,1 +1,1 @@
-include ':library', ':FtcRobotController'
+include ':ftc-ext', ':FtcRobotController'

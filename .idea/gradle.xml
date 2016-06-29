@@ -7,16 +7,16 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="/shared/dev/ftc-ext" />
-            <option value="/shared/dev/ftc-ext/FtcRobotController" />
-            <option value="/shared/dev/ftc-ext/library" />
+            <option value="/shared/dev/ftcext" />
+            <option value="/shared/dev/ftcext/FtcRobotController" />
+            <option value="/shared/dev/ftcext/ftc-ext" />
           </set>
         </option>
         <option name="myModules">
           <set>
-            <option value="/shared/dev/ftc-ext" />
-            <option value="/shared/dev/ftc-ext/FtcRobotController" />
-            <option value="/shared/dev/ftc-ext/library" />
+            <option value="/shared/dev/ftcext" />
+            <option value="/shared/dev/ftcext/FtcRobotController" />
+            <option value="/shared/dev/ftcext/ftc-ext" />
           </set>
         </option>
       </GradleProjectSettings>

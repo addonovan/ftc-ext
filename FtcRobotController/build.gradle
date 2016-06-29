@@ -46,7 +46,7 @@ allprojects {
 }
 
 dependencies {
-    compile project(path: ':library')
+    compile project(path: ':ftc-ext')
 
     compile 'com.android.support:support-v4:23.4.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
