@@ -84,6 +84,10 @@ object TaskManager
     //
 
     /**
+     * This can only be called by methods inside this package,
+     * and it's only called by two classes: [OpModeWrapper] and
+     * [LinearOpModeWrapper].
+     *
      * @param[isLinearOpMode]
      *          If we're handling a LinearOpMode or not.
      */
@@ -133,6 +137,7 @@ object TaskManager
         }
         else
         {
+            v( "Registering task: \"$name\"" );
             tasks += TaskWrapper( task, name );
         }
     }
@@ -142,7 +147,9 @@ object TaskManager
     //
 
     /**
-     * Ticks all of the tasks in the task queue.
+     * Ticks all of the tasks in the task queue. If the task's
+     * `isFinished` method returns `true`, then it will be removed
+     * from the task queue and it's `onFinish` method will be invoked.
      */
     fun tick()
     {
@@ -153,23 +160,47 @@ object TaskManager
         {
             val wrapper = iter.next();
 
-            if ( !wrapper.Task.canStart() ) continue; // skip the task
+            // this is mostly for ease of access, but it is slightly
+            // faster to do it this way
+            val task = wrapper.Task;
+            val name = wrapper.Name;
 
-            v( "Ticking task: \"${wrapper.Name}\"" );
-            wrapper.Task.tick();
-
-            // remove it if it's finished
-            if ( wrapper.Task.isFinished() )
+            // wrapped in a try-catch because I don't trust users
+            try
             {
-                i( "Task \"${wrapper.Name}\" finished, removing from queue" );
-                iter.remove();
+                if ( !task.canStart() ) continue; // skip the task
 
-                wrapper.Task.onFinish(); // let the task clean up
+                v( "Ticking task: \"$name\"" );
+                task.tick();
+
+                // remove it if it's finished
+                if ( task.isFinished() )
+                {
+                    i( "Task \"$name\" finished, removing from queue" );
+                    iter.remove();
+
+                    task.onFinish(); // let the task clean up
+                }
+            }
+            catch ( e: Throwable )
+            {
+                e( "Error while ticking task: \"${wrapper.Name}\"!", e );
+                // Not so sure how I feel about this, so I'll leave it commented out
+                // unless I feel the need to throw it in the future
+                // throw e;
             }
         }
     }
 
-
+    /**
+     * A wrapper for a task so that a description of the task is also
+     * associated with the task.
+     *
+     * @param[Task]
+     *          The task to wrap around.
+     * @param[Name]
+     *          The name/description of the [Task].
+     */
     private data class TaskWrapper( val Task: Task, val Name: String );
 
 }
