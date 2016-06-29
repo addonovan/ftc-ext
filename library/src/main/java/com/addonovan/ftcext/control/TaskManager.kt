@@ -168,7 +168,12 @@ object TaskManager
             // wrapped in a try-catch because I don't trust users
             try
             {
-                if ( !task.canStart() ) continue; // skip the task
+                if ( !wrapper.Started )
+                {
+                    if ( !task.canStart() ) continue; // skip the task
+
+                    wrapper.Started = true; // once the task is started, we won't have to ask it again
+                }
 
                 v( "Ticking task: \"$name\"" );
                 task.tick();
@@ -201,6 +206,6 @@ object TaskManager
      * @param[Name]
      *          The name/description of the [Task].
      */
-    private data class TaskWrapper( val Task: Task, val Name: String );
+    private data class TaskWrapper( val Task: Task, val Name: String, var Started: Boolean = false );
 
 }
