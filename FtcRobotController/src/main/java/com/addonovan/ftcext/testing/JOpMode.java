@@ -3,6 +3,7 @@ package com.addonovan.ftcext.testing;
 import com.addonovan.ftcext.control.OpMode;
 import com.addonovan.ftcext.control.Register;
 import com.addonovan.ftcext.hardware.Motor;
+import com.addonovan.ftcext.hardware.ToggleServo;
 import com.addonovan.ftcext.utils.MotorAssembly;
 import com.addonovan.ftcext.utils.MotorType;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,14 +26,16 @@ public class JOpMode extends OpMode
 
     private Motor motor = ( ( Motor ) getDevice( "motor", Motor.class ) ).setAssembly( new MotorAssembly( MotorType.TETRIX, 10.16, 1 ) );
 
+    private ToggleServo servo = ( ToggleServo ) getDevice( "toggle", ToggleServo.class );
+
     @Override
-    public void loop()
+    public void init()
     {
 
     }
 
     @Override
-    public void init()
+    public void loop()
     {
 
     }

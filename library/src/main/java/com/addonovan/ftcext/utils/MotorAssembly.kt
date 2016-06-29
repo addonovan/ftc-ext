@@ -39,7 +39,6 @@ package com.addonovan.ftcext.utils
  *          at the end.
  *
  * @see[MotorType]
- * @see[Wheel]
  */
 class MotorAssembly(
         val Motor: MotorType,
