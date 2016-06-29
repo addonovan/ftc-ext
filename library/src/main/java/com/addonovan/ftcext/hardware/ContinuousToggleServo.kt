@@ -39,7 +39,7 @@ import kotlin.concurrent.thread
  * the direction given by [EngagedDirection] under the status of "Engaging"
  * for [ToggleRunTime] milliseconds, then stop under the status of
  * "Engaged". When it is next toggled, it will run for [ToggleRunTime]
- * milliseconds in the direction given by [DisengagedPosition] under
+ * milliseconds in the opposite direction of [EngagedDirection] under
  * the status of "Disengaging", then it will stop and have the status
  * of "Disengaged" until it's toggled next.
  *

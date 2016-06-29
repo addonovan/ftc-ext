@@ -2,6 +2,9 @@ package com.addonovan.ftcext.testing;
 
 import com.addonovan.ftcext.control.OpMode;
 import com.addonovan.ftcext.control.Register;
+import com.addonovan.ftcext.hardware.Motor;
+import com.addonovan.ftcext.utils.MotorAssembly;
+import com.addonovan.ftcext.utils.MotorType;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Register( name = "JOpMode" )
@@ -19,6 +22,8 @@ public class JOpMode extends OpMode
     private long value = get( "long_value", 5 );
 
     private boolean isBlue = get( "blue_team", true );
+
+    private Motor motor = ( ( Motor ) getDevice( "motor", Motor.class ) ).setAssembly( new MotorAssembly( MotorType.TETRIX, 10.16, 1 ) );
 
     @Override
     public void loop()
