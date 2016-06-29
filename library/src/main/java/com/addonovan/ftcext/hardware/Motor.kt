@@ -23,9 +23,11 @@
  */
 package com.addonovan.ftcext.hardware
 
+import com.addonovan.ftcext.control.*
 import com.addonovan.ftcext.utils.MotorAssembly
 import com.addonovan.ftcext.utils.MotorType
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorController
 
 /**
  * An abstraction on top of the [DcMotor] which makes it much easier
@@ -43,6 +45,13 @@ import com.qualcomm.robotcore.hardware.DcMotor
 @HardwareExtension( DcMotor::class )
 class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumber, dcMotor.direction )
 {
+
+    //
+    // Motor identification
+    //
+
+    /** A representation of this motor based on the DcMotorController and its port. */
+    val Name = "Motor (${controller.deviceName} port $portNumber)";
 
     //
     // Motor Assembly
@@ -73,7 +82,96 @@ class Motor( dcMotor: DcMotor ) : DcMotor( dcMotor.controller, dcMotor.portNumbe
     }
 
     //
-    // Movement
+    // Encoders
+    //
+
+    /**
+     * Creates and registers a task with the [TaskManager] that will
+     * reset the motor encoders.
+     *
+     * If the OpMode is linear, then whenever this method returns, the
+     * task will have already been completed.
+     *
+     * @return The created task. (Use [Task.isFinished] to determine
+     *         when the task has been finished).
+     */
+    fun resetEncoders(): Task
+    {
+        val task = object : SimpleTask()
+        {
+
+            override fun tick()
+            {
+                setMode( DcMotorController.RunMode.RESET_ENCODERS );
+            }
+
+            override fun isFinished() = currentPosition == 0;
+
+        }
+
+        TaskManager.registerTask( task, "$Name resetting encoders" );
+
+        return task;
+    }
+
+    /**
+     * Creates and registers a task with the [TaskManager] that wil
+     * make the motor move at the given power until the given distance
+     * has been covered.
+     *
+     * If the OpMode is linear, then whenever this method returns, the
+     * task will have been completed.
+     *
+     * This is not guaranteed to be accurate, as it is entirely dependent
+     * upon motor encoders!
+     *
+     * @param[distance]
+     *          The distance to cover (in cm).
+     * @param[power]
+     *          The power to move the motor at.
+     * @return The created task. (Use [Task.isFinished] to determine
+     *         when the task has been finished).
+     */
+    fun moveDistance( distance: Double, power: Double ): Task
+    {
+        val ticks = assembly.toTicks( distance ); // precalculate the number of ticks
+
+        // create the task
+        val task = object : Task
+        {
+
+            override fun canStart(): Boolean
+            {
+                setMode( DcMotorController.RunMode.RESET_ENCODERS );
+                return currentPosition == 0;
+            }
+
+            override fun tick()
+            {
+                setPower( power ); // continually set the power
+            }
+
+            // we're only finished once we're in the right place
+            override fun isFinished(): Boolean
+            {
+                return currentPosition == ticks;
+            }
+
+            // we reached the goal
+            override fun onFinish()
+            {
+                brake();
+            }
+
+        };
+
+        TaskManager.registerTask( task, "$Name running for $ticks encoder ticks" );
+
+        return task;
+    }
+
+    //
+    // Basic Movement
     //
 
     /**

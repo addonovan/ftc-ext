@@ -1,6 +1,5 @@
 package com.addonovan.ftcext.control
 
-import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.hardware.CurrentHardware
 import com.addonovan.ftcext.hardware.HardwareBundle
@@ -31,6 +30,7 @@ class LinearOpModeWrapper( private val opMode: Class< out LinearOpMode > ) : com
 
         writeConfigs( CONFIG_FILE ); // write the config, theoretically there might not be another chance
         detachRobotIconListener(); // detach the listener
+        TaskManager.setIsLinearOpMode( true ); // we are a LinearOpMode after all
 
         instance!!.runOpMode();
 

@@ -58,6 +58,18 @@ abstract class OpMode : AbstractOpMode()
 {
 
     //
+    // Internal
+    //
+
+    /**
+     * Used to tick the enqueued tasks in the task manager.
+     */
+    internal fun tickTasks()
+    {
+        TaskManager.tick();
+    }
+
+    //
     // Abstract
     //
 
