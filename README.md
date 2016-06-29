@@ -55,7 +55,7 @@ class MyOpMode : OpMode()
 ```
 `motor1` and `motor2` will have the same value, this just shows the different ways to access the same thing.  
 
-## [Profiles & Configuration](https://github.com/addonovan/ftc-ext/wiki/Profiles%20&%20Configuration).
+## [Profiles & Configuration](https://github.com/addonovan/ftc-ext/wiki/Profiles%20&%20Configuration)
 
 All OpModes support configuration without any extra effort. Variables can be assigned a value based on values in
 a configuration file (which is easily editable inside the robot controller app itself!), and it will resort to a
