@@ -148,7 +148,7 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: String ): String
+    fun get( name: String, default: String ): String
     {
         return config[ name, default ];
     }
@@ -166,7 +166,7 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Long ): Long
+    fun get( name: String, default: Long ): Long
     {
         return config[ name, default ];
     }
@@ -184,7 +184,7 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Double ): Double
+    fun get( name: String, default: Double ): Double
     {
         return config[ name, default ];
     };
@@ -202,7 +202,7 @@ abstract class AbstractOpMode()
      * @return The value of the property in the configuration, or the default if
      *         there was none.
      */
-    final fun get( name: String, default: Boolean ): Boolean
+    fun get( name: String, default: Boolean ): Boolean
     {
         return config[ name, default ];
     }
@@ -238,7 +238,7 @@ abstract class AbstractOpMode()
      *          set up, which could be for a multitude of reasons, check the
      *          error message if this occurs for more details.
      */
-    final inline fun < reified T : HardwareDevice > getDevice( name: String ) = hardwareMap.getDeviceByType( T::class.java, name ) as T;
+    inline fun < reified T : HardwareDevice > getDevice( name: String ) = hardwareMap.getDeviceByType( T::class.java, name ) as T;
 
     /**
      * **Java Only**
@@ -272,39 +272,39 @@ abstract class AbstractOpMode()
      *          set up, which could be for a multitude of reasons, check the
      *          error message if this occurs for more details.
      */
-    final fun getDevice(name: String, type: Class< out HardwareDevice > ) = hardwareMap.getDeviceByType( type, name );
+    fun getDevice( name: String, type: Class< out HardwareDevice > ) = hardwareMap.getDeviceByType( type, name );
 
     //
     // Java pleb-stuff
     //
 
-    @Suppress( "unused" ) final fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
-    @Suppress( "unused" ) final fun motor( name: String ) = hardwareMap.dcMotor[ name ];
+    @Suppress( "unused" ) fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
+    @Suppress( "unused" ) fun motor( name: String ) = hardwareMap.dcMotor[ name ];
 
-    @Suppress( "unused" ) final fun servoController( name: String ) = hardwareMap.servoController[ name ];
-    @Suppress( "unused" ) final fun servo( name: String ) = hardwareMap.servo[ name ];
+    @Suppress( "unused" ) fun servoController( name: String ) = hardwareMap.servoController[ name ];
+    @Suppress( "unused" ) fun servo( name: String ) = hardwareMap.servo[ name ];
 
-    @Suppress( "unused" ) final fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ];
-    @Suppress( "unused" ) final fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ];
+    @Suppress( "unused" ) fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ];
+    @Suppress( "unused" ) fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ];
 
-    @Suppress( "unused" ) final fun analogIn( name: String ) = hardwareMap.analogInput[ name ];
-    @Suppress( "unused" ) final fun analogOut( name: String ) = hardwareMap.analogOutput[ name ];
-    @Suppress( "unused" ) final fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ];
-    @Suppress( "unused" ) final fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ];
-    @Suppress( "unused" ) final fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ];
+    @Suppress( "unused" ) fun analogIn( name: String ) = hardwareMap.analogInput[ name ];
+    @Suppress( "unused" ) fun analogOut( name: String ) = hardwareMap.analogOutput[ name ];
+    @Suppress( "unused" ) fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ];
+    @Suppress( "unused" ) fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ];
+    @Suppress( "unused" ) fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ];
 
-    @Suppress( "unused" ) final fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ];
-    @Suppress( "unused" ) final fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ];
-    @Suppress( "unused" ) final fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ];
-    @Suppress( "unused" ) final fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ];
-    @Suppress( "unused" ) final fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ];
-    @Suppress( "unused" ) final fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ];
-    @Suppress( "unused" ) final fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
-    @Suppress( "unused" ) final fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
-    @Suppress( "unused" ) final fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
-    @Suppress( "unused" ) final fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ];
+    @Suppress( "unused" ) fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ];
+    @Suppress( "unused" ) fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ];
+    @Suppress( "unused" ) fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ];
+    @Suppress( "unused" ) fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ];
+    @Suppress( "unused" ) fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ];
+    @Suppress( "unused" ) fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ];
+    @Suppress( "unused" ) fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
+    @Suppress( "unused" ) fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
+    @Suppress( "unused" ) fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
+    @Suppress( "unused" ) fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ];
 
-    @Suppress( "unused" ) final fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
-    @Suppress( "unused" ) final fun led( name: String ) = hardwareMap.led[ name ];
+    @Suppress( "unused" ) fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
+    @Suppress( "unused" ) fun led( name: String ) = hardwareMap.led[ name ];
 
 }
