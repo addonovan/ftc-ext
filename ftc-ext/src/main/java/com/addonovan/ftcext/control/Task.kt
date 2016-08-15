@@ -36,7 +36,6 @@ interface Task
 {
 
     /**
-     * @return If the task is ready to begin or not.
      */
     fun canStart(): Boolean;
 

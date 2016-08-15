@@ -36,8 +36,6 @@ class ConfigActivity : AppCompatActivity()
 
         // add the main fragment then let it sort it out from here
         fragmentManager.beginTransaction().replace( android.R.id.content, OpModeListPreference() ).commit();
-
-        System.setProperty( "ftcext.inconfig", "false" ); // unset the flag
     }
 
     override fun onBackPressed()
@@ -58,6 +56,7 @@ class ConfigActivity : AppCompatActivity()
     override fun onDestroy()
     {
         writeConfigs( CONFIG_FILE ); // save our edits
+        System.setProperty( "ftcext.inconfig", "false" ); // unset the flag
         super.onDestroy();
     }
 }
