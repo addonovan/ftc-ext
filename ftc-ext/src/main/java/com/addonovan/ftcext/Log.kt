@@ -71,7 +71,7 @@ fun getLog( kClass: KClass< * > ): ILog
 {
     val name = kClass.java.name;
 
-    if ( !logMap.contains( name ) )
+    if ( !logMap.containsKey( name ) )
     {
         logMap[ name ] = Log( "ftcext.${kClass.java.simpleName}" );
     }
@@ -89,7 +89,7 @@ fun getLog( kClass: KClass< * > ): ILog
  */
 fun getLog( id: String ): ILog
 {
-    if ( !logMap.contains( id ) )
+    if ( !logMap.containsKey( id ) )
     {
         logMap[ id ] = Log( "ftcext.$id" );
     }
