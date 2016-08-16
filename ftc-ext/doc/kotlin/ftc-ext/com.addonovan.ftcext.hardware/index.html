@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<title>com.addonovan.ftcext.hardware - ftc-ext</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href=".">com.addonovan.ftcext.hardware</a><br/>
+<br/>
+<h2>Package com.addonovan.ftcext.hardware</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-continuous-servo/index.html">ContinuousServo</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">ContinuousServo</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Servo</span></code>
+<p>A class which serves to distinguish a regular servo from a
+continuous (aka 360°) one. A few additions are made, such
+as the <a href="-continuous-servo/stop.html">stop</a> method and the <a href="-continuous-servo/-stop-position.html">StopPosition</a> property, but
+its identical to a regular <a href="#">Servo</a> for the most part.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-continuous-toggle-servo/index.html">ContinuousToggleServo</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ContinuousToggleServo</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-continuous-servo/index.html"><span class="identifier">ContinuousServo</span></a></code>
+<p>A blend between the <a href="-continuous-servo/index.html">ContinuousServo</a> and the <a href="-toggle-servo/index.html">ToggleServo</a>. This
+inherits from a ContinuousServo, rather than a ToggleServo, because
+this functions far differently than a normal ToggleServo does.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-hardware-bundle/index.html">HardwareBundle</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">HardwareBundle</span></code>
+<p>A bundle of hardware information for an OpMode.
+This contains the two gamepads, the telemetry object, and the current hardware map
+for the OpMode to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-motor/index.html">Motor</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Motor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">DcMotor</span></code>
+<p>An abstraction on top of the <a href="#">DcMotor</a> which makes it much easier
+to move via encoders and distances. The <a href="#">assembly</a> value allows
+for the motor assembly to be specified so that movement by encoders
+becomes a trivial task.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-toggle-servo/index.html">ToggleServo</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ToggleServo</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Servo</span></code>
+<p>A type of servo that can be toggled between two states
+as well as acting like a normal servo.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Annotations</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-hardware-extension/index.html">HardwareExtension</a></td>
+<td>
+<code><span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">HardwareExtension</span></code>
+<p>An annotation for hardware class that are build on top of another hardware device.
+Valid classes for the <a href="-hardware-extension/hardware-map-type.html">hardwareMapType</a> are as follows:</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extensions for External Classes</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="java.lang.-class/index.html">java.lang.Class</a></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-current-hardware.html">CurrentHardware</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">CurrentHardware</span><span class="symbol">: </span><a href="-hardware-bundle/index.html"><span class="identifier">HardwareBundle</span></a></code>
+<p>A bundle of hardware information.
+This is ensured to be non-null, because if the backing field
+is null, a <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/NullPointerException.html">NullPointerException</a> will be thrown.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

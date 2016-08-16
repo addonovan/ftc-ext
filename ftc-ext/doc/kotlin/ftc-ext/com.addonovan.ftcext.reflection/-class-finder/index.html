@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<title>ClassFinder - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.reflection</a>&nbsp;/&nbsp;<a href=".">ClassFinder</a><br/>
+<br/>
+<h1>ClassFinder</h1>
+<code><span class="keyword">class </span><span class="identifier">ClassFinder</span></code>
+<p>Utility to find certain classes with certain attributes.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html">Class</a></p>
+</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/12/16</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">ClassFinder</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Utility to find certain classes with certain attributes.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="get.html">get</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">MutableList</span><span class="symbol">&lt;</span><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="inherits-from.html">inheritsFrom</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">inheritsFrom</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.reflection.ClassFinder$inheritsFrom(java.lang.Class((kotlin.Any)))/clazz">clazz</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ClassFinder</span></code>
+<p>Removes every class that is not a subclass of the passed class.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="with.html">with</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">with</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.reflection.ClassFinder$with(java.lang.Class((kotlin.Annotation)))/annotation">annotation</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">Annotation</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ClassFinder</span></code>
+<p>Removes every class that does not have the annotation passed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

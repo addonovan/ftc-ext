@@ -3,10 +3,20 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 
 dokka {
-    System.out.println( new File( "doc" ).getAbsolutePath() );
+    File dir = file( "doc/kotlin" )
+    if ( dir.exists() ) dir.deleteDir()
 
     outputFormat = 'html'
-    outputDirectory = new File( "doc" )
+    outputDirectory = dir
+    sourceDirs = files('src/main/java')
+}
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    File dir = new File( "doc/java" )
+    if ( dir.exists() ) dir.deleteDir()
+
+    outputFormat = 'javadoc'
+    outputDirectory = dir
     sourceDirs = files('src/main/java')
 }
 

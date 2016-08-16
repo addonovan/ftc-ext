@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<title>Jsonable - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.config</a>&nbsp;/&nbsp;<a href=".">Jsonable</a><br/>
+<br/>
+<h1>Jsonable</h1>
+<code><span class="keyword">interface </span><span class="identifier">Jsonable</span></code>
+<p>An awful, awful name for a type of class that is able to be
+serialized into a .json file.</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/16/16</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="from-json.html">fromJson</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">fromJson</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config.Jsonable$fromJson(org.json.JSONObject)/json">json</span><span class="symbol">:</span>&nbsp;<span class="identifier">JSONObject</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Unpackes the serialized json object into the original class
+via <a href="from-json.html#com.addonovan.ftcext.config.Jsonable$fromJson(org.json.JSONObject)/json">json</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="to-json.html">toJson</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">toJson</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config.Jsonable$toJson(android.util.JsonWriter)/writer">writer</span><span class="symbol">:</span>&nbsp;<span class="identifier">JsonWriter</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Serializes this class into the json file via <a href="to-json.html#com.addonovan.ftcext.config.Jsonable$toJson(android.util.JsonWriter)/writer">writer</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-op-mode-config/index.html">OpModeConfig</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeConfig</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Jsonable</span><span class="symbol">, </span><a href="../../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
+<p>TODO OpModeConfig documentation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

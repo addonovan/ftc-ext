@@ -1,0 +1,114 @@
+<HTML>
+<HEAD>
+<title>Motor - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.hardware</a>&nbsp;/&nbsp;<a href=".">Motor</a><br/>
+<br/>
+<h1>Motor</h1>
+<code><span class="identifier">@HardwareExtension</span><span class="symbol">(</span>DcMotor<span class="symbol">)</span> <span class="keyword">class </span><span class="identifier">Motor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">DcMotor</span></code>
+<p>An abstraction on top of the <a href="#">DcMotor</a> which makes it much easier
+to move via encoders and distances. The <a href="#">assembly</a> value allows
+for the motor assembly to be specified so that movement by encoders
+becomes a trivial task.</p>
+<p>A big thing to note is that motor values are no longer represented
+on the scale <a href="#">-1.0,1.0</a>, but now are on the interval <a href="#">-100.0,100.0</a>,
+because they are much easier to read that way.</p>
+<h3>Parameters</h3>
+
+<p><a name="dcMotor"></a>
+<code>dcMotor</code> - The motor this is based off of.
+<p><a name="name"></a>
+<code>name</code> - The name of this device in the hardware map.
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/27/16</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Motor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$<init>(com.qualcomm.robotcore.hardware.DcMotor, kotlin.String)/dcMotor">dcMotor</span><span class="symbol">:</span>&nbsp;<span class="identifier">DcMotor</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$<init>(com.qualcomm.robotcore.hardware.DcMotor, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code>
+<p>An abstraction on top of the <a href="#">DcMotor</a> which makes it much easier
+to move via encoders and distances. The <a href="#">assembly</a> value allows
+for the motor assembly to be specified so that movement by encoders
+becomes a trivial task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-name.html">Name</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">Name</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<p>The name of this motor in the hardware map</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="brake.html">brake</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">brake</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sets the power of the motor to be 0%.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="get-assembly.html">getAssembly</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAssembly</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.addonovan.ftcext.utils/-motor-assembly/index.html"><span class="identifier">MotorAssembly</span></a></code></td>
+</tr>
+<tr>
+<td>
+<a href="get-power.html">getPower</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getPower</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="move-distance.html">moveDistance</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">moveDistance</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$moveDistance(kotlin.Double, kotlin.Double)/distance">distance</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$moveDistance(kotlin.Double, kotlin.Double)/power">power</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.addonovan.ftcext.control/-task/index.html"><span class="identifier">Task</span></a></code>
+<p>Creates and registers a task with the <a href="../../com.addonovan.ftcext.control/-task-manager/index.html">TaskManager</a> that wil
+make the motor move at the given power until the given distance
+has been covered.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="reset-encoders.html">resetEncoders</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">resetEncoders</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.addonovan.ftcext.control/-task/index.html"><span class="identifier">Task</span></a></code>
+<p>Creates and registers a task with the <a href="../../com.addonovan.ftcext.control/-task-manager/index.html">TaskManager</a> that will
+reset the motor encoders.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="set-assembly.html">setAssembly</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setAssembly</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$setAssembly(com.addonovan.ftcext.utils.MotorAssembly)/assembly">assembly</span><span class="symbol">:</span>&nbsp;<a href="../../com.addonovan.ftcext.utils/-motor-assembly/index.html"><span class="identifier">MotorAssembly</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Motor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="set-power.html">setPower</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setPower</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$setPower(kotlin.Double)/power">power</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

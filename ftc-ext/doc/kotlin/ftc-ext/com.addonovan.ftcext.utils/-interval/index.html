@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<title>Interval - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.utils</a>&nbsp;/&nbsp;<a href=".">Interval</a><br/>
+<br/>
+<h1>Interval</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Interval</span></code>
+<p>An Interval is an object that represents a time interval.
+The interval is said to be "true" when the current time is
+within the given interval.</p>
+<p>For more accurate timing, see <a href="../-h-q-interval/index.html">HQInterval</a>.</p>
+<h3>Parameters</h3>
+
+<p><a name="startTime"></a>
+<code>startTime</code> - The time (in milliseconds, based on <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/System.html#currentTimeMillis()">System.currentTimeMillis</a>)
+that this Interval will start being active at.
+<p><a name="duration"></a>
+<code>duration</code> - The time (in milliseconds) that this Interval will be active for.
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/27/16</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-h-q-interval/index.html">HQInterval</a></p>
+</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Interval</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.utils.Interval$<init>(com.addonovan.ftcext.utils.Interval, kotlin.Long)/baseInterval">baseInterval</span><span class="symbol">:</span>&nbsp;<span class="identifier">Interval</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.utils.Interval$<init>(com.addonovan.ftcext.utils.Interval, kotlin.Long)/duration">duration</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></code>
+<p>Constructs an interval which occurs directly after the given interval.</p>
+<code><span class="identifier">Interval</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.utils.Interval$<init>(kotlin.Long, kotlin.Long)/startTime">startTime</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.utils.Interval$<init>(kotlin.Long, kotlin.Long)/duration">duration</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></code>
+<p>An Interval is an object that represents a time interval.
+The interval is said to be "true" when the current time is
+within the given interval.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-end-time.html">EndTime</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">EndTime</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>The time that this interval stops being active at (milliseconds).</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-start-time.html">StartTime</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">StartTime</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>The time that this interval begins to be active at (milliseconds).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="is-active.html">isActive</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isActive</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-h-q-interval/index.html">HQInterval</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">HQInterval</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interval</span></code>
+<p>A special, high quality type of Interval which uses the
+systems time in nanoseconds rather than the inaccurate
+method of getting the time in milliseconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

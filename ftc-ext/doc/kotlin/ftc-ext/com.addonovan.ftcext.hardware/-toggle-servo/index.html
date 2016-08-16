@@ -1,0 +1,114 @@
+<HTML>
+<HEAD>
+<title>ToggleServo - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.hardware</a>&nbsp;/&nbsp;<a href=".">ToggleServo</a><br/>
+<br/>
+<h1>ToggleServo</h1>
+<code><span class="identifier">@HardwareExtension</span><span class="symbol">(</span>Servo<span class="symbol">)</span> <span class="keyword">class </span><span class="identifier">ToggleServo</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Servo</span></code>
+<p>A type of servo that can be toggled between two states
+as well as acting like a normal servo.</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/26/16</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-state/index.html">State</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">State</span></code>
+<p>The state of a ToggleServo.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">ToggleServo</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.ToggleServo$<init>(com.qualcomm.robotcore.hardware.Servo)/servo">servo</span><span class="symbol">:</span>&nbsp;<span class="identifier">Servo</span><span class="symbol">)</span></code>
+<p>A type of servo that can be toggled between two states
+as well as acting like a normal servo.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-current-position.html">CurrentPosition</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CurrentPosition</span><span class="symbol">: </span><a href="-state/index.html"><span class="identifier">State</span></a></code>
+<p>The current position of the ToggleServo.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-disengaged-position.html">DisengagedPosition</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">DisengagedPosition</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The disengaged position of the Toggle Servo, <a href="toggle-off.html">toggleOff</a> will set
+the servo to this position. This value must be between <a href="#">0.0,1.0</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-engaged-position.html">EngagedPosition</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">EngagedPosition</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The engaged position of the Toggle Servo, <a href="toggle-on.html">toggleOn</a> will set
+the servo to this position. This value must be between <a href="#">0.0,1.0</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-toggle-delay.html">ToggleDelay</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">ToggleDelay</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>The amount of time (in milliseconds) to ensure between <a href="toggle.html">toggle</a> calls go
+through and toggle the position, by default this is 350.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="toggle.html">toggle</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggle</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Toggles the servo to the opposite state than its currently in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="toggle-off.html">toggleOff</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggleOff</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sets the servos position to the <a href="-disengaged-position.html">DisengagedPosition</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="toggle-on.html">toggleOn</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggleOn</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sets the servos position to the <a href="-engaged-position.html">EngagedPosition</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

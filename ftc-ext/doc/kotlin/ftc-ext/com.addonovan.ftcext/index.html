@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<title>com.addonovan.ftcext - ftc-ext</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href=".">com.addonovan.ftcext</a><br/>
+<br/>
+<h2>Package com.addonovan.ftcext</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-i-log/index.html">ILog</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ILog</span></code>
+<p>!Description!</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-illegal-annotation-value-exception/index.html">IllegalAnnotationValueException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">IllegalAnnotationValueException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/RuntimeException.html"><span class="identifier">RuntimeException</span></a></code>
+<p>An exception for when an annotation had an illegal value assigned to it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-illegal-class-setup-exception/index.html">IllegalClassSetupException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">IllegalClassSetupException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/RuntimeException.html"><span class="identifier">RuntimeException</span></a></code>
+<p>An exception for when a class that needed to be set up a certain way
+(so it could be accessed via reflections) was not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-activity.html">Activity</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">Activity</span><span class="symbol">: </span><span class="identifier">Activity</span></code>
+<p>The current activity. Please dont look at the source for this.
+Please please please please please.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-context.html">Context</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">Context</span><span class="symbol">: </span><span class="identifier">Context</span></code>
+<p>The current application context.
+This is the equivalent of the HardwareMap.appContext; however, this
+is intended to be used in places where there is no Hardware map available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode-label.html">OpModeLabel</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">OpModeLabel</span><span class="symbol">: </span><span class="identifier">TextView</span></code>
+<p>The label for the current OpMode.s</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-robot-icon.html">RobotIcon</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">RobotIcon</span><span class="symbol">: </span><span class="identifier">ImageView</span></code>
+<p>The robot icon ImageView</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="get-log.html">getLog</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getLog</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$getLog(kotlin.reflect.KClass((kotlin.Any)))/kClass">kClass</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-i-log/index.html"><span class="identifier">ILog</span></a></code>
+<p>Gets the log for the given class, if one doesnt exist, then it is made.</p>
+<code><span class="keyword">fun </span><span class="identifier">getLog</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$getLog(kotlin.String)/id">id</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="-i-log/index.html"><span class="identifier">ILog</span></a></code>
+<p>Gets a log for the given id. This is generally used for when classes are
+not accessible for some reason.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
