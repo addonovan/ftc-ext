@@ -62,7 +62,7 @@ import java.util.*
  * @author addonovan
  * @since 6/28/16
  */
-object TaskManager
+object TaskManager : ILog by getLog( TaskManager::class )
 {
 
     //

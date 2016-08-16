@@ -1,12 +1,10 @@
 package com.addonovan.ftcext.control
 
-import android.content.Intent
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.config.*
 import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister
-import com.qualcomm.robotcore.hardware.HardwareMap
 import java.util.*
 
 /**
@@ -30,7 +28,7 @@ import java.util.*
  * @author addonovan
  * @since 6/12/16
  */
-class OpModeRegistrar() : OpModeRegister
+class OpModeRegistrar() : OpModeRegister, ILog by getLog( OpModeRegistrar::class )
 {
 
     /**

@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.robocol.Telemetry
  * @author addonovan
  * @since 6/12/16
  */
-abstract class AbstractOpMode()
+abstract class AbstractOpMode() : ILog by getLog( AbstractOpMode::class )
 {
 
     //
@@ -35,14 +35,17 @@ abstract class AbstractOpMode()
     }
 
     /** The first controller. */
+    @Suppress( "unused" )
     val gamepad1: Gamepad
             get() = CurrentHardware.gamepad1;
 
     /** The second controller. */
+    @Suppress( "unused" )
     val gamepad2: Gamepad
             get() = CurrentHardware.gamepad2;
 
     /** Telemetry for sending back current states and what not. */
+    @Suppress( "unused" )
     val telemetry: Telemetry
             get() = CurrentHardware.telemetry;
 
@@ -278,33 +281,33 @@ abstract class AbstractOpMode()
     // Java pleb-stuff
     //
 
-    @Suppress( "unused" ) fun motorController( name: String ) = hardwareMap.dcMotorController[ name ];
-    @Suppress( "unused" ) fun motor( name: String ) = hardwareMap.dcMotor[ name ];
+    @Suppress( "unused" ) fun motorController( name: String ) = hardwareMap.dcMotorController[ name ]!!;
+    @Suppress( "unused" ) fun motor( name: String ) = hardwareMap.dcMotor[ name ]!!;
 
-    @Suppress( "unused" ) fun servoController( name: String ) = hardwareMap.servoController[ name ];
-    @Suppress( "unused" ) fun servo( name: String ) = hardwareMap.servo[ name ];
+    @Suppress( "unused" ) fun servoController( name: String ) = hardwareMap.servoController[ name ]!!;
+    @Suppress( "unused" ) fun servo( name: String ) = hardwareMap.servo[ name ]!!;
 
-    @Suppress( "unused" ) fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ];
-    @Suppress( "unused" ) fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ];
+    @Suppress( "unused" ) fun legacyModule( name: String ) = hardwareMap.legacyModule[ name ]!!;
+    @Suppress( "unused" ) fun deviceInterfaceModule( name: String ) = hardwareMap.deviceInterfaceModule[ name ]!!;
 
-    @Suppress( "unused" ) fun analogIn( name: String ) = hardwareMap.analogInput[ name ];
-    @Suppress( "unused" ) fun analogOut( name: String ) = hardwareMap.analogOutput[ name ];
-    @Suppress( "unused" ) fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ];
-    @Suppress( "unused" ) fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ];
-    @Suppress( "unused" ) fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ];
+    @Suppress( "unused" ) fun analogIn( name: String ) = hardwareMap.analogInput[ name ]!!;
+    @Suppress( "unused" ) fun analogOut( name: String ) = hardwareMap.analogOutput[ name ]!!;
+    @Suppress( "unused" ) fun digitalChannel( name: String ) = hardwareMap.digitalChannel[ name ]!!;
+    @Suppress( "unused" ) fun pwmOut( name: String ) = hardwareMap.pwmOutput[ name ]!!;
+    @Suppress( "unused" ) fun i2cDevice( name: String ) = hardwareMap.i2cDevice[ name ]!!;
 
-    @Suppress( "unused" ) fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ];
-    @Suppress( "unused" ) fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ];
-    @Suppress( "unused" ) fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ];
-    @Suppress( "unused" ) fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ];
-    @Suppress( "unused" ) fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ];
-    @Suppress( "unused" ) fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ];
-    @Suppress( "unused" ) fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ];
-    @Suppress( "unused" ) fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ];
-    @Suppress( "unused" ) fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ];
-    @Suppress( "unused" ) fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ];
+    @Suppress( "unused" ) fun opticalDistanceSensor( name: String ) = hardwareMap.opticalDistanceSensor[ name ]!!;
+    @Suppress( "unused" ) fun touchSensor( name: String ) = hardwareMap.touchSensor[ name ]!!;
+    @Suppress( "unused" ) fun colorSensor( name: String ) = hardwareMap.colorSensor[ name ]!!;
+    @Suppress( "unused" ) fun accelerationSensor( name: String ) = hardwareMap.accelerationSensor[ name ]!!;
+    @Suppress( "unused" ) fun compassSensor( name: String ) = hardwareMap.compassSensor[ name ]!!;
+    @Suppress( "unused" ) fun gyroSensor( name: String ) = hardwareMap.gyroSensor[ name ]!!;
+    @Suppress( "unused" ) fun irSensor( name: String ) = hardwareMap.irSeekerSensor[ name ]!!;
+    @Suppress( "unused" ) fun lightSensor( name: String ) = hardwareMap.lightSensor[ name ]!!;
+    @Suppress( "unused" ) fun ultrasonicSensor( name: String ) = hardwareMap.ultrasonicSensor[ name ]!!;
+    @Suppress( "unused" ) fun voltageSensor( name: String ) = hardwareMap.voltageSensor[ name ]!!;
 
-    @Suppress( "unused" ) fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ];
-    @Suppress( "unused" ) fun led( name: String ) = hardwareMap.led[ name ];
+    @Suppress( "unused" ) fun touchSensorMultiplexer( name: String ) = hardwareMap.touchSensorMultiplexer[ name ]!!;
+    @Suppress( "unused" ) fun led( name: String ) = hardwareMap.led[ name ]!!;
 
 }

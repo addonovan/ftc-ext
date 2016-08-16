@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+@file:Suppress( "unused" )
 package com.addonovan.ftcext.hardware
 
 import com.addonovan.ftcext.control.*
@@ -31,7 +32,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController
 
 /**
  * An abstraction on top of the [DcMotor] which makes it much easier
- * to move via encoders and distances. The [Assembly] value allows
+ * to move via encoders and distances. The [assembly] value allows
  * for the motor assembly to be specified so that movement by encoders
  * becomes a trivial task.
  *

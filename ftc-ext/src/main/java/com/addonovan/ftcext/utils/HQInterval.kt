@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+@file:Suppress( "unused" )
 package com.addonovan.ftcext.utils
 
 import java.lang.System.nanoTime

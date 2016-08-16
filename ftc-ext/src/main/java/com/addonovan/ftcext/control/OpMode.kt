@@ -49,7 +49,6 @@ package com.addonovan.ftcext.control
  *
  * @see AbstractOpMode
  * @see LinearOpMode
- * @see com.qualcomm.robotcore.eventloop.opmode.OpMode
  *
  * @author addonovan
  * @since 6/14/16

@@ -22,7 +22,10 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
 
     private val emptyMotorController = object : DcMotorController
     {
+        @Suppress( "deprecation" )
+        @Deprecated( "required" )
         override fun setMotorControllerDeviceMode( deviceMode: DcMotorController.DeviceMode ){}
+        @Deprecated( "required", ReplaceWith( "null" ) )
         override fun getMotorControllerDeviceMode() = null;
         override fun setMotorChannelMode( i: Int, runMode: DcMotorController.RunMode ){}
         override fun getMotorChannelMode( i: Int ) = null;
@@ -55,6 +58,8 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
 
     private val emptyLegacyModule = object : LegacyModule
     {
+        override fun isArmed(): Boolean = false;
+        override fun clearI2cPortActionFlag(p0: Int) {}
         override fun enableAnalogReadMode( i: Int ) {}
         override fun enable9v( i: Int, b: Boolean ) {}
         override fun setDigitalLine( i: Int, i1: Int, b: Boolean ) {}
@@ -83,8 +88,11 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
         override fun registerForPortReadyBeginEndCallback( i2cPortReadyBeginEndNotifications: I2cController.I2cPortReadyBeginEndNotifications, i: Int ) {}
         override fun getPortReadyBeginEndCallback( i: Int ) = null;
         override fun deregisterForPortReadyBeginEndCallback( i: Int ) {}
+        @Deprecated( "required" )
         override fun readI2cCacheFromModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cCacheToModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cPortFlagOnlyToModule( i: Int ) {}
         override fun getDeviceName() = null;
         override fun getConnectionInfo() = null;
@@ -104,6 +112,8 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
 
     private val emptyDeviceInterfaceModule = object : DeviceInterfaceModule
     {
+        override fun isArmed(): Boolean = false;
+        override fun clearI2cPortActionFlag(p0: Int) {}
         override fun getDigitalInputStateByte() = 0;
         override fun setDigitalIOControlByte( b: Byte ) {}
         override fun getDigitalIOControlByte() = 0.toByte();
@@ -143,8 +153,11 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
         override fun registerForPortReadyBeginEndCallback( i2cPortReadyBeginEndNotifications: I2cController.I2cPortReadyBeginEndNotifications, i: Int ) {}
         override fun getPortReadyBeginEndCallback( i: Int ) = null;
         override fun deregisterForPortReadyBeginEndCallback( i: Int ) {}
+        @Deprecated( "required" )
         override fun readI2cCacheFromModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cCacheToModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cPortFlagOnlyToModule( i: Int ) {}
         override fun setPulseWidthOutputTime( i: Int, i1: Int ) {}
         override fun setPulseWidthPeriod( i: Int, i1: Int ) {}
@@ -303,29 +316,29 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
 
     init
     {
-        dcMotorController = FalseDeviceMapping< DcMotorController >( emptyMotorController )
-        dcMotor = FalseDeviceMapping( DcMotor( emptyMotorController, 0 ) )
-        servoController = FalseDeviceMapping< ServoController >( emptyServoController )
-        servo = FalseDeviceMapping( Servo( emptyServoController, 0 ) )
-        legacyModule = FalseDeviceMapping< LegacyModule >( emptyLegacyModule )
-        touchSensorMultiplexer = FalseDeviceMapping< TouchSensorMultiplexer >( emptyTouchSensorMultiplexer )
-        deviceInterfaceModule = FalseDeviceMapping< DeviceInterfaceModule >( emptyDeviceInterfaceModule )
-        analogInput = FalseDeviceMapping( AnalogInput( null, 0 ) )
-        digitalChannel = FalseDeviceMapping( DigitalChannel( null, 0 ) )
-        opticalDistanceSensor = FalseDeviceMapping< OpticalDistanceSensor >( emptyOpticalDistanceSensor )
-        touchSensor = FalseDeviceMapping< TouchSensor >( emptyTouchSensor )
-        pwmOutput = FalseDeviceMapping( PWMOutput( null, 0 ) )
-        i2cDevice = FalseDeviceMapping( I2cDevice( null, 0 ) )
-        analogOutput = FalseDeviceMapping( AnalogOutput( null, 0 ) )
-        colorSensor = FalseDeviceMapping< ColorSensor >( emptyColorSensor )
-        led = FalseDeviceMapping( LED( emptyDigitalChannelController, 0 ) )
-        accelerationSensor = FalseDeviceMapping< AccelerationSensor >( emptyAccelerationSensor )
-        compassSensor = FalseDeviceMapping< CompassSensor >( emptyCompassSensor )
-        gyroSensor = FalseDeviceMapping< GyroSensor >( emptyGyroSensor )
-        irSeekerSensor = FalseDeviceMapping< IrSeekerSensor >( emptyIrSeekerSensor )
-        lightSensor = FalseDeviceMapping< LightSensor >( emptyLightSensor )
-        ultrasonicSensor = FalseDeviceMapping< UltrasonicSensor >( emptyUltrasonicSensor )
-        voltageSensor = FalseDeviceMapping< VoltageSensor >( emptyVoltageSensor )
+        dcMotorController = FalseDeviceMapping< DcMotorController >( emptyMotorController );
+        dcMotor = FalseDeviceMapping( DcMotor( emptyMotorController, 0 ) );
+        servoController = FalseDeviceMapping< ServoController >( emptyServoController );
+        servo = FalseDeviceMapping( Servo( emptyServoController, 0 ) );
+        legacyModule = FalseDeviceMapping< LegacyModule >( emptyLegacyModule );
+        touchSensorMultiplexer = FalseDeviceMapping< TouchSensorMultiplexer >( emptyTouchSensorMultiplexer );
+        deviceInterfaceModule = FalseDeviceMapping< DeviceInterfaceModule >( emptyDeviceInterfaceModule );
+        analogInput = FalseDeviceMapping( AnalogInput( null, 0 ) );
+        digitalChannel = FalseDeviceMapping( DigitalChannel( null, 0 ) );
+        opticalDistanceSensor = FalseDeviceMapping< OpticalDistanceSensor >( emptyOpticalDistanceSensor );
+        touchSensor = FalseDeviceMapping< TouchSensor >( emptyTouchSensor );
+        pwmOutput = FalseDeviceMapping( PWMOutput( null, 0 ) );
+        i2cDevice = FalseDeviceMapping( I2cDeviceImpl( null, 0 ) );
+        analogOutput = FalseDeviceMapping( AnalogOutput( null, 0 ) );
+        colorSensor = FalseDeviceMapping< ColorSensor >( emptyColorSensor );
+        led = FalseDeviceMapping( LED( emptyDigitalChannelController, 0 ) );
+        accelerationSensor = FalseDeviceMapping< AccelerationSensor >( emptyAccelerationSensor );
+        compassSensor = FalseDeviceMapping< CompassSensor >( emptyCompassSensor );
+        gyroSensor = FalseDeviceMapping< GyroSensor >( emptyGyroSensor );
+        irSeekerSensor = FalseDeviceMapping< IrSeekerSensor >( emptyIrSeekerSensor );
+        lightSensor = FalseDeviceMapping< LightSensor >( emptyLightSensor );
+        ultrasonicSensor = FalseDeviceMapping< UltrasonicSensor >( emptyUltrasonicSensor );
+        voltageSensor = FalseDeviceMapping< VoltageSensor >( emptyVoltageSensor );
     }
 
     /**
