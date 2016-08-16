@@ -32,7 +32,7 @@ import com.addonovan.ftcext.control.OpModes
 /**
  * Configures a specific variant's variables acoording to their presumed types.
  */
-class VariantConfigPreference : CustomPreferenceFragment()
+class VariantConfigPreference : CustomPreferenceFragment(), ILog by getLog( VariantConfigPreference::class )
 {
 
     //

@@ -27,10 +27,10 @@ fun attachRobotIconListener()
         Toast.makeText( Activity, message, Toast.LENGTH_LONG ).show();
     }
 
-    i( "ftcext.ConfigHelper", "Attaching robot icon's click listener" );
+    getLog( "ConfigHelper").i( "Attaching robot icon's click listener" );
     RobotIcon.setOnClickListener { view ->
 
-        i( "ftcext.ConfigHelper", "Switching to ConfigActivity" );
+        getLog( "ConfigHelper").i( "Switching to ConfigActivity" );
         val intent = Intent( Activity, ConfigActivity::class.java );
         Activity.startActivity( intent );
 
@@ -50,7 +50,7 @@ fun attachRobotIconListener()
  */
 fun detachRobotIconListener()
 {
-    i( "ftcext.ConfigHelper", "Detaching robot icon's click listener" );
+    getLog( "ConfigHelper").i( "Detaching robot icon's click listener" );
     RobotIcon.setOnClickListener { view ->
         // do nothing, essentially the same thing as being detached
     };

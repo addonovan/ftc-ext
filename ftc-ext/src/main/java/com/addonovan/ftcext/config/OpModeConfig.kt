@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  * @author addonovan
  * @since 6/16/16
  */
-class OpModeConfig internal constructor( name: String ) : Jsonable
+class OpModeConfig internal constructor( name: String ) : Jsonable, ILog by getLog( OpModeConfig::class )
 {
 
     //

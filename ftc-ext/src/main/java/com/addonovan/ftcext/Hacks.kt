@@ -12,26 +12,6 @@ import android.util.Log
  * @since 6/12/16
  */
 
-// ahhh
-// the sweet sound of suppressed warnings
-// I sure do love my suppression!
-
-// assumes it's an ftcext item and just grabs the class name and makes that the tag
-@Suppress( "unused" ) fun Any.v( data: String ) = Log.v( "ftcext.${javaClass.simpleName}", data );
-@Suppress( "unused" ) fun Any.d( data: String ) = Log.d( "ftcext.${javaClass.simpleName}", data );
-@Suppress( "unused" ) fun Any.i( data: String ) = Log.i( "ftcext.${javaClass.simpleName}", data );
-@Suppress( "unused" ) fun Any.w( data: String ) = Log.w( "ftcext.${javaClass.simpleName}", data );
-@Suppress( "unused" ) fun Any.e( data: String ) = Log.e( "ftcext.${javaClass.simpleName}", data );
-@Suppress( "unused" ) fun Any.wtf( data: String ) = Log.wtf( "ftcext.${javaClass.simpleName}", data );
-
-@Suppress( "unused" ) fun Any.v( data: String, throwable: Throwable ) = Log.v( "ftcext.${javaClass.simpleName}", data, throwable );
-@Suppress( "unused" ) fun Any.d( data: String, throwable: Throwable ) = Log.d( "ftcext.${javaClass.simpleName}", data, throwable );
-@Suppress( "unused" ) fun Any.i( data: String, throwable: Throwable ) = Log.i( "ftcext.${javaClass.simpleName}", data, throwable );
-@Suppress( "unused" ) fun Any.w( data: String, throwable: Throwable ) = Log.w( "ftcext.${javaClass.simpleName}", data, throwable );
-@Suppress( "unused" ) fun Any.e( data: String, throwable: Throwable ) = Log.e( "ftcext.${javaClass.simpleName}", data, throwable );
-@Suppress( "unused" ) fun Any.wtf( data: String, throwable: Throwable ) = Log.wtf( "ftcext.${javaClass.simpleName}", data, throwable );
-
-
 /**
  * The current application context.
  * This is the equivalent of the [HardwareMap.appContext]; however, this
