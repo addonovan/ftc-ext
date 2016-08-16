@@ -27,7 +27,7 @@ import android.os.Bundle
 import android.preference.PreferenceFragment
 
 /**
- * A custom type of preference fragment that holds a little bit of extra data and
+ * A custom type of preference fragment that holds a little bit of extra msg and
  * supplies a way to change the title in the toolbar and also registers the
  * fragment as the [ConfigActivity.CurrentFragment] when created.
  */

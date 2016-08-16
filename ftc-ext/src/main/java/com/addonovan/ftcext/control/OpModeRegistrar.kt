@@ -30,7 +30,7 @@ import java.util.*
  * @author addonovan
  * @since 6/12/16
  */
-class OpModeRegistrar() : OpModeRegister
+class OpModeRegistrar() : OpModeRegister, ILog by getLog( OpModeRegistrar::class )
 {
 
     /**
