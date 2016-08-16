@@ -1,5 +1,6 @@
 package com.addonovan.ftcext
 
+import android.util.Log
 import android.view.View
 import android.widget.*
 
@@ -14,7 +15,7 @@ import android.widget.*
 /** The com.qualcomm.ftcrobotcontroller.R.id class. */
 private val rIdClass by lazy()
 {
-    v( "ftcext.R", "Locating com.qualcomm.ftcrobotcontroller.R.id" );
+    Log.v( "ftcext.R", "Locating com.qualcomm.ftcrobotcontroller.R.id" );
 
     val rClass = Class.forName( "com.qualcomm.ftcrobotcontroller.R" )!!;
     val classes = rClass.declaredClasses;
