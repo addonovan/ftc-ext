@@ -17,4 +17,4 @@ annotation class Register( val name: String );
  *          The class with a [Register] annotation.
  * @return The value of the [Register.name].
  */
-fun getRegisterName( clazz: Class< * > ) = clazz.getAnnotation( Register::class.java ).name;
+fun getRegisterName( clazz: Class< * > ): String = clazz.getAnnotation( Register::class.java ).name;

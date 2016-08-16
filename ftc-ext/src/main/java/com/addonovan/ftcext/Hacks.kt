@@ -45,7 +45,7 @@ import android.util.Log
  * This is the equivalent of the [HardwareMap.appContext]; however, this
  * is intended to be used in places where there is no Hardware map available.
  */
-val Context by lazy()
+val Context: Context by lazy()
 {
     Class.forName( "android.app.ActivityThread" ).getMethod( "currentApplication" ).invoke( null ) as Context;
 }

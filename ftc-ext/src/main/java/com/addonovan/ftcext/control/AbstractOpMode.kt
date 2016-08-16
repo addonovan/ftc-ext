@@ -29,7 +29,7 @@ abstract class AbstractOpMode()
     //
 
     /** The name that this OpMode is registered as in the Registrar. */
-    val RegisteredName by lazy()
+    val RegisteredName: String by lazy()
     {
         getRegisterName( javaClass );
     }
