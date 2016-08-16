@@ -4,7 +4,6 @@ import com.addonovan.ftcext.*
 import com.addonovan.ftcext.hardware.*
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping
-import com.qualcomm.robotcore.util.Hardware
 import java.lang.reflect.*
 import java.util.*
 
@@ -22,7 +21,7 @@ private class DeviceClassMap : HashMap< Class< out HardwareDevice >, DeviceMappi
 }
 
 /**
- * This exists for logging purposes.
+ * This exists for logging and keeping track of device class maps.
  */
 private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::class )
 {
