@@ -1,4 +1,3 @@
-@file:Suppress( "deprecation" )
 package com.addonovan.ftcext.config
 
 import android.content.Context
@@ -23,7 +22,10 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
 
     private val emptyMotorController = object : DcMotorController
     {
+        @Suppress( "deprecation" )
+        @Deprecated( "required" )
         override fun setMotorControllerDeviceMode( deviceMode: DcMotorController.DeviceMode ){}
+        @Deprecated( "required", ReplaceWith( "null" ) )
         override fun getMotorControllerDeviceMode() = null;
         override fun setMotorChannelMode( i: Int, runMode: DcMotorController.RunMode ){}
         override fun getMotorChannelMode( i: Int ) = null;
@@ -86,8 +88,11 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
         override fun registerForPortReadyBeginEndCallback( i2cPortReadyBeginEndNotifications: I2cController.I2cPortReadyBeginEndNotifications, i: Int ) {}
         override fun getPortReadyBeginEndCallback( i: Int ) = null;
         override fun deregisterForPortReadyBeginEndCallback( i: Int ) {}
+        @Deprecated( "required" )
         override fun readI2cCacheFromModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cCacheToModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cPortFlagOnlyToModule( i: Int ) {}
         override fun getDeviceName() = null;
         override fun getConnectionInfo() = null;
@@ -148,8 +153,11 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
         override fun registerForPortReadyBeginEndCallback( i2cPortReadyBeginEndNotifications: I2cController.I2cPortReadyBeginEndNotifications, i: Int ) {}
         override fun getPortReadyBeginEndCallback( i: Int ) = null;
         override fun deregisterForPortReadyBeginEndCallback( i: Int ) {}
+        @Deprecated( "required" )
         override fun readI2cCacheFromModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cCacheToModule( i: Int ) {}
+        @Deprecated( "required" )
         override fun writeI2cPortFlagOnlyToModule( i: Int ) {}
         override fun setPulseWidthOutputTime( i: Int, i1: Int ) {}
         override fun setPulseWidthPeriod( i: Int, i1: Int ) {}
@@ -320,7 +328,7 @@ class FalseHardwareMap( app: Context ) : HardwareMap( app )
         opticalDistanceSensor = FalseDeviceMapping< OpticalDistanceSensor >( emptyOpticalDistanceSensor );
         touchSensor = FalseDeviceMapping< TouchSensor >( emptyTouchSensor );
         pwmOutput = FalseDeviceMapping( PWMOutput( null, 0 ) );
-        i2cDevice = FalseDeviceMapping( I2cDevice( null, 0 ) );
+        i2cDevice = FalseDeviceMapping( I2cDeviceImpl( null, 0 ) );
         analogOutput = FalseDeviceMapping( AnalogOutput( null, 0 ) );
         colorSensor = FalseDeviceMapping< ColorSensor >( emptyColorSensor );
         led = FalseDeviceMapping( LED( emptyDigitalChannelController, 0 ) );
