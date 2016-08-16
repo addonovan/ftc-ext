@@ -51,13 +51,14 @@ class MotorAssembly(
 
     /**
      * converts the number of encoder ticks on the motor to a distance based
-     * off of the circumference of the wheel from the [WheelType].
+     * off of the circumference of the wheel from the [Motor] and [GearRatio].
      *
      * @param[ticks]
      *          The number of ticks.
      *
      * @return The distance (cm) traveled if the wheel spun [ticks] ticks.
      */
+    @Suppress( "unused" )
     fun toDistance( ticks: Int ): Double
     {
         // train tracks!

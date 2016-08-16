@@ -11,7 +11,6 @@ package com.addonovan.ftcext.control
  *
  * @see AbstractOpMode
  * @see OpMode
- * @see com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
  *
  * @author addonovan
  * @since 6/15/16
@@ -29,7 +28,7 @@ abstract class LinearOpMode() : AbstractOpMode()
      * @param[milliseconds]
      *          The time (in milliseconds) to sleep for.
      */
-    fun sleep( milliseconds: Long ) = Thread.sleep( milliseconds );
+    @Suppress( "unused" ) fun sleep( milliseconds: Long ) = Thread.sleep( milliseconds );
 
     //
     // Abstract

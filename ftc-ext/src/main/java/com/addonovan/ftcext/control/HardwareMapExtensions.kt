@@ -14,53 +14,76 @@ import java.util.*
  * @since 6/25/16
  */
 
-private val _deviceClassMap = HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >();
-
-/** A map of the base hardware class versus the  */
-private val HardwareMap.deviceClassMap: HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >
-    get()
-    {
-        // initialize the map the first time around
-        if ( _deviceClassMap.size == 0 )
-        {
-             addToMap( dcMotorController );
-             addToMap( dcMotor );
-             addToMap( servoController );
-             addToMap( servo );
-             addToMap( legacyModule );
-             addToMap( touchSensorMultiplexer );
-             addToMap( deviceInterfaceModule );
-             addToMap( analogInput );
-             addToMap( digitalChannel );
-             addToMap( opticalDistanceSensor );
-             addToMap( touchSensor );
-             addToMap( pwmOutput );
-             addToMap( i2cDevice );
-             addToMap( analogOutput );
-             addToMap( colorSensor );
-             addToMap( led );
-             addToMap( accelerationSensor );
-             addToMap( compassSensor );
-             addToMap( gyroSensor );
-             addToMap( irSeekerSensor );
-             addToMap( lightSensor );
-             addToMap( ultrasonicSensor );
-             addToMap( voltageSensor );
-        }
-
-        return _deviceClassMap;
-    }
+/** Type alias for satan. */
+private class DeviceClassMap : HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >()
+{
+    inline fun < reified T : HardwareDevice > addEntry( mapping: DeviceMapping< out T > ) = put( T::class.java, mapping );
+}
 
 /**
- * Used to insert a device mapping into the backing device class mapping
- *
- * @param[mapping]
- *          The device mapping to add to the map.
+ * This exists for logging and keeping track of device class maps.
  */
-private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMapping< T > )
+private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::class )
 {
-    _deviceClassMap[ T::class.java ] = mapping;
+
+    /** Maps the deviceClassMap to the HardwareMap. */
+    private val deviceClassMapMap = HashMap< HardwareMap, DeviceClassMap >();
+
+    /**
+     * Gets (or creates) the single DeviceClassMap for the instance of the hardware map given.
+     *
+     * @param[hardwareMap]
+     *          The hardware map to fetch an instance of a DeviceClassMap for.
+     * @return The instance of the DeviceClassMap for the hardware map.
+     */
+    fun getDeviceClassMap( hardwareMap: HardwareMap ): DeviceClassMap
+    {
+        if ( !deviceClassMapMap.containsKey( hardwareMap ) )
+        {
+            deviceClassMapMap[ hardwareMap ] = DeviceClassMap();
+        }
+
+        return deviceClassMapMap[ hardwareMap ]!!;
+    }
+
 }
+
+/** A map of the base hardware class versus the  */
+private val HardwareMap.deviceClassMap: DeviceClassMap
+    get()
+    {
+        val map = HardwareMapExtension.getDeviceClassMap( this );
+
+        // initialize the map the first time around
+        if ( map.isEmpty() )
+        {
+           map.addEntry( dcMotorController );
+           map.addEntry( dcMotor );
+           map.addEntry( servoController );
+           map.addEntry( servo );
+           map.addEntry( legacyModule );
+           map.addEntry( touchSensorMultiplexer );
+           map.addEntry( deviceInterfaceModule );
+           map.addEntry( analogInput );
+           map.addEntry( digitalChannel );
+           map.addEntry( opticalDistanceSensor );
+           map.addEntry( touchSensor );
+           map.addEntry( pwmOutput );
+           map.addEntry( i2cDevice );
+           map.addEntry( analogOutput );
+           map.addEntry( colorSensor );
+           map.addEntry( led );
+           map.addEntry( accelerationSensor );
+           map.addEntry( compassSensor );
+           map.addEntry( gyroSensor );
+           map.addEntry( irSeekerSensor );
+           map.addEntry( lightSensor );
+           map.addEntry( ultrasonicSensor );
+           map.addEntry( voltageSensor );
+        }
+
+        return map;
+    }
 
 /**
  * Gets the correct device from the Hardware device mappings in the HardwareMap by
@@ -123,8 +146,8 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
     // so we can't find the correct map for it
     if ( !deviceClassMap.containsKey( baseType ) )
     {
-        e( "Can't find a device mapping for the given type: ${type.name}" );
-        e( "This means that there's no way to get the hardware device from the hardware map!" );
+        HardwareMapExtension.e( "Can't find a device mapping for the given type: ${type.name}" );
+        HardwareMapExtension.e( "This means that there's no way to get the hardware device from the hardware map!" );
         throw IllegalArgumentException( "No hardware device mapping for type: ${type.canonicalName}!" );
     }
 
@@ -160,22 +183,22 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
         }
     }
     // catch an IllegalArgumentException from the deviceMapping.get() method
-    catch ( e: IllegalArgumentException )
+    catch ( ex: IllegalArgumentException )
     {
-        e( "Failed to find the device by name $name!", e );
+        HardwareMapExtension.e( "Failed to find the device by name $name!", ex );
         throw NullPointerException( "No device with the type ${type.simpleName} by the name \"$name\"" );
     }
     // catch the other exceptions
-    catch ( e: Throwable )
+    catch ( ex: Throwable )
     {
         // if they're from the newInstance invocation
-        if ( e is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
-        if ( e is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
+        if ( ex is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
+        if ( ex is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
         // IllegalArgumentException can't happen as the constructor has already been chosen for the specified arguments
 
-        if ( e is InvocationTargetException ) e( "Exception while invoking HardwareExtension constructor: ${e.javaClass.name}" );
+        if ( ex is InvocationTargetException ) HardwareMapExtension.e( "Exception while invoking HardwareExtension constructor: ${ex.javaClass.name}" );
 
-        throw e; // throw it again
+        throw ex; // throw it again
     }
 }
 
@@ -211,7 +234,7 @@ private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevic
     // ensure the base type is a valid one
     if ( !deviceClassMap.containsKey( baseType ) )
     {
-        e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
+        HardwareMapExtension.e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
         throw IllegalAnnotationValueException( HardwareExtension::class.java, "hardwareMapType", type );
     }
 
@@ -232,7 +255,7 @@ private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevic
     // if it's still null at this point
     if ( constructor == null )
     {
-        e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
+        HardwareMapExtension.e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
         throw IllegalClassSetupException(
                 type, "HardwareExtension devices must conform to certain constructor requirements!"
         );
