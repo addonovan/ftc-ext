@@ -201,7 +201,7 @@ class OpModeConfig internal constructor( name: String ) : Jsonable
     //
 
     /**
-     * Gets all the entries in the data maps as an alphabetically ordered
+     * Gets all the entries in the msg maps as an alphabetically ordered
      * list by key name.
      *
      * @return A list of all key-value pairs in this config, sorted alphabetically

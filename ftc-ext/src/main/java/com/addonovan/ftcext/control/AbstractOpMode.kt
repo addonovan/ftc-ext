@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.robocol.Telemetry
  * @author addonovan
  * @since 6/12/16
  */
-abstract class AbstractOpMode()
+abstract class AbstractOpMode() : ILog by getLog( AbstractOpMode::class )
 {
 
     //

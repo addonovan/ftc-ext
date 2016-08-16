@@ -13,7 +13,7 @@ import android.widget.*
  */
 
 /** The com.qualcomm.ftcrobotcontroller.R.id class. */
-private val rIdClass by lazy()
+private val rIdClass: Class< * > by lazy()
 {
     Log.v( "ftcext.R", "Locating com.qualcomm.ftcrobotcontroller.R.id" );
 
