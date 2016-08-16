@@ -38,7 +38,7 @@ private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::clas
      */
     fun getDeviceClassMap( hardwareMap: HardwareMap ): DeviceClassMap
     {
-        if ( deviceClassMapMap.containsKey( hardwareMap ) )
+        if ( !deviceClassMapMap.containsKey( hardwareMap ) )
         {
             deviceClassMapMap[ hardwareMap ] = DeviceClassMap();
         }

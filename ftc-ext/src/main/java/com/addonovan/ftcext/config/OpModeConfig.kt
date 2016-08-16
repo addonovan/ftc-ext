@@ -402,7 +402,7 @@ fun loadConfigs( f: File )
         val json = JSONObject( f.readText() ); // create the main JSON object
         val configArray = json.getJSONArray( "configs" ); // the main array of all objects
 
-        for ( i in 0..configArray.length() )
+        for ( i in 0..configArray.length() - 1 )
         {
             val opModeArray = configArray.getJSONArray( i );
 
@@ -419,7 +419,7 @@ fun loadConfigs( f: File )
                 config.fromJson( opModeArray.getJSONObject( j ) );
                 configMap[ Pair( opModeName, config.VariantName) ] = config; // add it to the map
 
-                config.e( "Loaded OpModeConfig for ${config.OpModeName} (${config.VariantName} variant)" );
+                config.v( "Loaded OpModeConfig for ${config.OpModeName} (${config.VariantName} variant)" );
             }
         }
     }
