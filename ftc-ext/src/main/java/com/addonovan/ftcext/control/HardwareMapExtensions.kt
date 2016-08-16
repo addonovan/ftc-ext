@@ -13,6 +13,11 @@ import java.util.*
  * @author addonovan
  * @since 6/25/16
  */
+private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::class )
+{
+
+
+}
 
 private val _deviceClassMap = HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >();
 
@@ -123,8 +128,8 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
     // so we can't find the correct map for it
     if ( !deviceClassMap.containsKey( baseType ) )
     {
-        e( "Can't find a device mapping for the given type: ${type.name}" );
-        e( "This means that there's no way to get the hardware device from the hardware map!" );
+        HardwareMapExtension.e( "Can't find a device mapping for the given type: ${type.name}" );
+        HardwareMapExtension.e( "This means that there's no way to get the hardware device from the hardware map!" );
         throw IllegalArgumentException( "No hardware device mapping for type: ${type.canonicalName}!" );
     }
 
@@ -160,22 +165,22 @@ fun HardwareMap.getDeviceByType( type: Class< out HardwareDevice >, name: String
         }
     }
     // catch an IllegalArgumentException from the deviceMapping.get() method
-    catch ( e: IllegalArgumentException )
+    catch ( ex: IllegalArgumentException )
     {
-        e( "Failed to find the device by name $name!", e );
+        HardwareMapExtension.e( "Failed to find the device by name $name!", ex );
         throw NullPointerException( "No device with the type ${type.simpleName} by the name \"$name\"" );
     }
     // catch the other exceptions
-    catch ( e: Throwable )
+    catch ( ex: Throwable )
     {
         // if they're from the newInstance invocation
-        if ( e is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
-        if ( e is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
+        if ( ex is InstantiationError ) throw IllegalClassSetupException( type, "class is uninstantiable" );
+        if ( ex is IllegalAccessException ) throw IllegalClassSetupException( type, "constructor isn't accessible" );
         // IllegalArgumentException can't happen as the constructor has already been chosen for the specified arguments
 
-        if ( e is InvocationTargetException ) e( "Exception while invoking HardwareExtension constructor: ${e.javaClass.name}" );
+        if ( ex is InvocationTargetException ) HardwareMapExtension.e( "Exception while invoking HardwareExtension constructor: ${ex.javaClass.name}" );
 
-        throw e; // throw it again
+        throw ex; // throw it again
     }
 }
 
@@ -211,7 +216,7 @@ private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevic
     // ensure the base type is a valid one
     if ( !deviceClassMap.containsKey( baseType ) )
     {
-        e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
+        HardwareMapExtension.e( "The @HardwareExtension.hardwareMapType value for class \"${type.simpleName}\" isn't supported!" );
         throw IllegalAnnotationValueException( HardwareExtension::class.java, "hardwareMapType", type );
     }
 
@@ -232,7 +237,7 @@ private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevic
     // if it's still null at this point
     if ( constructor == null )
     {
-        e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
+        HardwareMapExtension.e( "Failed to find a constructor of either type in the hardware extension class: ${type.simpleName}!" );
         throw IllegalClassSetupException(
                 type, "HardwareExtension devices must conform to certain constructor requirements!"
         );
