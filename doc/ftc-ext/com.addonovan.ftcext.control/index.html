@@ -1,0 +1,156 @@
+<HTML>
+<HEAD>
+<title>com.addonovan.ftcext.control - ftc-ext</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href=".">com.addonovan.ftcext.control</a><br/>
+<br/>
+<h2>Package com.addonovan.ftcext.control</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-abstract-op-mode/index.html">AbstractOpMode</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractOpMode</span></code>
+<p>The OpMode class built upon Qualcomms. This class provides more utility
+than the standard class does, and <emph>must</emph> be used in order to be able
+to access the other functionality of this library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-linear-op-mode/index.html">LinearOpMode</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">LinearOpMode</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-abstract-op-mode/index.html"><span class="identifier">AbstractOpMode</span></a></code>
+<p>An OpMode that runs linearly. There is no <code>loop()</code> method
+as in a regular <a href="-op-mode/index.html">OpMode</a>, which is executed at a semiregular
+basis. A LinearOpMode will run exactly as it sounds, linearly.
+Once <a href="-linear-op-mode/run-op-mode.html">runOpMode</a> returns, the OpMode is finished, the method
+will never be called again.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-linear-op-mode-wrapper/index.html">LinearOpModeWrapper</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">LinearOpModeWrapper</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">LinearOpMode</span></code>
+<p>A wrapper for a LinearOpMode.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode/index.html">OpMode</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">OpMode</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-abstract-op-mode/index.html"><span class="identifier">AbstractOpMode</span></a></code>
+<p>A standard OpMode, in which the <a href="-op-mode/loop.html">loop</a> method will
+be called at "regular" intervals (aka whenever the
+Qualcomm application feels like it) to allow the
+OpMode to update robot hardware values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode-registrar/index.html">OpModeRegistrar</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeRegistrar</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">OpModeRegister</span></code>
+<p>The class responsible for finding all the OpModes that
+are meant to be registered and actually register them
+with the OpModeManager so that they may be selected.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode-wrapper/index.html">OpModeWrapper</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeWrapper</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">OpMode</span></code>
+<p>A wrapper for the OpMode class. This acts as the standard
+OpMode for Qualcomms poorly written systems, and allows this
+librarys better approach to take over fully.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-simple-task/index.html">SimpleTask</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SimpleTask</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-task/index.html"><span class="identifier">Task</span></a></code>
+<p>A simple task is an implementation of a task that can immediately start
+and has no necessary cleanup.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-task/index.html">Task</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Task</span></code>
+<p>A task is an action that is repeatedly executed until its finished.
+Tasks are executed asynchronously by the <a href="-task-manager/index.html">TaskManager</a>, and two
+tasks should not be modifying the same hardware components, as they
+might conflict.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-task-manager/index.html">TaskManager</a></td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">TaskManager</span></code>
+<p>Not to be confused with the Windows <code>taskmgr.exe</code> program,
+the Task Manager is the asynchronous system for managing
+specific tasks.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Annotations</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-register/index.html">Register</a></td>
+<td>
+<code><span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">Register</span></code>
+<p>An annotation used to register an OpMode to be discovered
+and used in the program.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extensions for External Classes</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="com.qualcomm.robotcore.hardware.-hardware-map/index.html">com.qualcomm.robotcore.hardware.HardwareMap</a></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-op-modes.html">OpModes</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">OpModes</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html"><span class="identifier">HashMap</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="-abstract-op-mode/index.html"><span class="identifier">AbstractOpMode</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A map of OpModes and their registered names.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="get-register-name.html">getRegisterName</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRegisterName</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control$getRegisterName(java.lang.Class((kotlin.Any)))/clazz">clazz</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">&lt;ERROR CLASS&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

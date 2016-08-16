@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<title>Motor.moveDistance - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.hardware</a>&nbsp;/&nbsp;<a href="index.html">Motor</a>&nbsp;/&nbsp;<a href=".">moveDistance</a><br/>
+<br/>
+<h1>moveDistance</h1>
+<a name="com.addonovan.ftcext.hardware.Motor$moveDistance(kotlin.Double, kotlin.Double)"></a>
+<code><span class="keyword">fun </span><span class="identifier">moveDistance</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$moveDistance(kotlin.Double, kotlin.Double)/distance">distance</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.hardware.Motor$moveDistance(kotlin.Double, kotlin.Double)/power">power</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.addonovan.ftcext.control/-task/index.html"><span class="identifier">Task</span></a></code>
+<p>Creates and registers a task with the <a href="../../com.addonovan.ftcext.control/-task-manager/index.html">TaskManager</a> that wil
+make the motor move at the given power until the given distance
+has been covered.</p>
+<p>If the OpMode is linear, then whenever this method returns, the
+task will have been completed.</p>
+<p>This is not guaranteed to be accurate, as it is entirely dependent
+upon motor encoders!</p>
+<h3>Parameters</h3>
+
+<p><a name="distance"></a>
+<code>distance</code> - The distance to cover (in cm).
+<p><a name="power"></a>
+<code>power</code> - The power to move the motor at.
+<p><strong>Return</strong><br/>
+The created task. (Use <a href="../../com.addonovan.ftcext.control/-task/is-finished.html">Task.isFinished</a> to determine
+when the task has been finished).</p>
+</BODY>
+</HTML>

@@ -1,0 +1,363 @@
+<HTML>
+<HEAD>
+<title>LinearOpMode - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.control</a>&nbsp;/&nbsp;<a href=".">LinearOpMode</a><br/>
+<br/>
+<h1>LinearOpMode</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">LinearOpMode</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-abstract-op-mode/index.html"><span class="identifier">AbstractOpMode</span></a></code>
+<p>An OpMode that runs linearly. There is no <code>loop()</code> method
+as in a regular <a href="../-op-mode/index.html">OpMode</a>, which is executed at a semiregular
+basis. A LinearOpMode will run exactly as it sounds, linearly.
+Once <a href="run-op-mode.html">runOpMode</a> returns, the OpMode is finished, the method
+will never be called again.</p>
+<p>This is most useful for Autonomous programs.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-abstract-op-mode/index.html">AbstractOpMode</a></p>
+<p><a href="../-op-mode/index.html">OpMode</a></p>
+<p><a href="#">com.qualcomm.robotcore.eventloop.opmode.LinearOpMode</a></p>
+</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/15/16</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">LinearOpMode</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>An OpMode that runs linearly. There is no <code>loop()</code> method
+as in a regular <a href="../-op-mode/index.html">OpMode</a>, which is executed at a semiregular
+basis. A LinearOpMode will run exactly as it sounds, linearly.
+Once <a href="run-op-mode.html">runOpMode</a> returns, the OpMode is finished, the method
+will never be called again.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-abstract-op-mode/-registered-name.html">RegisteredName</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">RegisteredName</span><span class="symbol">: </span><span class="identifier">&lt;ERROR CLASS&gt;</span></code>
+<p>The name that this OpMode is registered as in the Registrar.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/gamepad1.html">gamepad1</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">gamepad1</span><span class="symbol">: </span><span class="identifier">Gamepad</span></code>
+<p>The first controller.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/gamepad2.html">gamepad2</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">gamepad2</span><span class="symbol">: </span><span class="identifier">Gamepad</span></code>
+<p>The second controller.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/hardware-map.html">hardwareMap</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">hardwareMap</span><span class="symbol">: </span><span class="identifier">HardwareMap</span></code>
+<p>Direct access to the hardware map. Directly referencing this is discouraged.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/telemetry.html">telemetry</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">telemetry</span><span class="symbol">: </span><span class="identifier">Telemetry</span></code>
+<p>Telemetry for sending back current states and what not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="run-op-mode.html">runOpMode</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">runOpMode</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Runs the OpMode.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="sleep.html">sleep</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">sleep</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.LinearOpMode$sleep(kotlin.Long)/milliseconds">milliseconds</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sleeps for the given amount of time.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-abstract-op-mode/acceleration-sensor.html">accelerationSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">accelerationSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$accelerationSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">AccelerationSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/analog-in.html">analogIn</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">analogIn</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$analogIn(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">AnalogInput</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/analog-out.html">analogOut</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">analogOut</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$analogOut(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">AnalogOutput</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/color-sensor.html">colorSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">colorSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$colorSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ColorSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/compass-sensor.html">compassSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">compassSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$compassSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">CompassSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/device-interface-module.html">deviceInterfaceModule</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">deviceInterfaceModule</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$deviceInterfaceModule(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">DeviceInterfaceModule</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/digital-channel.html">digitalChannel</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">digitalChannel</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$digitalChannel(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">DigitalChannel</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/get.html">get</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.String)/default">default</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<p>Gets a <code>String</code> value from the configuration. Returns the default
+value after adding it to the configuration if there was no
+value in the map for the key.</p>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Long)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Long)/default">default</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>Gets a <code>long</code> value from the configuration. Returns the default
+value after adding it to the configuration if there was no
+value in the map for the key.</p>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Double)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Double)/default">default</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>Gets a <code>double</code> value from the configuration. Returns the default
+value after adding it to the configuration if there was no
+value in the map for the key.</p>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Boolean)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$get(kotlin.String, kotlin.Boolean)/default">default</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code>
+<p>Gets a <code>boolean</code> value from the configuration. Returns the default
+value after adding it to the configuration if there was no
+value in the map for the key.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/get-device.html">getDevice</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">HardwareDevice</span><span class="symbol">&gt;</span> <span class="identifier">getDevice</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
+<p>A single method approach to getting a device, this requires a type parameter
+on the method, however, which means this cannot be correctly used if referenced
+in java.</p>
+<code><span class="keyword">fun </span><span class="identifier">getDevice</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">HardwareDevice</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">HardwareDevice</span></code>
+<p><strong>Java Only</strong></p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/gyro-sensor.html">gyroSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">gyroSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$gyroSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">GyroSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/i2c-device.html">i2cDevice</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">i2cDevice</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$i2cDevice(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">I2cDevice</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/init.html">init</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">init</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Initialize the robot. This occurs directly after the OpMode
+is selected.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/ir-sensor.html">irSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">irSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$irSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">IrSeekerSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/led.html">led</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">led</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$led(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LED</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/legacy-module.html">legacyModule</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">legacyModule</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$legacyModule(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LegacyModule</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/light-sensor.html">lightSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">lightSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$lightSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LightSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/motor.html">motor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">motor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$motor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">DcMotor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/motor-controller.html">motorController</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">motorController</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$motorController(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">DcMotorController</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/optical-distance-sensor.html">opticalDistanceSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">opticalDistanceSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$opticalDistanceSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">OpticalDistanceSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/pwm-out.html">pwmOut</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">pwmOut</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$pwmOut(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">PWMOutput</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/servo.html">servo</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">servo</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$servo(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Servo</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/servo-controller.html">servoController</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">servoController</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$servoController(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ServoController</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/start.html">start</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">start</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Called the moment that the start button is pressed on the
+Driver Station remote. This is the first code that is executed
+when an OpMode is running.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/stop.html">stop</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">stop</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Called the moment that the stop button is pressed (or the
+timer runs our) on the Driver Station remote. This is the
+last code that is executed when an OpMode is running.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/touch-sensor.html">touchSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">touchSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$touchSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TouchSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/touch-sensor-multiplexer.html">touchSensorMultiplexer</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">touchSensorMultiplexer</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$touchSensorMultiplexer(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TouchSensorMultiplexer</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/ultrasonic-sensor.html">ultrasonicSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">ultrasonicSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$ultrasonicSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">UltrasonicSensor</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-abstract-op-mode/voltage-sensor.html">voltageSensor</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">voltageSensor</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$voltageSensor(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">VoltageSensor</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/d.html">d</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/e.html">e</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/i.html">i</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/v.html">v</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/w.html">w</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/wtf.html">wtf</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

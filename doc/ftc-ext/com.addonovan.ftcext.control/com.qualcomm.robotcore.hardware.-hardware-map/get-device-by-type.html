@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<title>getDeviceByType - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.control</a>&nbsp;/&nbsp;<a href="index.html">com.qualcomm.robotcore.hardware.HardwareMap</a>&nbsp;/&nbsp;<a href=".">getDeviceByType</a><br/>
+<br/>
+<h1>getDeviceByType</h1>
+<a name="com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)"></a>
+<code><span class="keyword">fun </span><span class="identifier">HardwareMap</span><span class="symbol">.</span><span class="identifier">getDeviceByType</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/type">type</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">HardwareDevice</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">HardwareDevice</span></code>
+<p>Gets the correct device from the Hardware device mappings in the HardwareMap by
+using the type of HardwareDevice to find the correct hardware device mapping
+and the name to get the correct value out of it.</p>
+<h3>Parameters</h3>
+
+<p><a name="type"></a>
+<code>type</code> - The type of hardware device to find.
+<p><a name="name"></a>
+<code>name</code> - The name of the hardware device to return.
+<h3>Exceptions</h3>
+
+<p><a name="IllegalArgumentException"></a>
+<code>IllegalArgumentException</code> - If <a href="get-device-by-type.html#com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/type">type</a> had no DeviceMapping associated with it.
+<p><a name="NullPointerException"></a>
+<code>NullPointerException</code> - If there was no entry for <a href="get-device-by-type.html#com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/name">name</a> with the type <a href="get-device-by-type.html#com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/type">type</a>.
+<p><a name="IllegalAnnotationValueException"></a>
+<code>IllegalAnnotationValueException</code> - If the <a href="get-device-by-type.html#com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/type">type</a> class had a <a href="../../com.addonovan.ftcext.hardware/-hardware-extension/index.html">HardwareExtension</a> annotation on it that had
+an invalid value (that is, one that doesnt have a value in the backing
+map of classes and <code>DeviceMapping</code>s) assigned to the <code>hardwareMapType</code>
+parameter.
+This should <emph>never</emph> happen to an end-user, that would mean that the
+developer who wrote the extension did so wrongly.
+<p><a name="IllegalClassSetupException"></a>
+<code>IllegalClassSetupException</code> - If <a href="get-device-by-type.html#com.addonovan.ftcext.control$getDeviceByType(com.qualcomm.robotcore.hardware.HardwareMap, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)), kotlin.String)/type">type</a> is a <a href="../../com.addonovan.ftcext.hardware/-hardware-extension/index.html">HardwareExtension</a> that has been insufficiently
+set up, which could be for a multitude of reasons, check the
+error message if this occurs for more details.
+<p><strong>Return</strong><br/>
+The hardware device with the given type and name.</p>
+</BODY>
+</HTML>

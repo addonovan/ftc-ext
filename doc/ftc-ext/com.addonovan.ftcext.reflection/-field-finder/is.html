@@ -1,0 +1,26 @@
+<HTML>
+<HEAD>
+<title>FieldFinder.is - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.reflection</a>&nbsp;/&nbsp;<a href="index.html">FieldFinder</a>&nbsp;/&nbsp;<a href=".">is</a><br/>
+<br/>
+<h1>is</h1>
+<a name="com.addonovan.ftcext.reflection.FieldFinder$is(kotlin.IntArray, kotlin.Boolean)"></a>
+<code><span class="keyword">fun </span><span class="identifier">is</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.addonovan.ftcext.reflection.FieldFinder$is(kotlin.IntArray, kotlin.Boolean)/modifiers">modifiers</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.reflection.FieldFinder$is(kotlin.IntArray, kotlin.Boolean)/strict">strict</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><a href="index.html"><span class="identifier">FieldFinder</span></a></code>
+<p>Filters out all fields that dont have the required modifiers. If <code>strict</code>
+is true, then <emph>all</emph> of the given modifiers must be present on the field for it to
+not be filtered out; otherwise, only one of the flags must be present in order
+for the field to remain.</p>
+<h3>Parameters</h3>
+
+<p><a name="modifiers"></a>
+<code>modifiers</code> - The modifiers (from <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Modifier.html">java.lang.reflect.Modifier</a>) to require from the fields.
+<p><a name="strict"></a>
+<code>strict</code> - If all flags are required (<code>true</code>) or if only one is (<code>false</code>) to remain in the
+list (by default, all flags are required).
+<p><strong>Return</strong><br/>
+This FieldFinder, so that calls may be chained.</p>
+</BODY>
+</HTML>

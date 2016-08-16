@@ -1,5 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    System.out.println( new File( "doc" ).getAbsolutePath() );
+
+    outputFormat = 'html'
+    outputDirectory = new File( "doc" )
+    sourceDirs = files('src/main/java')
+}
 
 android {
     compileSdkVersion 23
@@ -25,6 +34,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.9"
     }
 }
 

@@ -1,0 +1,210 @@
+<HTML>
+<HEAD>
+<title>ContinuousToggleServo - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.hardware</a>&nbsp;/&nbsp;<a href=".">ContinuousToggleServo</a><br/>
+<br/>
+<h1>ContinuousToggleServo</h1>
+<code><span class="keyword">class </span><span class="identifier">ContinuousToggleServo</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-continuous-servo/index.html"><span class="identifier">ContinuousServo</span></a></code>
+<p>A blend between the <a href="../-continuous-servo/index.html">ContinuousServo</a> and the <a href="../-toggle-servo/index.html">ToggleServo</a>. This
+inherits from a ContinuousServo, rather than a ToggleServo, because
+this functions far differently than a normal ToggleServo does.</p>
+<p>How this functions is a little difficult to understand from the
+code; however, it is actually quite simple. When a servo is
+toggled, it will switch to the correct state, and, after
+<a href="-toggle-run-time.html">ToggleRunTime</a> milliseconds, it will stop and be in the end state.
+For example, if a servo were toggled on, it would run in
+the direction given by <a href="-engaged-direction.html">EngagedDirection</a> under the status of "Engaging"
+for <a href="-toggle-run-time.html">ToggleRunTime</a> milliseconds, then stop under the status of
+"Engaged". When it is next toggled, it will run for <a href="-toggle-run-time.html">ToggleRunTime</a>
+milliseconds in the opposite direction of <a href="-engaged-direction.html">EngagedDirection</a> under
+the status of "Disengaging", then it will stop and have the status
+of "Disengaged" until its toggled next.</p>
+<h3>Parameters</h3>
+
+<p><a name="servo"></a>
+<code>servo</code> - The servo to create a ContinuousToggleServo from.
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/26/16</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-toggle-servo/index.html">ToggleServo</a></p>
+<p><a href="../-continuous-servo/index.html">ContinuousServo</a></p>
+</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-state/index.html">State</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">State</span></code>
+<p>The position of a ContinuousToggleServo.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">ContinuousToggleServo</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.hardware.ContinuousToggleServo$<init>(com.qualcomm.robotcore.hardware.Servo)/servo">servo</span><span class="symbol">:</span>&nbsp;<span class="identifier">Servo</span><span class="symbol">)</span></code>
+<p>A blend between the <a href="../-continuous-servo/index.html">ContinuousServo</a> and the <a href="../-toggle-servo/index.html">ToggleServo</a>. This
+inherits from a ContinuousServo, rather than a ToggleServo, because
+this functions far differently than a normal ToggleServo does.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-current-position.html">CurrentPosition</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CurrentPosition</span><span class="symbol">: </span><a href="-state/index.html"><span class="identifier">State</span></a></code>
+<p>The current position of the ToggleServo.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-engaged-direction.html">EngagedDirection</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">EngagedDirection</span><span class="symbol">: </span><span class="identifier">Direction</span></code>
+<p>The direction to move when the servo is in the "engaging"
+state. When the servo is in the "disengaging" state it will
+move in the opposite direction of this.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-toggle-delay.html">ToggleDelay</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">ToggleDelay</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>The amount of time (in milliseconds) to ensure between <a href="toggle.html">toggle</a> calls go
+through and toggle the position, by default this is 350.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-toggle-run-time.html">ToggleRunTime</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">ToggleRunTime</span><span class="symbol">: </span><span class="identifier">Long</span></code>
+<p>The amount of time (in milliseconds) to be running the either direction,
+by default this is 350.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-continuous-servo/-stop-position.html">StopPosition</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">StopPosition</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The position to use to tell the servo to stop moving.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="toggle.html">toggle</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggle</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Toggles the servo to the opposite state than its currently in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="toggle-off.html">toggleOff</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggleOff</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Moves the servo in the opposite direction of the <a href="-engaged-direction.html">EngagedDirection</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="toggle-on.html">toggleOn</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toggleOn</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Moves the servo in the direction of the <a href="-engaged-direction.html">EngagedDirection</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-continuous-servo/stop.html">stop</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">stop</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sets the position of the servo to <a href="../-continuous-servo/-stop-position.html">StopPosition</a> so that
+the continuous servo stops moving.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/d.html">d</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/e.html">e</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/i.html">i</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/v.html">v</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/w.html">w</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/wtf.html">wtf</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

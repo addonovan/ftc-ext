@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<title>Jsonable - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.config</a>&nbsp;/&nbsp;<a href=".">Jsonable</a><br/>
+<br/>
+<h1>Jsonable</h1>
+<code><span class="keyword">interface </span><span class="identifier">Jsonable</span></code>
+<p>An awful, awful name for a type of class that is able to be
+serialized into a .json file.</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/16/16</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="from-json.html">fromJson</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">fromJson</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config.Jsonable$fromJson(org.json.JSONObject)/json">json</span><span class="symbol">:</span>&nbsp;<span class="identifier">JSONObject</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Unpackes the serialized json object into the original class
+via <a href="from-json.html#com.addonovan.ftcext.config.Jsonable$fromJson(org.json.JSONObject)/json">json</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="to-json.html">toJson</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">toJson</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config.Jsonable$toJson(android.util.JsonWriter)/writer">writer</span><span class="symbol">:</span>&nbsp;<span class="identifier">JsonWriter</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Serializes this class into the json file via <a href="to-json.html#com.addonovan.ftcext.config.Jsonable$toJson(android.util.JsonWriter)/writer">writer</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/d.html">d</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/e.html">e</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/i.html">i</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/v.html">v</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/w.html">w</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/wtf.html">wtf</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-op-mode-config/index.html">OpModeConfig</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeConfig</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Jsonable</span></code>
+<p>TODO OpModeConfig documentation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

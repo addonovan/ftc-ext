@@ -1,0 +1,301 @@
+<HTML>
+<HEAD>
+<title>alltypes - ftc-ext</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<h3>All Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-abstract-op-mode/index.html">com.addonovan.ftcext.control.AbstractOpMode</a></td>
+<td>
+<p>The OpMode class built upon Qualcomms. This class provides more utility
+than the standard class does, and <emph>must</emph> be used in order to be able
+to access the other functionality of this library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext/kotlin.-any/index.html">kotlin.Any</a> (extensions in package com.addonovan.ftcext)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/java.lang.-class/index.html">java.lang.Class</a> (extensions in package com.addonovan.ftcext.hardware)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.reflection/-class-finder/index.html">com.addonovan.ftcext.reflection.ClassFinder</a></td>
+<td>
+<p>Utility to find certain classes with certain attributes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-config-activity/index.html">com.addonovan.ftcext.config.ConfigActivity</a></td>
+<td>
+<p>The activity used to edit and create new OpMode configurations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-continuous-servo/index.html">com.addonovan.ftcext.hardware.ContinuousServo</a></td>
+<td>
+<p>A class which serves to distinguish a regular servo from a
+continuous (aka 360°) one. A few additions are made, such
+as the <a href="../com.addonovan.ftcext.hardware/-continuous-servo/stop.html">stop</a> method and the <a href="../com.addonovan.ftcext.hardware/-continuous-servo/-stop-position.html">StopPosition</a> property, but
+its identical to a regular <a href="#">Servo</a> for the most part.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-continuous-toggle-servo/index.html">com.addonovan.ftcext.hardware.ContinuousToggleServo</a></td>
+<td>
+<p>A blend between the <a href="../com.addonovan.ftcext.hardware/-continuous-servo/index.html">ContinuousServo</a> and the <a href="../com.addonovan.ftcext.hardware/-toggle-servo/index.html">ToggleServo</a>. This
+inherits from a ContinuousServo, rather than a ToggleServo, because
+this functions far differently than a normal ToggleServo does.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-custom-preference-fragment/index.html">com.addonovan.ftcext.config.CustomPreferenceFragment</a></td>
+<td>
+<p>A custom type of preference fragment that holds a little bit of extra data and
+supplies a way to change the title in the toolbar and also registers the
+fragment as the <a href="#">ConfigActivity.CurrentFragment</a> when created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-false-hardware-map/index.html">com.addonovan.ftcext.config.FalseHardwareMap</a></td>
+<td>
+<p>A fake HardwareMap class for the sole purpose of faking a configuration map for
+the purposed of configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.reflection/-field-finder/index.html">com.addonovan.ftcext.reflection.FieldFinder</a></td>
+<td>
+<p>Class used for finding specific fields in a class.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.utils/-h-q-interval/index.html">com.addonovan.ftcext.utils.HQInterval</a></td>
+<td>
+<p>A special, high quality type of <a href="../com.addonovan.ftcext.utils/-interval/index.html">Interval</a> which uses the
+systems time in nanoseconds rather than the inaccurate
+method of getting the time in milliseconds.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-hardware-bundle/index.html">com.addonovan.ftcext.hardware.HardwareBundle</a></td>
+<td>
+<p>A bundle of hardware information for an OpMode.
+This contains the two gamepads, the telemetry object, and the current hardware map
+for the OpMode to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-hardware-extension/index.html">com.addonovan.ftcext.hardware.HardwareExtension</a></td>
+<td>
+<p>An annotation for hardware class that are build on top of another hardware device.
+Valid classes for the <a href="../com.addonovan.ftcext.hardware/-hardware-extension/hardware-map-type.html">hardwareMapType</a> are as follows:</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/com.qualcomm.robotcore.hardware.-hardware-map/index.html">com.qualcomm.robotcore.hardware.HardwareMap</a> (extensions in package com.addonovan.ftcext.control)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext/-illegal-annotation-value-exception/index.html">com.addonovan.ftcext.IllegalAnnotationValueException</a></td>
+<td>
+<p>An exception for when an annotation had an illegal value assigned to it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext/-illegal-class-setup-exception/index.html">com.addonovan.ftcext.IllegalClassSetupException</a></td>
+<td>
+<p>An exception for when a class that needed to be set up a certain way
+(so it could be accessed via reflections) was not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.utils/-interval/index.html">com.addonovan.ftcext.utils.Interval</a></td>
+<td>
+<p>An Interval is an object that represents a time interval.
+The interval is said to be "true" when the current time is
+within the given interval.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-jsonable/index.html">com.addonovan.ftcext.config.Jsonable</a></td>
+<td>
+<p>An awful, awful name for a type of class that is able to be
+serialized into a .json file.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-linear-op-mode/index.html">com.addonovan.ftcext.control.LinearOpMode</a></td>
+<td>
+<p>An OpMode that runs linearly. There is no <code>loop()</code> method
+as in a regular <a href="../com.addonovan.ftcext.control/-op-mode/index.html">OpMode</a>, which is executed at a semiregular
+basis. A LinearOpMode will run exactly as it sounds, linearly.
+Once <a href="../com.addonovan.ftcext.control/-linear-op-mode/run-op-mode.html">runOpMode</a> returns, the OpMode is finished, the method
+will never be called again.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-linear-op-mode-wrapper/index.html">com.addonovan.ftcext.control.LinearOpModeWrapper</a></td>
+<td>
+<p>A wrapper for a LinearOpMode.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-motor/index.html">com.addonovan.ftcext.hardware.Motor</a></td>
+<td>
+<p>An abstraction on top of the <a href="#">DcMotor</a> which makes it much easier
+to move via encoders and distances. The <a href="#">Assembly</a> value allows
+for the motor assembly to be specified so that movement by encoders
+becomes a trivial task.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.utils/-motor-assembly/index.html">com.addonovan.ftcext.utils.MotorAssembly</a></td>
+<td>
+<p>A motor assembly is the programmatic representation of an assembly
+of any type of motor and its components which allows for higher level
+control of encoder movements.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.utils/-motor-type/index.html">com.addonovan.ftcext.utils.MotorType</a></td>
+<td>
+<p>An enum for the valid types of motors for encoder purposes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-op-mode/index.html">com.addonovan.ftcext.control.OpMode</a></td>
+<td>
+<p>A standard OpMode, in which the <a href="../com.addonovan.ftcext.control/-op-mode/loop.html">loop</a> method will
+be called at "regular" intervals (aka whenever the
+Qualcomm application feels like it) to allow the
+OpMode to update robot hardware values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-op-mode-config/index.html">com.addonovan.ftcext.config.OpModeConfig</a></td>
+<td>
+<p>TODO OpModeConfig documentation</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-op-mode-list-preference/index.html">com.addonovan.ftcext.config.OpModeListPreference</a></td>
+<td>
+<p>A list of the opmodes. When a user clicks on one, it switches
+to the <a href="../com.addonovan.ftcext.config/-variant-list-preference/index.html">VariantListPreference</a> to edit the variants.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-op-mode-registrar/index.html">com.addonovan.ftcext.control.OpModeRegistrar</a></td>
+<td>
+<p>The class responsible for finding all the OpModes that
+are meant to be registered and actually register them
+with the OpModeManager so that they may be selected.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-op-mode-wrapper/index.html">com.addonovan.ftcext.control.OpModeWrapper</a></td>
+<td>
+<p>A wrapper for the OpMode class. This acts as the standard
+OpMode for Qualcomms poorly written systems, and allows this
+librarys better approach to take over fully.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-register/index.html">com.addonovan.ftcext.control.Register</a></td>
+<td>
+<p>An annotation used to register an OpMode to be discovered
+and used in the program.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-simple-task/index.html">com.addonovan.ftcext.control.SimpleTask</a></td>
+<td>
+<p>A simple task is an implementation of a task that can immediately start
+and has no necessary cleanup.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-task/index.html">com.addonovan.ftcext.control.Task</a></td>
+<td>
+<p>A task is an action that is repeatedly executed until its finished.
+Tasks are executed asynchronously by the <a href="../com.addonovan.ftcext.control/-task-manager/index.html">TaskManager</a>, and two
+tasks should not be modifying the same hardware components, as they
+might conflict.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.control/-task-manager/index.html">com.addonovan.ftcext.control.TaskManager</a></td>
+<td>
+<p>Not to be confused with the Windows <code>taskmgr.exe</code> program,
+the Task Manager is the asynchronous system for managing
+specific tasks.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.hardware/-toggle-servo/index.html">com.addonovan.ftcext.hardware.ToggleServo</a></td>
+<td>
+<p>A type of servo that can be toggled between two states
+as well as acting like a normal servo.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-variant-config-preference/index.html">com.addonovan.ftcext.config.VariantConfigPreference</a></td>
+<td>
+<p>Configures a specific variants variables acoording to their presumed types.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../com.addonovan.ftcext.config/-variant-list-preference/index.html">com.addonovan.ftcext.config.VariantListPreference</a></td>
+<td>
+<p>Lists all the variants of the opmode and allows the user
+to edit a variant as well as create new ones and change
+the active one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

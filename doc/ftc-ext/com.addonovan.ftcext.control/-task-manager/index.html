@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<title>TaskManager - ftc-ext</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.control</a>&nbsp;/&nbsp;<a href=".">TaskManager</a><br/>
+<br/>
+<h1>TaskManager</h1>
+<code><span class="keyword">object </span><span class="identifier">TaskManager</span></code>
+<p>Not to be confused with the Windows <code>taskmgr.exe</code> program,
+the Task Manager is the asynchronous system for managing
+specific tasks.</p>
+<p>The life cycle of a task is rather simple. Before a tasks
+<a href="../-task/tick.html">tick</a> method can be called, it must first be
+ready, which means the Task Manager will wait until it
+receives a <code>true</code> back from the tasks <a href="../-task/can-start.html">canStart</a>
+method. The task will continue to be ticked until the
+<a href="../-task/is-finished.html">isFinished</a> method returns <code>true</code>, at
+which point, the task will be removed from the registered
+tasks list and its <a href="../-task/on-finish.html">onFinish</a> method will
+be invoked.</p>
+<p>It should be noted that all methods, except <code>onFinish</code> have the
+possibility of being called more than once. canStart will be
+called however many times it takes for the method to return
+true, and tick and isFinished will be called the same number
+of times, until isFinished eventually returns true (n.b. they
+will both be called <emph>at least</emph> one time, as the task is ticked
+before it is checked for completion).</p>
+<p>In regular OpModes, the Task Manager will call the <a href="../-task/tick.html">tick</a>
+methods of the registered tasks as often as the <a href="../-op-mode/loop.html">loop</a>
+method is by the system.</p>
+<p>In a LinearOpMode, the Task Manager will <emph>not</emph> schedule events
+or allow them to be put off until later; theyre entire lifetime
+will happen before the <a href="register-task.html">registerTask</a> method returns. When <a href="-is-linear-op-mode.html">IsLinearOpMode</a>
+is true, attempting to call the <a href="tick.html">tick</a> method will yield an
+<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/UnsupportedOperationException.html">UnsupportedOperationException</a>.</p>
+<p><strong>Author</strong><br/>
+addonovan</p>
+<p><strong>Since</strong><br/>
+6/28/16</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-is-linear-op-mode.html">IsLinearOpMode</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">IsLinearOpMode</span><span class="symbol">: </span><span class="identifier">Boolean</span></code>
+<p>If the current OpMode is a LinearOpMode</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="register-task.html">registerTask</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerTask</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.TaskManager$registerTask(com.addonovan.ftcext.control.Task, kotlin.String)/task">task</span><span class="symbol">:</span>&nbsp;<a href="../-task/index.html"><span class="identifier">Task</span></a><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.TaskManager$registerTask(com.addonovan.ftcext.control.Task, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Registers a task to be completed at a later time. If <a href="-is-linear-op-mode.html">IsLinearOpMode</a> is
+true, then the task will be executed immediately.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="tick.html">tick</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">tick</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Ticks all of the tasks in the task queue. If the tasks
+<code>isFinished</code> method returns <code>true</code>, then it will be removed
+from the task queue and its <code>onFinish</code> method will be invoked.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/d.html">d</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">d</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$d(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/e.html">e</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">e</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$e(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/i.html">i</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">i</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$i(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/v.html">v</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">v</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$v(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/w.html">w</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">w</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$w(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../com.addonovan.ftcext/kotlin.-any/wtf.html">wtf</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">Any</span><span class="symbol">.</span><span class="identifier">wtf</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext$wtf(kotlin.Any, kotlin.String, kotlin.Throwable)/throwable">throwable</span><span class="symbol">:</span>&nbsp;<span class="identifier">Throwable</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

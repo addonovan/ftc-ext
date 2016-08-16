@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<title>com.addonovan.ftcext.config - ftc-ext</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href=".">com.addonovan.ftcext.config</a><br/>
+<br/>
+<h2>Package com.addonovan.ftcext.config</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-config-activity/index.html">ConfigActivity</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ConfigActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span></code>
+<p>The activity used to edit and create new OpMode configurations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-custom-preference-fragment/index.html">CustomPreferenceFragment</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">CustomPreferenceFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">PreferenceFragment</span></code>
+<p>A custom type of preference fragment that holds a little bit of extra data and
+supplies a way to change the title in the toolbar and also registers the
+fragment as the <a href="#">ConfigActivity.CurrentFragment</a> when created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-false-hardware-map/index.html">FalseHardwareMap</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">FalseHardwareMap</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">HardwareMap</span></code>
+<p>A fake HardwareMap class for the sole purpose of faking a configuration map for
+the purposed of configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-jsonable/index.html">Jsonable</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Jsonable</span></code>
+<p>An awful, awful name for a type of class that is able to be
+serialized into a .json file.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode-config/index.html">OpModeConfig</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeConfig</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-jsonable/index.html"><span class="identifier">Jsonable</span></a></code>
+<p>TODO OpModeConfig documentation</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-op-mode-list-preference/index.html">OpModeListPreference</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OpModeListPreference</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-custom-preference-fragment/index.html"><span class="identifier">CustomPreferenceFragment</span></a></code>
+<p>A list of the opmodes. When a user clicks on one, it switches
+to the <a href="-variant-list-preference/index.html">VariantListPreference</a> to edit the variants.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-variant-config-preference/index.html">VariantConfigPreference</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">VariantConfigPreference</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-custom-preference-fragment/index.html"><span class="identifier">CustomPreferenceFragment</span></a></code>
+<p>Configures a specific variants variables acoording to their presumed types.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-variant-list-preference/index.html">VariantListPreference</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">VariantListPreference</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-custom-preference-fragment/index.html"><span class="identifier">CustomPreferenceFragment</span></a></code>
+<p>Lists all the variants of the opmode and allows the user
+to edit a variant as well as create new ones and change
+the active one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-c-o-n-f-i-g_-f-i-l-e.html">CONFIG_FILE</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CONFIG_FILE</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a></code>
+<p>The standard config file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="attach-robot-icon-listener.html">attachRobotIconListener</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">attachRobotIconListener</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Attaches the click listener which starts <a href="-config-activity/index.html">ConfigActivity</a> to the
+<a href="../com.addonovan.ftcext/-robot-icon.html">RobotIcon</a>. Also changes the icon color to show that you can
+press it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="detach-robot-icon-listener.html">detachRobotIconListener</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">detachRobotIconListener</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Detaches the click listener that started the <a href="-config-activity/index.html">ConfigActivity</a> from
+the <a href="../com.addonovan.ftcext/-robot-icon.html">RobotIcon</a>. Also reverts the icon color to show that it cant
+be pressed anymore.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="get-active-config.html">getActiveConfig</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getActiveConfig</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config$getActiveConfig(kotlin.String)/opModeName">opModeName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="-op-mode-config/index.html"><span class="identifier">OpModeConfig</span></a></code>
+<p>Finds the active variant for the given opmode name. If there
+was no active variant, then default is used.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="get-op-mode-configs.html">getOpModeConfigs</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getOpModeConfigs</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config$getOpModeConfigs(kotlin.String)/opModeName">opModeName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html"><span class="identifier">ArrayList</span></a><span class="symbol">&lt;</span><a href="-op-mode-config/index.html"><span class="identifier">OpModeConfig</span></a><span class="symbol">&gt;</span></code>
+<p>Finds all the variants of OpModeConfigs for the given OpMode.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="load-configs.html">loadConfigs</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">loadConfigs</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config$loadConfigs(java.io.File)/f">f</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Loads all the OpModeConfigs from the given file.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="write-configs.html">writeConfigs</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">writeConfigs</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.config$writeConfigs(java.io.File)/f">f</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Writes all the OpModeConfigs to the given file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
