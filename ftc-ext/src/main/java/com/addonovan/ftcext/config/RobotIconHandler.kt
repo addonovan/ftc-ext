@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.widget.Toast
 import com.addonovan.ftcext.*
-import android.util.Log.*
 
 /**
  * This file handles the RobotIcon stuff.

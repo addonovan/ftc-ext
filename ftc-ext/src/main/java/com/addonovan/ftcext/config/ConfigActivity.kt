@@ -1,11 +1,7 @@
 package com.addonovan.ftcext.config
 
 import android.os.Bundle
-import android.preference.*
 import android.support.v7.app.AppCompatActivity
-import android.text.InputType
-import com.addonovan.ftcext.*
-import com.addonovan.ftcext.control.*
 import com.addonovan.ftcext.hardware.CurrentHardware
 import com.addonovan.ftcext.hardware.HardwareBundle
 import com.qualcomm.robotcore.hardware.Gamepad

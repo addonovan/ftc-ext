@@ -52,6 +52,7 @@ import kotlin.concurrent.thread
  * @see [ToggleServo]
  * @see [ContinuousServo]
  */
+@Suppress( "unused" )
 class ContinuousToggleServo( servo: Servo ) : ContinuousServo( servo )
 {
 

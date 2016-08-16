@@ -2,7 +2,6 @@ package com.addonovan.ftcext
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 
 /**
  * Hacks. You probably don't want to look at this file.
@@ -14,7 +13,7 @@ import android.util.Log
 
 /**
  * The current application context.
- * This is the equivalent of the [HardwareMap.appContext]; however, this
+ * This is the equivalent of the HardwareMap.appContext; however, this
  * is intended to be used in places where there is no Hardware map available.
  */
 val Context: Context by lazy()

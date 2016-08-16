@@ -27,7 +27,6 @@ import android.os.Bundle
 import android.preference.PreferenceCategory
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.OpModes
-import com.addonovan.ftcext.hardware.CurrentHardware
 
 /**
  * !Description!

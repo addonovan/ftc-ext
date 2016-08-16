@@ -85,5 +85,5 @@ fun Class< * >.isHardwareExtension() = isAnnotationPresent( HardwareExtension::c
  *         on this class.
  */
 fun Class< * >.getHardwareMapType() =
-        if ( !this.isHardwareExtension() ) throw IllegalArgumentException( "No @HardwareExtension annotation on class \"${simpleName}\"" );
+        if ( !this.isHardwareExtension() ) throw IllegalArgumentException( "No @HardwareExtension annotation on class \"$simpleName\"" );
         else getAnnotation( HardwareExtension::class.java ).hardwareMapType;

@@ -8,7 +8,6 @@ import java.util.*
 /**
  * Utility to find certain classes with certain attributes.
  *
- * @see FieldFinder
  * @see Class
  *
  * @author addonovan
