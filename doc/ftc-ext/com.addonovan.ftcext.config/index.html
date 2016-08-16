@@ -23,7 +23,7 @@
 <a href="-custom-preference-fragment/index.html">CustomPreferenceFragment</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">CustomPreferenceFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">PreferenceFragment</span></code>
-<p>A custom type of preference fragment that holds a little bit of extra data and
+<p>A custom type of preference fragment that holds a little bit of extra msg and
 supplies a way to change the title in the toolbar and also registers the
 fragment as the <a href="#">ConfigActivity.CurrentFragment</a> when created.</p>
 </td>
@@ -50,7 +50,7 @@ serialized into a .json file.</p>
 <td>
 <a href="-op-mode-config/index.html">OpModeConfig</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">OpModeConfig</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-jsonable/index.html"><span class="identifier">Jsonable</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">OpModeConfig</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-jsonable/index.html"><span class="identifier">Jsonable</span></a><span class="symbol">, </span><a href="../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
 <p>TODO OpModeConfig documentation</p>
 </td>
 </tr>
@@ -67,7 +67,7 @@ to the <a href="-variant-list-preference/index.html">VariantListPreference</a> t
 <td>
 <a href="-variant-config-preference/index.html">VariantConfigPreference</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">VariantConfigPreference</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-custom-preference-fragment/index.html"><span class="identifier">CustomPreferenceFragment</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">VariantConfigPreference</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-custom-preference-fragment/index.html"><span class="identifier">CustomPreferenceFragment</span></a><span class="symbol">, </span><a href="../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
 <p>Configures a specific variants variables acoording to their presumed types.</p>
 </td>
 </tr>

@@ -14,7 +14,7 @@
 <td>
 <a href="-abstract-op-mode/index.html">AbstractOpMode</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractOpMode</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractOpMode</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
 <p>The OpMode class built upon Qualcomms. This class provides more utility
 than the standard class does, and <emph>must</emph> be used in order to be able
 to access the other functionality of this library.</p>
@@ -55,7 +55,7 @@ OpMode to update robot hardware values.</p>
 <td>
 <a href="-op-mode-registrar/index.html">OpModeRegistrar</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">OpModeRegistrar</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">OpModeRegister</span></code>
+<code><span class="keyword">class </span><span class="identifier">OpModeRegistrar</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">OpModeRegister</span><span class="symbol">, </span><a href="../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
 <p>The class responsible for finding all the OpModes that
 are meant to be registered and actually register them
 with the OpModeManager so that they may be selected.</p>
@@ -95,7 +95,7 @@ might conflict.</p>
 <td>
 <a href="-task-manager/index.html">TaskManager</a></td>
 <td>
-<code><span class="keyword">object </span><span class="identifier">TaskManager</span></code>
+<code><span class="keyword">object </span><span class="identifier">TaskManager</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../com.addonovan.ftcext/-i-log/index.html"><span class="identifier">ILog</span></a></code>
 <p>Not to be confused with the Windows <code>taskmgr.exe</code> program,
 the Task Manager is the asynchronous system for managing
 specific tasks.</p>
