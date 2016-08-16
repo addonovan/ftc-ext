@@ -35,12 +35,6 @@ import com.addonovan.ftcext.*
 class VariantListPreference : CustomPreferenceFragment()
 {
 
-    internal companion object
-    {
-        /** Storage for the VariantListPreference fragment. */
-        var currentOpModeName: String? = null;
-    }
-
     //
     // Vals
     //
@@ -51,7 +45,7 @@ class VariantListPreference : CustomPreferenceFragment()
     /** The name of the opmode we're editing. */
     private val opModeName by lazy()
     {
-        currentOpModeName!!;
+        SelectedOpMode.Name!!;
     }
 
     //
@@ -93,7 +87,7 @@ class VariantListPreference : CustomPreferenceFragment()
 
             variantScreen.setOnPreferenceClickListener {
 
-                VariantConfigPreference.currentVariant = config;
+                SelectedOpMode.Profile = config;
 
                 // switch fragments
                 fragmentManager.beginTransaction().replace( android.R.id.content, VariantConfigPreference() ).commit();
@@ -133,7 +127,7 @@ class VariantListPreference : CustomPreferenceFragment()
         }
 
         getOpModeConfig( opModeName, trimmedName ); // create the variant entry
-        currentOpModeName = opModeName;
+        SelectedOpMode.Name = opModeName;
 
         // restart the fragment to handle the new variant
         fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();

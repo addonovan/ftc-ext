@@ -35,25 +35,20 @@ import com.addonovan.ftcext.control.OpModes
 class VariantConfigPreference : CustomPreferenceFragment()
 {
 
-    internal companion object
-    {
-        var currentVariant: OpModeConfig? = null;
-    }
-
     //
     // Vals
     //
 
     override val SuperFragment: PreferenceFragment by lazy()
     {
-        VariantListPreference.currentOpModeName = variant.OpModeName; // make sure this is correct
+        SelectedOpMode.Name = variant.OpModeName; // make sure this is correct
         val fragment = VariantListPreference();
         fragment;
     }
 
     private val variant by lazy()
     {
-        currentVariant!!;
+        SelectedOpMode.Profile!!;
     }
 
     //
@@ -82,7 +77,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
             }
 
             // go back to the previous screen
-            VariantListPreference.currentOpModeName = variant.OpModeName;
+            SelectedOpMode.Name = variant.OpModeName;
 
             fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
 
