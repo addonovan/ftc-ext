@@ -16,14 +16,6 @@ import android.util.Log
 // the sweet sound of suppressed warnings
 // I sure do love my suppression!
 
-// All logcat commands are just functions, without the Log. why? because
-@Suppress( "unused" ) fun v( tag: String, data: String ) = Log.v( tag, data );
-@Suppress( "unused" ) fun d( tag: String, data: String ) = Log.d( tag, data );
-@Suppress( "unused" ) fun i( tag: String, data: String ) = Log.i( tag, data );
-@Suppress( "unused" ) fun w( tag: String, data: String ) = Log.w( tag, data );
-@Suppress( "unused" ) fun e( tag: String, data: String ) = Log.e( tag, data );
-@Suppress( "unused" ) fun wtf( tag: String, data: String ) = Log.wtf( tag, data );
-
 // assumes it's an ftcext item and just grabs the class name and makes that the tag
 @Suppress( "unused" ) fun Any.v( data: String ) = Log.v( "ftcext.${javaClass.simpleName}", data );
 @Suppress( "unused" ) fun Any.d( data: String ) = Log.d( "ftcext.${javaClass.simpleName}", data );
