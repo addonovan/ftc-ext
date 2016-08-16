@@ -52,13 +52,13 @@ private fun getView( name: String ): View
 }
 
 /** The robot icon ImageView */
-val RobotIcon by lazy()
+val RobotIcon: ImageView by lazy()
 {
     getView( "robotIcon" ) as ImageView;
 }
 
 /** The label for the current OpMode.s */
-val OpModeLabel by lazy()
+val OpModeLabel: TextView by lazy()
 {
     getView( "textOpMode" ) as TextView;
 }

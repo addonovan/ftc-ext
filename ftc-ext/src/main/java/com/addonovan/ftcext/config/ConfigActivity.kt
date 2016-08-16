@@ -282,7 +282,7 @@ class VariantConfigPreference : CustomPreferenceFragment()
     // Vals
     //
 
-    override val SuperFragment by lazy()
+    override val SuperFragment: PreferenceFragment by lazy()
     {
         currentOpModeName = variant.OpModeName; // make sure this is correct
         val fragment = VariantListPreference();
