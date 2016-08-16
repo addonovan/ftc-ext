@@ -4,6 +4,7 @@ import com.addonovan.ftcext.*
 import com.addonovan.ftcext.hardware.*
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping
+import com.qualcomm.robotcore.util.Hardware
 import java.lang.reflect.*
 import java.util.*
 
@@ -13,59 +14,77 @@ import java.util.*
  * @author addonovan
  * @since 6/25/16
  */
+
+/** Type alias for satan. */
+private class DeviceClassMap : HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >()
+{
+    inline fun < reified T : HardwareDevice > addEntry( mapping: DeviceMapping< out T > ) = put( T::class.java, mapping );
+}
+
+/**
+ * This exists for logging purposes.
+ */
 private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::class )
 {
 
+    /** Maps the deviceClassMap to the HardwareMap. */
+    private val deviceClassMapMap = HashMap< HardwareMap, DeviceClassMap >();
 
-}
-
-private val _deviceClassMap = HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >();
-
-/** A map of the base hardware class versus the  */
-private val HardwareMap.deviceClassMap: HashMap< Class< out HardwareDevice >, DeviceMapping< out HardwareDevice > >
-    get()
+    /**
+     * Gets (or creates) the single DeviceClassMap for the instance of the hardware map given.
+     *
+     * @param[hardwareMap]
+     *          The hardware map to fetch an instance of a DeviceClassMap for.
+     * @return The instance of the DeviceClassMap for the hardware map.
+     */
+    fun getDeviceClassMap( hardwareMap: HardwareMap ): DeviceClassMap
     {
-        // initialize the map the first time around
-        if ( _deviceClassMap.size == 0 )
+        if ( deviceClassMapMap.containsKey( hardwareMap ) )
         {
-             addToMap( dcMotorController );
-             addToMap( dcMotor );
-             addToMap( servoController );
-             addToMap( servo );
-             addToMap( legacyModule );
-             addToMap( touchSensorMultiplexer );
-             addToMap( deviceInterfaceModule );
-             addToMap( analogInput );
-             addToMap( digitalChannel );
-             addToMap( opticalDistanceSensor );
-             addToMap( touchSensor );
-             addToMap( pwmOutput );
-             addToMap( i2cDevice );
-             addToMap( analogOutput );
-             addToMap( colorSensor );
-             addToMap( led );
-             addToMap( accelerationSensor );
-             addToMap( compassSensor );
-             addToMap( gyroSensor );
-             addToMap( irSeekerSensor );
-             addToMap( lightSensor );
-             addToMap( ultrasonicSensor );
-             addToMap( voltageSensor );
+            deviceClassMapMap[ hardwareMap ] = DeviceClassMap();
         }
 
-        return _deviceClassMap;
+        return deviceClassMapMap[ hardwareMap ]!!;
     }
 
-/**
- * Used to insert a device mapping into the backing device class mapping
- *
- * @param[mapping]
- *          The device mapping to add to the map.
- */
-private inline fun < reified T : HardwareDevice > addToMap( mapping: DeviceMapping< T > )
-{
-    _deviceClassMap[ T::class.java ] = mapping;
 }
+
+/** A map of the base hardware class versus the  */
+private val HardwareMap.deviceClassMap: DeviceClassMap
+    get()
+    {
+        val map = HardwareMapExtension.getDeviceClassMap( this );
+
+        // initialize the map the first time around
+        if ( map.isEmpty() )
+        {
+           map.addEntry( dcMotorController );
+           map.addEntry( dcMotor );
+           map.addEntry( servoController );
+           map.addEntry( servo );
+           map.addEntry( legacyModule );
+           map.addEntry( touchSensorMultiplexer );
+           map.addEntry( deviceInterfaceModule );
+           map.addEntry( analogInput );
+           map.addEntry( digitalChannel );
+           map.addEntry( opticalDistanceSensor );
+           map.addEntry( touchSensor );
+           map.addEntry( pwmOutput );
+           map.addEntry( i2cDevice );
+           map.addEntry( analogOutput );
+           map.addEntry( colorSensor );
+           map.addEntry( led );
+           map.addEntry( accelerationSensor );
+           map.addEntry( compassSensor );
+           map.addEntry( gyroSensor );
+           map.addEntry( irSeekerSensor );
+           map.addEntry( lightSensor );
+           map.addEntry( ultrasonicSensor );
+           map.addEntry( voltageSensor );
+        }
+
+        return map;
+    }
 
 /**
  * Gets the correct device from the Hardware device mappings in the HardwareMap by
