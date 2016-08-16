@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.preference.PreferenceCategory
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.control.OpModes
+import com.addonovan.ftcext.hardware.CurrentHardware
 
 /**
  * !Description!
@@ -64,7 +65,7 @@ class OpModeListPreference : CustomPreferenceFragment()
             opModeScreen.title = name;
             opModeScreen.setOnPreferenceClickListener {
 
-                VariantListPreference.currentOpModeName = name;
+                SelectedOpMode.Name = name;
 
                 // switch to the new fragment
                 fragmentManager.beginTransaction().replace( android.R.id.content, VariantListPreference() ).commit();
