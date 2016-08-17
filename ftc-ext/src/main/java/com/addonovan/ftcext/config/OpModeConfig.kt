@@ -164,6 +164,7 @@ class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by g
     {
         if ( profiles[ 0 ].Name == DEFAULT_NAME ) return false;
 
+        v( "Inserting default profile!" );
         profiles.add( 0, Profile.fromRaw( this, DEFAULT_NAME ) );
         return true;
     }
@@ -177,8 +178,8 @@ class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by g
      * @param[name]
      *          The name of the profile to switch to.
      *
-     * @return `true` if the new profile has the name [name], `false`
-     *         if it had to be set to the [DEFAULT_NAME] instead.
+     * @return `true` if the new active profile has the name [name],
+     *         `false` if it had to be set to the [DEFAULT_NAME] instead.
      */
     fun setActiveProfile( name: String ): Boolean
     {

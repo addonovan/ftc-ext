@@ -134,6 +134,19 @@ class Profile(
      */
     fun delete() = opModeConfig.deleteProfile( Name );
 
+    /**
+     * Sets the active profile for the OpModeConfig to this.
+     *
+     * Cover method for
+     * ```kotlin
+     * opModeConfig.setActiveProfile( Name )
+     * ```
+     *
+     * @return `true` if the active profile has been switched to this,
+     *         `false` if it was set to the default.
+     */
+    fun activate() = opModeConfig.setActiveProfile( Name );
+
     //
     // Getters
     //
