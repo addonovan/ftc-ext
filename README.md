@@ -42,7 +42,9 @@ public class MyOpMode extends OpMode
 public class MyOpMode extends OpMode
 {
     private final DcMotor motor1 = motor( "motor_name" );
-    private final DcMotor motor2 = ( DcMotor ) getDevice( "motor_name", DcMotor.class );
+    private final DcMotor motor2 = Devices.get( "motor_name" );
+    // or...
+    private final DcMotor motor2 = Devices.< Motor >get( "motor_name" ); // useful for chaining calls
 }
 ```
 **Kotlin**
@@ -94,8 +96,8 @@ To access a hardware extension, simply use the `getDevice` method for accessing 
 
 **Java**
 ```java
-private final ToggleServo toggleServo = ( ToggleServo ) getDevice( "toggle_servo", ToggleServo.class );
-private final ContinuousToggleServo cts = ( ContinuousToggleServo ) getDevice( "cts", ContinuousToggleServo.class );
+private final ToggleServo toggleServo = Devices.get( "toggle_servo" );
+private final ContinuousToggleServo cts = Devices.get( "cts" );
 ```
 **Kotlin**
 ```kotlin
