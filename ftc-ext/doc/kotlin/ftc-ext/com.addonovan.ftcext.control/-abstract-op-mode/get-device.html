@@ -7,8 +7,7 @@
 <a href="../../index.html">ftc-ext</a>&nbsp;/&nbsp;<a href="../index.html">com.addonovan.ftcext.control</a>&nbsp;/&nbsp;<a href="index.html">AbstractOpMode</a>&nbsp;/&nbsp;<a href=".">getDevice</a><br/>
 <br/>
 <h1>getDevice</h1>
-
-<p><a name="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String)"></a>
+<a name="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String)"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">HardwareDevice</span><span class="symbol">&gt;</span> <span class="identifier">getDevice</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
 <p>A single method approach to getting a device, this requires a type parameter
 on the method, however, which means this cannot be correctly used if referenced
@@ -37,39 +36,5 @@ error message if this occurs for more details.
 <p><strong>Return</strong><br/>
 The value in the <code>DeviceMapping</code> in the hardware map for the given type,
 <a href="#">T</a>, with the key <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String)/name">name</a>.</p>
-
-<p><a name="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))"></a>
-<code><span class="keyword">fun </span><span class="identifier">getDevice</span><span class="symbol">(</span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">HardwareDevice</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">HardwareDevice</span></code>
-<p><strong>Java Only</strong></p>
-<p>A single method approach to getting a device, this requires the type to be
-explicitly given; however, it returns a generic <a href="#">HardwareDevice</a> object which
-must be casted down before use.</p>
-<h3>Parameters</h3>
-
-<p><a name="name"></a>
-<code>name</code> - The name of the device to fetch.
-<p><a name="type"></a>
-<code>type</code> - The class of the hardware device, this doesnt necessary have to be one
-of the types directly associated in the hardware map.
-<h3>Exceptions</h3>
-
-<p><a name="IllegalArgumentException"></a>
-<code>IllegalArgumentException</code> - If <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</a> had no DeviceMapping associated with it.
-<p><a name="NullPointerException"></a>
-<code>NullPointerException</code> - If there was no entry for <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/name">name</a> with the type <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</a>.
-<p><a name="IllegalAnnotationValueException"></a>
-<code>IllegalAnnotationValueException</code> - If the <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</a> class had a <a href="../../com.addonovan.ftcext.hardware/-hardware-extension/index.html">HardwareExtension</a> annotation on it that had
-an invalid value (that is, one that doesnt have a value in the backing
-map of classes and <code>DeviceMapping</code>s) assigned to the <code>hardwareMapType</code>
-parameter.
-This should <emph>never</emph> happen to an end-user, that would mean that the
-developer who wrote the extension did so wrongly.
-<p><a name="IllegalClassSetupException"></a>
-<code>IllegalClassSetupException</code> - If <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</a> is a <a href="../../com.addonovan.ftcext.hardware/-hardware-extension/index.html">HardwareExtension</a> that has been insufficiently
-set up, which could be for a multitude of reasons, check the
-error message if this occurs for more details.
-<p><strong>Return</strong><br/>
-The value in the <code>DeviceMapping</code> in the hardware map for the given type,
-<a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/type">type</a>, with the key <a href="get-device.html#com.addonovan.ftcext.control.AbstractOpMode$getDevice(kotlin.String, java.lang.Class((com.qualcomm.robotcore.hardware.HardwareDevice)))/name">name</a>.</p>
 </BODY>
 </HTML>
