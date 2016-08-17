@@ -2,6 +2,7 @@ package com.addonovan.ftcext.control
 
 import com.addonovan.ftcext.*
 import com.addonovan.ftcext.hardware.*
+import com.addonovan.ftcext.reflection.ClassFinder
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping
 import java.lang.reflect.*
@@ -28,6 +29,11 @@ private object HardwareMapExtension : ILog by getLog( HardwareMapExtension::clas
 
     /** Maps the deviceClassMap to the HardwareMap. */
     private val deviceClassMapMap = HashMap< HardwareMap, DeviceClassMap >();
+
+    internal val HardwareExtensions: MutableList< Class< * > > by lazy()
+    {
+        ClassFinder().inheritsFrom( HardwareDevice::class.java ).with( HardwareExtension::class.java ).get();
+    }
 
     /**
      * Gets (or creates) the single DeviceClassMap for the instance of the hardware map given.
@@ -84,6 +90,27 @@ private val HardwareMap.deviceClassMap: DeviceClassMap
 
         return map;
     }
+
+/**
+ * The world's shittiest guess and check! This makes it slightly nicer looking for
+ * java users to actually use the method, but it's far less efficient. Oh well.
+ *
+ * @param[name]
+ *          The name of the device to fetch.
+ */
+@Suppress( "unchecked_cast" )
+fun < T : HardwareDevice > HardwareMap.getDeviceByGuess( name: String ): T
+{
+    HardwareMapExtension.HardwareExtensions.forEach { extensionClass ->
+        try
+        {
+            return getDeviceByType( extensionClass as Class< out HardwareDevice >, name ) as T;
+        }
+        catch ( e: Exception ){} // ignore these exceptions, this is trial by error after all
+    };
+
+    throw NullPointerException( "No Hardware Device with the name '$name' with the required type!" );
+}
 
 /**
  * Gets the correct device from the Hardware device mappings in the HardwareMap by
@@ -226,7 +253,7 @@ private fun HardwareMap.findExtensionConstructor( type: Class< out HardwareDevic
 {
     var constructor: Constructor< out HardwareDevice >? = null;
 
-    // If the class is an @HardwareExtension, we can grab the base type right out of the
+    // If the class is an @HardwareExtension, we can get the base type right out of the
     // annotation parameters
 
     val baseType = type.getHardwareMapType().java;
