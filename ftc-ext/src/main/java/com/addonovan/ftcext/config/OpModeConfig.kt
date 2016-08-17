@@ -110,9 +110,8 @@ class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by g
             }
 
             // if, somehow, we don't have the default profile, add it to the initial position
-            if ( opModeConfig.profiles[ 0 ].Name != DEFAULT_NAME )
+            if ( opModeConfig.insertDefaultProfile() )
             {
-                opModeConfig.profiles.add( 0, Profile.fromRaw( opModeConfig, DEFAULT_NAME ) );
                 opModeConfig.w( "Had to create new default profile. Did someone mess around in the config?" );
             }
 
@@ -159,6 +158,17 @@ class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by g
     //
 
     /**
+     * @return `true` if a new default profile had to be created and inserted.
+     */
+    private fun insertDefaultProfile(): Boolean
+    {
+        if ( profiles[ 0 ].Name == DEFAULT_NAME ) return false;
+
+        profiles.add( 0, Profile.fromRaw( this, DEFAULT_NAME ) );
+        return true;
+    }
+
+    /**
      * Sets the active profile to the one with the name [name].
      *
      * If no profile was found with the given name, then this will
@@ -187,6 +197,41 @@ class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by g
         // set it to default and return false
         e( "Failed to switch to profile: $name! Defaulting to $DEFAULT_NAME instead!" );
         activeProfileName = DEFAULT_NAME;
+        return false;
+    }
+
+    /**
+     * Removes the profile by the name from the profile list.
+     *
+     * @param[name]
+     *          The name of the profile to remove.
+     *
+     * @return `true` if the profile was removed, `false` if no profile
+     *          by the name could be found.
+     */
+    fun deleteProfile( name: String ): Boolean
+    {
+        for ( profile in profiles )
+        {
+            if ( profile.Name == name )
+            {
+                i( "Deleting profile $name" );
+                profiles.remove( profile );
+
+                // add the default profile if need be
+                insertDefaultProfile();
+
+                // if we're the active profile, switch to default
+                if ( activeProfileName == name )
+                {
+                    setActiveProfile( DEFAULT_NAME );
+                }
+
+                return true;
+            }
+        }
+
+        w( "Couldn't delete profile with name: $name, as it didn't exist" );
         return false;
     }
 

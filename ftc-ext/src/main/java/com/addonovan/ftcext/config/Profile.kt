@@ -44,8 +44,8 @@ import java.util.*
  * }
  * ```
  *
- * @param[opMode]
- *          The OpMode that this Profile matches.
+ * @param[opModeConfig]
+ *          The OpModeConfig that this Profile is a member of.
  * @param[Name]
  *          The name of this profile.
  *
@@ -53,7 +53,9 @@ import java.util.*
  * @since 8/17/16
  */
 /* Each profile gets its own logger so that it's easier to tell which one had a problem. */
-class Profile( opModeConfig: OpModeConfig, val Name: String ) : Jsonable, ILog by getLog( Profile::class, "$Name(${opModeConfig.Name}" )
+class Profile(
+        private val opModeConfig: OpModeConfig,
+        val Name: String ) : Jsonable, ILog by getLog( Profile::class, "$Name(${opModeConfig.Name}" )
 {
 
     companion object
@@ -118,6 +120,19 @@ class Profile( opModeConfig: OpModeConfig, val Name: String ) : Jsonable, ILog b
     //
     // Actions
     //
+
+    /**
+     * Removes the Profile from the configuration list.
+     *
+     * Cover method for
+     * ```kotlin
+     * opModeConfig.deleteProfile( Name )
+     * ```
+     *
+     * @return `true` if the profile was removed from the configuration list,
+     *         `false` if it already was.
+     */
+    fun delete() = opModeConfig.deleteProfile( Name );
 
     //
     // Getters
