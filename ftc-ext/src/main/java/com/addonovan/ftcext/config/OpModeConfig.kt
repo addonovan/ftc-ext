@@ -56,7 +56,7 @@ import java.util.*
  * @author addonovan
  * @since 8/17/16
  */
-class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by getLog( "OpModeConfig.$Name" )
+class OpModeConfig private constructor( val Name: String ) : Jsonable, ILog by getLog( OpModeConfig::class, Name )
 {
 
     companion object

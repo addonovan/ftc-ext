@@ -53,7 +53,7 @@ import java.util.*
  * @since 8/17/16
  */
 /* Each profile gets its own logger so that it's easier to tell which one had a problem. */
-class Profile( opModeConfig: OpModeConfig, val Name: String ) : Jsonable, ILog by getLog( "Profile.${opModeConfig.Name}.$Name" )
+class Profile( opModeConfig: OpModeConfig, val Name: String ) : Jsonable, ILog by getLog( Profile::class, "$Name(${opModeConfig.Name}" )
 {
 
     companion object
