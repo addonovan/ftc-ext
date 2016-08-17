@@ -30,7 +30,7 @@ import org.json.JSONObject
 import java.util.*
 
 /**
- * !Description!
+ * A container for the profiles for a given OpMode.
  *
  * Serializes to
  * ```json

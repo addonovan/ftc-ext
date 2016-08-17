@@ -55,10 +55,73 @@ interface ILog
 }
 
 /** Class that implements the ILog interface. */
-private class Log( override val LogTag: String ) : ILog;
+private class Log private constructor( override val LogTag: String ) : ILog
+{
+    companion object
+    {
+        /** Stores all of the log instances. */
+        private val logMap = HashMap< String, Log >();
 
-/** Stores all of the log instances. */
-private val logMap = HashMap< String, ILog >();
+        /**
+         * Gets the log for the given log tag.
+         *
+         * If a log with the given log tag does not exist, one is created.
+         *
+         * @param[logTag]
+         *          The log tag to get the log for.
+         *
+         * @return The log with the given log tag.
+         */
+        fun getLog( logTag: String ): Log
+        {
+            // create the log if need be
+            if ( !logMap.containsKey( logTag ) )
+            {
+                logMap[ logTag ] = Log( logTag );
+            }
+
+            return logMap[ logTag ]!!;
+        }
+
+    }
+}
+
+/**
+ * @param[kClass]
+ *          The class to get a tag for. (Can be null for no class).
+ * @param[id]
+ *          The id to append to the tag. (Can be null for none.)
+ *
+ * @return The log tag for the given inputs.
+ */
+private fun getLogTag( kClass: KClass< * >?, id: String? ): String
+{
+    var tag = "ftcext.";
+
+    if ( kClass != null )
+    {
+        tag += "${kClass.java.simpleName}.";
+    }
+
+    if ( id != null )
+    {
+        tag += "$id."; // add the trailing period so it's easier to process overall
+    }
+
+    // remove the trailing .
+    return tag.substring( 0, tag.length - 1 );
+}
+
+/**
+ * Gets the log for the given class and id, if one doesn't exist, then it is made.
+ *
+ * @param[kClass]
+ *          The class to get the log for.
+ * @param[id]
+ *          The id of the logger.
+ * @return The log for the class and id.
+ */
+fun getLog( kClass: KClass< * >, id: String ): ILog = Log.getLog( getLogTag( kClass, id ) );
 
 /**
  * Gets the log for the given class, if one doesn't exist, then it is made.
@@ -67,17 +130,7 @@ private val logMap = HashMap< String, ILog >();
  *          The class to get the log for.
  * @return The log for the class.
  */
-fun getLog( kClass: KClass< * > ): ILog
-{
-    val name = kClass.java.name;
-
-    if ( !logMap.containsKey( name ) )
-    {
-        logMap[ name ] = Log( "ftcext.${kClass.java.simpleName}" );
-    }
-
-    return logMap[ name ]!!;
-}
+fun getLog( kClass: KClass< * > ): ILog = Log.getLog( getLogTag( kClass, null ) );
 
 /**
  * Gets a log for the given id. This is generally used for when classes are
@@ -87,12 +140,4 @@ fun getLog( kClass: KClass< * > ): ILog
  *          The id of the logger.
  * @return The log for the id.
  */
-fun getLog( id: String ): ILog
-{
-    if ( !logMap.containsKey( id ) )
-    {
-        logMap[ id ] = Log( "ftcext.$id" );
-    }
-
-    return logMap[ id ]!!;
-}
+fun getLog( id: String ): ILog = Log.getLog( getLogTag( null, id ) );
