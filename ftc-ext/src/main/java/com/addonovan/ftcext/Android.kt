@@ -92,7 +92,7 @@ private val rIdClass: Class< * > by lazy()
  * given name.
  *
  * @param[name]
- *          The name of the field to grab.
+ *          The name of the field to get.
  * @return The View with the given name.
  */
 private fun getView( name: String ): View
