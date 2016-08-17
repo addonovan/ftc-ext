@@ -1,5 +1,6 @@
 package com.addonovan.ftcext.testing;
 
+import com.addonovan.ftcext.control.Devices;
 import com.addonovan.ftcext.control.OpMode;
 import com.addonovan.ftcext.control.Register;
 import com.addonovan.ftcext.hardware.Motor;
@@ -24,9 +25,9 @@ public class JOpMode extends OpMode
 
     private boolean isBlue = get( "blue_team", true );
 
-    private Motor motor = ( ( Motor ) getDevice( "motor", Motor.class ) ).setAssembly( new MotorAssembly( MotorType.TETRIX, 10.16, 1 ) );
+    private Motor motor = Devices.< Motor >get( "motor" ).setAssembly( new MotorAssembly( MotorType.TETRIX, 10.16, 1 ) );
 
-    private ToggleServo servo = ( ToggleServo ) getDevice( "toggle", ToggleServo.class );
+    private ToggleServo servo = Devices.get( "toggle" );
 
     @Override
     public void init()

@@ -28,7 +28,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 /**
- * !Description!
+ * An interface which handles the minor annoyances of having to write the log tags.
  *
  * @author addonovan
  * @since 8/16/16
