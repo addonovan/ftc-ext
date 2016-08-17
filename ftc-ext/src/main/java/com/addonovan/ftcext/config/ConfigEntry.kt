@@ -24,7 +24,7 @@
 package com.addonovan.ftcext.config
 
 import android.util.JsonWriter
-import com.addonovan.ftcext.IllegalFormatException
+import com.addonovan.ftcext.MalformedJsonException
 import org.json.JSONArray
 import java.util.*
 
@@ -60,12 +60,12 @@ class DataEntry< out T : Any > private constructor( val Name: String, val Value:
          * @param[json]
          *          The json array that matches the format [ "name", "type", value ]
          *
-         * @throws IllegalFormatException
+         * @throws MalformedJsonException
          *          If the array is malformed or has an unknown type as its key.
          */
         fun fromJson( json: JSONArray ): DataEntry< * >
         {
-            if ( json.length() != 3 ) throw IllegalFormatException( "Incorrect number of indices in array length. Expected: 3, Found: ${json.length()}" );
+            if ( json.length() != 3 ) throw MalformedJsonException( "Incorrect number of indices in array length. Expected: 3, Found: ${json.length()}" );
 
             // [ $name, $type, $value ]
             val name = json.getString( 0 );
@@ -77,7 +77,7 @@ class DataEntry< out T : Any > private constructor( val Name: String, val Value:
                 KEY_LONG    -> DataEntry( name, json.getLong( 2 ) );
                 KEY_DOUBLE  -> DataEntry( name, json.getDouble( 2 ) );
                 KEY_STRING  -> DataEntry( name, json.getString( 2 ) );
-                else        -> throw IllegalFormatException( "Unknown key type encountered parsing ConfigEntry: \'$type\'" );
+                else        -> throw MalformedJsonException( "Unknown key type encountered parsing ConfigEntry: \'$type\'" );
             }
         }
 

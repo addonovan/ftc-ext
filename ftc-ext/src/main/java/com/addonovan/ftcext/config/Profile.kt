@@ -25,7 +25,7 @@ package com.addonovan.ftcext.config
 
 import android.util.JsonWriter
 import com.addonovan.ftcext.*
-import com.addonovan.ftcext.IllegalFormatException
+import com.addonovan.ftcext.MalformedJsonException
 import org.json.JSONObject
 import java.util.*
 
@@ -53,7 +53,7 @@ import java.util.*
  * @since 8/17/16
  */
 /* Each profile gets its own logger so that it's easier to tell which one had a problem. */
-class Profile( opMode: String, val Name: String ) : Jsonable, ILog by getLog( "Profile.$opMode.$Name" )
+class Profile( opModeConfig: OpModeConfig, val Name: String ) : Jsonable, ILog by getLog( "Profile.${opModeConfig.Name}.$Name" )
 {
 
     companion object
@@ -62,9 +62,15 @@ class Profile( opMode: String, val Name: String ) : Jsonable, ILog by getLog( "P
         /**
          * Creates a new Profile from a json object.
          */
-        fun fromJson( opMode: String, json: JSONObject ): Profile
+        fun fromJson( opMode: OpModeConfig, json: JSONObject ): Profile
         {
-            if ( json.length() != 2 ) throw IllegalFormatException( "Incorrect number of elements in profile!" );
+            // check the length of the object
+            if ( json.length() != 2 ) throw MalformedJsonException( "Incorrect number of elements in profile!" );
+
+            // check for the tags
+            if ( !json.has( "name" ) ) throw MalformedJsonException( "Missing name tag" );
+            if ( !json.has( "config" ) ) throw MalformedJsonException( "Missing config tag" );
+
 
             // create the profile
             val profile = Profile( opMode, json.getString( "name" ) );
@@ -90,6 +96,14 @@ class Profile( opMode: String, val Name: String ) : Jsonable, ILog by getLog( "P
             }
 
             return profile;
+        }
+
+        /**
+         * Creates a new Profile from the raw data.
+         */
+        fun fromRaw( opMode: OpModeConfig, name: String ): Profile
+        {
+            return Profile( opMode, name );
         }
 
     }
