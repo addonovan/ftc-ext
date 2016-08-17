@@ -102,6 +102,10 @@ class Profile( opMode: String, val Name: String ) : Jsonable, ILog by getLog( "P
     internal val config = HashMap< String, DataEntry< * > >();
 
     //
+    // Actions
+    //
+
+    //
     // Getters
     //
 
