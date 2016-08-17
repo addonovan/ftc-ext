@@ -41,3 +41,14 @@ class IllegalAnnotationValueException( annotation: Class< out Annotation >, para
  */
 class IllegalClassSetupException( clazz: Class< * >, cause: String )
         : RuntimeException( "Class ${clazz.simpleName} set up incorrectly: $cause" );
+
+/**
+ * An exception for when something is formatted in a way that it isn't supposed to be.
+ *
+ * @param[cause]
+ *              The cause of the problem.
+ *
+ * @author addonovan
+ * @since 7/17/16
+ */
+class IllegalFormatException( cause: String ) : RuntimeException( cause );
