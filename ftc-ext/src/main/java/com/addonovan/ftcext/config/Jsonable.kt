@@ -7,7 +7,9 @@ import org.json.JSONObject
  * An awful, awful name for a type of class that is able to be
  * serialized into a .json file.
  *
- * There is also an implied requirement to
+ * There is also an implied requirement to have a companion object
+ * which can create a new instance of the file; however, this is
+ * not always necessary.
  *
  * @author addonovan
  * @since 6/16/16

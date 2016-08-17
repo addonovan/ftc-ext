@@ -37,7 +37,7 @@ import java.util.*
  * @author addonovan
  * @since 8/17/16
  */
-class DataEntry< T > private constructor( val Name: String, val Value: T ) : Comparable< DataEntry< T > >, Jsonable
+class DataEntry< out T : Any > private constructor( val Name: String, val Value: T ) : Jsonable
 {
 
     /**
@@ -63,7 +63,7 @@ class DataEntry< T > private constructor( val Name: String, val Value: T ) : Com
          * @throws IllegalFormatException
          *          If the array is malformed or has an unknown type as its key.
          */
-        fun readDataEntry( json: JSONArray ): DataEntry< * >
+        fun fromJson( json: JSONArray ): DataEntry< * >
         {
             if ( json.length() != 3 ) throw IllegalFormatException( "Incorrect number of indices in array length. Expected: 3, Found: ${json.length()}" );
 
@@ -80,12 +80,32 @@ class DataEntry< T > private constructor( val Name: String, val Value: T ) : Com
                 else        -> throw IllegalFormatException( "Unknown key type encountered parsing ConfigEntry: \'$type\'" );
             }
         }
-    }
 
-    // so that it can be sorted before being written. Just because I like doing that, y'know.
-    override fun compareTo( other: DataEntry< T > ): Int
-    {
-        return Name.compareTo( other.Name );
+        /**
+         * Creates a new DataEntry object from the given values.
+         *
+         * @param[name]
+         *          The name of the entry.
+         * @param[value]
+         *          The value of the entry.
+         * @param[T]
+         *          The type of the value of the entry.
+         *
+         * @throws IllegalArgumentException
+         *          If [T] is not [Boolean], [Long], [Double], or [String].
+         *
+         * @return The new DataEntry.
+         */
+        fun < T : Any > fromRaw( name: String, value: T ): DataEntry< T >
+        {
+            // make sure it's an applicable type
+            if ( value !is Boolean && value !is Long && value !is Double && value !is String )
+            {
+                throw IllegalArgumentException( "Value must be of only types: boolean, long, double, or String! (Got: ${value.javaClass.name}" );
+            }
+
+            return DataEntry( name, value );
+        }
     }
 
     override fun toJson( writer: JsonWriter )
