@@ -26,6 +26,7 @@ package com.addonovan.ftcext.config
 import android.os.Environment
 import android.util.JsonWriter
 import com.addonovan.ftcext.*
+import com.addonovan.ftcext.control.AbstractOpMode
 import org.json.JSONObject
 import java.io.*
 import java.util.*
@@ -65,10 +66,29 @@ object Configurations : Jsonable, ILog by getLog( Configurations::class )
     //
 
     /** The location of the config file on the disk. */
-    private val ConfigFile = File( Environment.getExternalStorageDirectory(), "/FIRST/profiles.ftcext" );
+    val ConfigFile = File( Environment.getExternalStorageDirectory(), "/FIRST/profiles.ftcext" );
 
     /** A map of the OpModeConfigs for each OpMode. */
     val OpModeConfigs = HashMap< String, OpModeConfig >();
+
+    //
+    // Shortcuts
+    //
+
+    /**
+     * Shortcut for getting the active profile for the given OpMode.
+     *
+     * Cover for
+     * ```kotlin
+     * OpModeConfigs[ opMode.RegisteredName ]!!.ActiveProfile
+     * ```
+     *
+     * @param[opMode]
+     *          The [AbstractOpMode] to get the active profile for.
+     *
+     * @return The active profile for the given opmode.
+     */
+    fun profileFor( opMode: AbstractOpMode ) = OpModeConfigs[ opMode.RegisteredName ]!!.ActiveProfile;
 
     //
     // Serialization

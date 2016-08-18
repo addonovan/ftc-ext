@@ -20,7 +20,7 @@ import com.addonovan.ftcext.*
 fun attachRobotIconListener()
 {
     // probably the user's first run with this framework if this is true
-    if ( !CONFIG_FILE.exists() )
+    if ( !Configurations.ConfigFile.exists() )
     {
         val message = "Click on the robot icon when the button is flashing to configure OpModes";
         Toast.makeText( Activity, message, Toast.LENGTH_LONG ).show();
@@ -30,8 +30,8 @@ fun attachRobotIconListener()
     RobotIcon.setOnClickListener { view ->
 
         getLog( "ConfigHelper").i( "Switching to ConfigActivity" );
-        val intent = Intent( Activity, ConfigActivity::class.java );
-        Activity.startActivity( intent );
+//        val intent = Intent( Activity, ConfigActivity::class.java );
+//        Activity.startActivity( intent );
 
     };
 

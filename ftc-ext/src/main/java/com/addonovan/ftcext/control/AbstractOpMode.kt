@@ -87,12 +87,14 @@ abstract class AbstractOpMode() : ILog by getLog( AbstractOpMode::class )
                     // if it doesn't have the configuration details, add them
                     if ( !string.contains( "[" ) )
                     {
+                        val profileName = Configurations.profileFor( this@AbstractOpMode );
+
                         // run on the ui thread so we don't get yelled at
                         Activity.runOnUiThread {
                             // when this is created, update the opmode label to also show
                             // the active variant
 
-                            val text = "Op Mode: $name [${getActiveVariant( name )}]";
+                            val text = "Op Mode: $name [$profileName]";
                             this@AbstractOpMode.v( "Updating OpMode label to read: \"$text\"" );
 
                             OpModeLabel.text = text;
@@ -132,7 +134,7 @@ abstract class AbstractOpMode() : ILog by getLog( AbstractOpMode::class )
     //
 
     /** The selected configuration variant (defaults to default) */
-    private val config = getActiveConfig( RegisteredName );
+    private val config = Configurations.profileFor( this );
 
     // unless these methods are expanded, apparently they don't exist according to the JVM
     // this bullshit randomly fucking happened and took me over 2 hours to fix
