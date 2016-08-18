@@ -210,7 +210,7 @@ class Profile(
      *
      * @return The boolean value with the given name from this profile.
      */
-    fun get( name: String, default: Boolean ) = get< Boolean >( name, default );
+    operator fun get( name: String, default: Boolean ) = get< Boolean >( name, default );
 
     /**
      * Gets the long value with the given name. If it doesn't exist, the entry
@@ -226,7 +226,7 @@ class Profile(
      *
      * @return The long value with the given name from this profile.
      */
-    fun get( name: String, default: Long ) = get< Long >( name, default );
+    operator fun get( name: String, default: Long ) = get< Long >( name, default );
 
     /**
      * Gets the double value with the given name. If it doesn't exist, the entry
@@ -242,7 +242,7 @@ class Profile(
      *
      * @return The double value with the given name from this profile.
      */
-    fun get( name: String, default: Double ) = get< Double >( name, default );
+    operator fun get( name: String, default: Double ) = get< Double >( name, default );
 
     /**
      * Gets the string value with the given name. If it doesn't exist, the entry
@@ -258,7 +258,7 @@ class Profile(
      *
      * @return The string value with the given name from this profile.
      */
-    fun get( name: String, default: String ) = get< String >( name, default );
+    operator fun get( name: String, default: String ) = get< String >( name, default );
 
     //
     // Overrides
